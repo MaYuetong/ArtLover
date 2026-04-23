@@ -1,0 +1,59 @@
+{
+  "name": "Met Art Tour · 大都会欧洲绘画导览",
+  "short_name": "Met Tour",
+  "description": "大都会博物馆欧洲绘画3小时导览 · Gothic to Impressionism audio guide with accession number search",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "entertainment", "art"],
+  "screenshots": [
+    {
+      "src": "icons/screenshot-wide.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Acc# 搜索",
+      "short_name": "Acc搜索",
+      "description": "输入藏品编号快速讲解",
+      "url": "./index.html#acc-search",
+      "icons": [{"src": "icons/icon-96.png", "sizes": "96x96"}]
+    }
+  ]
+}

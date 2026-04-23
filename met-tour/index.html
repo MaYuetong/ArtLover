@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Met Tour" />
+  <meta name="description" content="大都会博物馆欧洲绘画3小时导览 — 哥特至印象派" />
+  <title>Met Art Tour · 大都会欧洲绘画导览</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="role-visitor" data-lang="zh">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════════════════════════ -->
+<div id="login-screen" class="login-screen">
+  <div class="login-bg"></div>
+  <div class="login-container">
+    <div class="login-logo">
+      <div class="login-logo-icon">M</div>
+      <div>
+        <h1 class="login-title">Met Art Tour</h1>
+        <p class="login-subtitle">大都会博物馆 · 欧洲绘画导览</p>
+        <p class="login-subtitle-en">European Paintings · Gothic to Impressionism</p>
+      </div>
+    </div>
+
+    <div class="login-cards">
+      <!-- Visitor -->
+      <div class="login-card card-visitor" onclick="selectRole('visitor')">
+        <div class="login-card-icon">👤</div>
+        <h3>普通用户</h3>
+        <p>Visitor / Guest</p>
+        <ul>
+          <li>基础路线导览</li>
+          <li>Acc号自助讲解</li>
+          <li>TTS音频播放</li>
+        </ul>
+        <button class="btn-login btn-visitor" onclick="login('visitor', '')">免费进入</button>
+      </div>
+
+      <!-- Lecturer -->
+      <div class="login-card card-lecturer" onclick="selectRole('lecturer')">
+        <div class="login-card-icon">🎓</div>
+        <h3>讲解员 / 讲师</h3>
+        <p>Lecturer · Guide</p>
+        <ul>
+          <li>全部内容 + 实时笔记</li>
+          <li>自定义讲解脚本</li>
+          <li>进度追踪 + 导出</li>
+        </ul>
+        <div class="login-pwd-group">
+          <input type="password" id="pwd-lecturer" placeholder="讲解员密码"
+                 onkeypress="if(event.key==='Enter') login('lecturer', this.value)" />
+          <button class="btn-login btn-lecturer" onclick="login('lecturer', document.getElementById('pwd-lecturer').value)">登录</button>
+        </div>
+      </div>
+
+      <!-- Admin -->
+      <div class="login-card card-admin" onclick="selectRole('admin')">
+        <div class="login-card-icon">🏛️</div>
+        <h3>博物馆方</h3>
+        <p>Museum Admin</p>
+        <ul>
+          <li>全访问 + 内容编辑</li>
+          <li>用户统计 + 导出CSV</li>
+          <li>CRUD 作品数据</li>
+        </ul>
+        <div class="login-pwd-group">
+          <input type="password" id="pwd-admin" placeholder="管理员密码"
+                 onkeypress="if(event.key==='Enter') login('admin', this.value)" />
+          <button class="btn-login btn-admin" onclick="login('admin', document.getElementById('pwd-admin').value)">登录</button>
+        </div>
+      </div>
+    </div>
+
+    <p id="login-error" class="login-error"></p>
+    <p class="login-hint">💡 讲解员密码：lecturer2026 &nbsp;|&nbsp; 管理员密码：metadmin2026</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MAIN APP
+═══════════════════════════════════════════════════════════════ -->
+<div id="app" class="app hidden">
+
+  <!-- NAV BAR -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-left">
+      <button class="nav-logo" onclick="scrollToTop()">
+        <span class="nav-logo-m">M</span>
+        <span class="nav-title-text">Met Tour</span>
+      </button>
+      <div class="nav-periods" id="nav-periods">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+    <div class="navbar-right">
+      <!-- Language toggle -->
+      <button class="nav-btn" id="lang-btn" onclick="toggleLang()" title="切换语言">EN / 中</button>
+      <!-- Acc search -->
+      <div class="nav-search">
+        <input type="text" id="nav-acc-input" placeholder="Acc# 快速搜索" maxlength="20"
+               onkeypress="if(event.key==='Enter') accSearch(this.value.trim())" />
+        <button class="nav-search-btn" onclick="accSearch(document.getElementById('nav-acc-input').value.trim())">▶</button>
+      </div>
+      <!-- Role badge + logout -->
+      <div class="nav-role" id="nav-role-badge">
+        <span id="nav-role-icon"></span>
+        <span id="nav-role-label"></span>
+      </div>
+      <button class="nav-btn btn-logout" onclick="logout()">登出</button>
+      <!-- Admin panel toggle -->
+      <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">⚙️ 管理</button>
+    </div>
+  </nav>
+
+  <!-- HERO / ROUTE MAP -->
+  <section class="hero-section" id="section-route">
+    <div class="hero-content">
+      <h1 class="hero-title" id="hero-title">欧洲绘画 3小时导览</h1>
+      <p class="hero-sub" id="hero-sub">哥特至印象派 · Gothic to Impressionism · 大都会博物馆 · The Metropolitan Museum of Art</p>
+
+      <!-- Role welcome banner -->
+      <div class="role-banner" id="role-banner"></div>
+
+      <!-- Route SVG Map -->
+      <div class="route-map-wrapper">
+        <svg class="route-svg" id="route-svg" viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Connecting line -->
+          <line x1="60" y1="60" x2="840" y2="60" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-dasharray="8,4"/>
+          <!-- Nodes injected by JS -->
+        </svg>
+      </div>
+
+      <!-- Route progress (Lecturer only) -->
+      <div class="route-progress hidden" id="route-progress">
+        <div class="progress-label">导览进度 <span id="progress-pct">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        <div class="progress-status" id="progress-status">尚未开始导览</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACC FULLSCREEN OVERLAY -->
+  <div class="acc-overlay hidden" id="acc-overlay">
+    <button class="acc-close" onclick="closeAccOverlay()">✕</button>
+    <div class="acc-card" id="acc-card">
+      <!-- injected -->
+    </div>
+  </div>
+
+  <!-- PERIODS CONTENT -->
+  <main class="main-content" id="main-content">
+
+    <!-- Lecturer Notes Pad (lecturer/admin only) -->
+    <div class="notes-pad hidden" id="notes-pad">
+      <div class="notes-header">
+        <h3>📝 讲解笔记</h3>
+        <div class="notes-actions">
+          <button onclick="saveNotes()">💾 保存</button>
+          <button onclick="exportNotes()">📤 导出</button>
+          <button onclick="document.getElementById('notes-pad').classList.toggle('minimized')">─</button>
+        </div>
+      </div>
+      <textarea id="notes-textarea" placeholder="在此记录现场笔记、观众问题、进度标记...&#10;&#10;例：14:30 - Gal 628 伦勃朗前 观众提问关于光影技法&#10;14:45 - 进入Baroque区，约15人到场"></textarea>
+      <div class="notes-stamp" id="notes-stamp"></div>
+    </div>
+
+    <!-- Admin Stats Panel -->
+    <div class="admin-panel hidden" id="admin-panel">
+      <div class="admin-header">
+        <h3>⚙️ 管理控制台</h3>
+        <button onclick="togglePanel('admin')">收起</button>
+      </div>
+      <div class="admin-grid">
+        <div class="admin-stat" id="stat-visits">
+          <div class="stat-num" id="stat-visits-num">0</div>
+          <div class="stat-label">总Acc查询次数</div>
+        </div>
+        <div class="admin-stat" id="stat-top">
+          <div class="stat-label">最热门作品 Top 5</div>
+          <ul id="top-works-list"></ul>
+        </div>
+        <div class="admin-stat">
+          <div class="stat-label">功能</div>
+          <div class="admin-actions">
+            <button onclick="exportCSV()">📊 导出访问CSV</button>
+            <button onclick="resetStats()">🗑️ 重置统计</button>
+            <button onclick="exportAllData()">💾 导出全部数据</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERIOD SECTIONS (injected by JS) -->
+    <div id="periods-container"></div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>大都会艺术博物馆 · The Metropolitan Museum of Art · 1000 Fifth Avenue, New York</p>
+      <p>本导览内容仅供教育用途 · For educational purposes · <a href="https://www.metmuseum.org/art/collection" target="_blank">Met Open Access</a></p>
+    </div>
+  </footer>
+
+  <!-- PWA Install Banner -->
+  <div class="install-banner hidden" id="install-banner">
+    <p>📱 安装此应用以离线使用</p>
+    <button onclick="installPWA()">安装</button>
+    <button onclick="dismissInstall()">✕</button>
+  </div>
+
+</div><!-- /app -->
+
+<!-- Audio Player (bottom fixed) -->
+<div class="audio-player hidden" id="audio-player">
+  <div class="audio-info">
+    <span class="audio-title" id="audio-playing-title"></span>
+    <span class="audio-painter" id="audio-playing-painter"></span>
+  </div>
+  <div class="audio-controls">
+    <button onclick="prevWork()" title="上一件">⏮</button>
+    <button onclick="pauseAudio()" id="audio-pause-btn" title="暂停/继续">⏸</button>
+    <button onclick="stopAudio()" title="停止">⏹</button>
+    <button onclick="nextWork()" title="下一件">⏭</button>
+  </div>
+  <div class="audio-rate">
+    <label>速度</label>
+    <input type="range" id="rate-slider" min="0.5" max="2" step="0.1" value="1"
+           oninput="setRate(this.value)" />
+    <span id="rate-val">1.0x</span>
+  </div>
+  <button class="audio-close" onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">✕</button>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
