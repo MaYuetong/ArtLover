@@ -31,6 +31,8 @@ let visitStats     = {};  // acc -> count
 let visitedNodes   = new Set();
 let worksDbData    = {};  // merged: WORKS_DATA + IndexedDB edits
 let deferInstall   = null;
+let voiceMode      = 'tts';  // 'tts' | 'elevenlabs'
+let elAudio        = null;   // current ElevenLabs HTMLAudioElement
 
 /* ── IDB ──────────────────────────────────────────────────────── */
 let db = null;
@@ -304,12 +306,12 @@ function renderPeriodsContent() {
     const title = currentLang === 'zh' ? period.labelZh : period.label;
 
     section.innerHTML = `
-      <div class="period-header" style="background: linear-gradient(135deg, ${period.color}22, ${period.color}11); border: 1px solid ${period.color}44;"
+      <div class="period-header"
            onclick="togglePeriod('${period.id}')">
-        <div class="period-header-stripe" style="background: ${period.color};"></div>
+        <div class="period-header-stripe"></div>
         <div class="period-icon">${period.id === 'gothic' ? '⛪' : period.id === 'renaissance' ? '🎨' : period.id === 'baroque' ? '🕯️' : period.id === 'rococo' ? '🌸' : period.id === 'neoclassical' ? '🏛️' : period.id === 'romanticism' ? '🌪️' : '🌅'}</div>
         <div class="period-header-text">
-          <div class="period-label" style="color:${period.color};">${period.galleries} · ${period.duration}</div>
+          <div class="period-label">${period.galleries} · ${period.duration}</div>
           <div class="period-title">${title}</div>
           <div class="period-years">${period.years} · ${period.chineseDynasty}</div>
           <div class="period-desc">${desc}</div>
@@ -409,7 +411,7 @@ function openAccOverlay(acc, editMode = false) {
   const card = document.getElementById('acc-card');
   card.innerHTML = `
     <div class="acc-card-header">
-      <span class="acc-period-tag" style="background: ${period?.color}22; color: ${period?.color}; border-color: ${period?.color}44;">
+      <span class="acc-period-tag">
         ${period ? (currentLang === 'zh' ? period.labelZh : period.label) : w.periodLabel}
       </span>
       <span class="acc-gal-tag">📍 Gallery ${w.gal}</span>
@@ -468,13 +470,97 @@ function getAdjacentWorks(acc) {
   };
 }
 
+/* ── VOICE MODE ───────────────────────────────────────────────── */
+function setVoiceMode(mode) {
+  voiceMode = mode;
+  document.getElementById('voice-tts-btn').classList.toggle('active', mode === 'tts');
+  document.getElementById('voice-ai-btn').classList.toggle('active', mode === 'elevenlabs');
+
+  if (mode === 'elevenlabs') {
+    const apiKey  = localStorage.getItem('elApiKey');
+    const voiceId = localStorage.getItem('elVoiceId');
+    if (!apiKey || !voiceId) {
+      promptElevenLabsConfig();
+    } else {
+      document.getElementById('voice-status').textContent = 'AI 语音已激活';
+      showToast('✨ AI语音已启用 — 将使用ElevenLabs合成');
+    }
+  } else {
+    document.getElementById('voice-status').textContent = '系统语音';
+    showToast('🔊 已切换到系统TTS');
+  }
+}
+
+function promptElevenLabsConfig() {
+  const apiKey = prompt('请输入ElevenLabs API Key:\n(可在 elevenlabs.io 获取)');
+  if (!apiKey) { setVoiceMode('tts'); return; }
+  const voiceId = prompt('请输入Voice ID:\n(在ElevenLabs控制台 My Voices 中找到)');
+  if (!voiceId) { setVoiceMode('tts'); return; }
+  localStorage.setItem('elApiKey', apiKey.trim());
+  localStorage.setItem('elVoiceId', voiceId.trim());
+  document.getElementById('voice-status').textContent = 'AI 语音已激活';
+  showToast('✅ ElevenLabs配置已保存 — AI语音已启用');
+}
+
+async function playElevenLabs(text, work) {
+  const apiKey  = localStorage.getItem('elApiKey');
+  const voiceId = localStorage.getItem('elVoiceId');
+  if (!apiKey || !voiceId) { promptElevenLabsConfig(); return; }
+
+  document.getElementById('voice-status').textContent = '合成中…';
+  document.getElementById('audio-pause-btn').textContent = '⏳';
+
+  try {
+    const resp = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
+      method: 'POST',
+      headers: {
+        'xi-api-key': apiKey,
+        'Content-Type': 'application/json',
+        'Accept': 'audio/mpeg'
+      },
+      body: JSON.stringify({
+        text,
+        model_id: 'eleven_multilingual_v2',
+        voice_settings: { stability: 0.5, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true }
+      })
+    });
+
+    if (!resp.ok) throw new Error(`ElevenLabs error ${resp.status}`);
+
+    const blob = await resp.blob();
+    const url  = URL.createObjectURL(blob);
+
+    if (elAudio) { elAudio.pause(); URL.revokeObjectURL(elAudio.src); }
+    elAudio = new Audio(url);
+    elAudio.play();
+    document.getElementById('audio-pause-btn').textContent = '⏸';
+    document.getElementById('voice-status').textContent = 'AI 语音';
+    showAudioPlayer(work);
+
+    elAudio.onended = () => {
+      document.getElementById('audio-player').classList.add('hidden');
+      URL.revokeObjectURL(url);
+    };
+  } catch (err) {
+    console.error('ElevenLabs failed:', err);
+    document.getElementById('voice-status').textContent = '合成失败，回退TTS';
+    showToast('⚠️ AI语音失败，使用系统TTS');
+    const lang = currentLang === 'zh' ? 'zh-CN' : 'en-US';
+    playTTS(text, lang, work);
+  }
+}
+
 /* ── TTS AUDIO ────────────────────────────────────────────────── */
 function playAcc(acc) {
   const w = worksDbData[acc];
   if (!w) return;
   const text = currentLang === 'zh' ? w.audioText : (w.audioTextEn || w.audioText);
   const lang = currentLang === 'zh' ? 'zh-CN' : 'en-US';
-  playTTS(text, lang, w);
+  if (voiceMode === 'elevenlabs') {
+    playElevenLabs(text, w);
+  } else {
+    playTTS(text, lang, w);
+  }
 }
 
 function quickPlay(acc) {
@@ -517,6 +603,16 @@ function showAudioPlayer(work) {
 }
 
 function pauseAudio() {
+  if (elAudio && !elAudio.paused) {
+    elAudio.pause();
+    document.getElementById('audio-pause-btn').textContent = '▶';
+    return;
+  }
+  if (elAudio && elAudio.paused) {
+    elAudio.play();
+    document.getElementById('audio-pause-btn').textContent = '⏸';
+    return;
+  }
   if (!window.speechSynthesis) return;
   if (ttsPaused) {
     speechSynthesis.resume();
@@ -530,6 +626,7 @@ function pauseAudio() {
 }
 
 function stopAudio() {
+  if (elAudio) { elAudio.pause(); elAudio = null; }
   if (window.speechSynthesis) speechSynthesis.cancel();
   document.getElementById('audio-player').classList.add('hidden');
   ttsPaused = false;
@@ -720,9 +817,10 @@ function showToast(msg) {
     toast.id = 'toast';
     toast.style.cssText = `
       position:fixed; bottom:120px; left:50%; transform:translateX(-50%);
-      background:rgba(20,20,30,0.95); color:white; padding:10px 20px;
-      border-radius:30px; font-size:0.88rem; z-index:900;
-      border:1px solid rgba(201,168,76,0.3); backdrop-filter:blur(8px);
+      background:rgba(253,245,247,0.97); color:#1a1a1a; padding:10px 22px;
+      border-radius:30px; font-size:0.85rem; z-index:900; font-family:sans-serif;
+      border:1px solid #ede5e8; backdrop-filter:blur(12px);
+      box-shadow:0 4px 24px rgba(142,53,74,0.12);
       transition:opacity 0.3s;
     `;
     document.body.appendChild(toast);
