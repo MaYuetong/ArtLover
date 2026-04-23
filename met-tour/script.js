@@ -208,6 +208,20 @@ function renderNavPeriods() {
     btn.onclick = () => scrollToPeriod(p.id);
     container.appendChild(btn);
   });
+
+  // Mobile period bar chips
+  const mobileScroll = document.getElementById('mobile-period-scroll');
+  if (mobileScroll) {
+    mobileScroll.innerHTML = '';
+    PERIODS.forEach(p => {
+      const chip = document.createElement('button');
+      chip.className = 'mobile-period-chip';
+      chip.textContent = (currentLang === 'zh' ? p.labelZh : p.label);
+      chip.dataset.period = p.id;
+      chip.onclick = () => scrollToPeriod(p.id);
+      mobileScroll.appendChild(chip);
+    });
+  }
 }
 
 /* ── ROUTE MAP SVG ────────────────────────────────────────────── */
@@ -659,14 +673,23 @@ function nextWork() {
 function scrollToPeriod(periodId) {
   const el = document.getElementById(`period-${periodId}`);
   if (!el) return;
-  // Expand if collapsed
   el.classList.remove('collapsed');
   currentPeriod = periodId;
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  // Update nav active
+  setActivePeriodUI(periodId);
+}
+
+function setActivePeriodUI(periodId) {
   document.querySelectorAll('.nav-period-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.period === periodId);
   });
+  const mobileChips = document.querySelectorAll('.mobile-period-chip');
+  mobileChips.forEach(c => {
+    c.classList.toggle('active', c.dataset.period === periodId);
+  });
+  // Scroll active chip into view in mobile bar
+  const activeChip = document.querySelector(`.mobile-period-chip[data-period="${periodId}"]`);
+  if (activeChip) activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
 function scrollToTop() {
@@ -857,10 +880,7 @@ function initScrollSpy() {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        const period = e.target.dataset.period;
-        document.querySelectorAll('.nav-period-btn').forEach(b => {
-          b.classList.toggle('active', b.dataset.period === period);
-        });
+        setActivePeriodUI(e.target.dataset.period);
       }
     });
   }, { rootMargin: '-60px 0px -40% 0px' });

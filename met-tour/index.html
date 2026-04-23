@@ -118,7 +118,7 @@
         <span id="nav-role-icon"></span>
         <span id="nav-role-label"></span>
       </div>
-      <button class="nav-btn btn-logout" onclick="logout()">登出</button>
+      <button class="nav-btn btn-logout" onclick="logout()"><span class="logout-text">登出</span><span class="logout-icon">↩</span></button>
       <!-- Admin panel toggle -->
       <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">⚙️ 管理</button>
     </div>
@@ -156,6 +156,13 @@
     <button class="acc-close" onclick="closeAccOverlay()">✕</button>
     <div class="acc-card" id="acc-card">
       <!-- injected -->
+    </div>
+  </div>
+
+  <!-- MOBILE PERIOD BAR (visible only on phones) -->
+  <div class="mobile-period-bar" id="mobile-period-bar">
+    <div class="mobile-period-scroll" id="mobile-period-scroll">
+      <!-- Injected by JS -->
     </div>
   </div>
 
