@@ -105,8 +105,11 @@ function login(role, pwd) {
     setTimeout(() => { errEl.textContent = ''; }, 3000);
     return;
   }
-  localStorage.setItem('metTourRole', role);
-  localStorage.setItem('metTourAuthed', '1');
+  // Visitor sessions are NOT persisted — they must enter the daily code every time
+  if (role !== 'visitor') {
+    localStorage.setItem('metTourRole', role);
+    localStorage.setItem('metTourAuthed', '1');
+  }
   currentRole = role;
   if (role === 'visitor') {
     showVisitorForm();
@@ -247,9 +250,15 @@ function logout() {
 function checkAutoLogin() {
   const saved = localStorage.getItem('metTourRole');
   const authed = localStorage.getItem('metTourAuthed');
-  if (saved && authed === '1') {
+  // Visitors must enter the daily code every session — never auto-login them
+  if (saved && saved !== 'visitor' && authed === '1') {
     currentRole = saved;
     return true;
+  }
+  // Clear any stale visitor session that may have been saved previously
+  if (saved === 'visitor') {
+    localStorage.removeItem('metTourRole');
+    localStorage.removeItem('metTourAuthed');
   }
   return false;
 }
