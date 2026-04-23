@@ -40,8 +40,8 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Met CDN images: stale-while-revalidate
-  if (url.hostname === 'images.metmuseum.org') {
+  // Met CDN + Wikimedia images: stale-while-revalidate
+  if (url.hostname === 'images.metmuseum.org' || url.hostname === 'upload.wikimedia.org') {
     e.respondWith(staleWhileRevalidate(e.request));
     return;
   }
