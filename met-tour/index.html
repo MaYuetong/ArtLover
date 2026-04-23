@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#fdf5f7" />
+  <meta name="theme-color" content="#f5efe0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Met Tour" />
@@ -23,8 +23,12 @@
      LOGIN SCREEN
 ═══════════════════════════════════════════════════════════════ -->
 <div id="login-screen" class="login-screen">
-  <div class="login-bg"></div>
+  <div class="login-bg">
+    <div class="login-bg-painting" id="login-bg-painting"></div>
+    <div class="login-bg-overlay"></div>
+  </div>
   <div class="login-container">
+
     <div class="login-logo">
       <div class="login-logo-icon">M</div>
       <div>
@@ -35,56 +39,127 @@
     </div>
 
     <div class="login-cards">
+
       <!-- Visitor -->
-      <div class="login-card card-visitor" onclick="selectRole('visitor')">
+      <div class="login-card card-visitor">
         <div class="login-card-icon">👤</div>
-        <h3>普通用户</h3>
-        <p>Visitor / Guest</p>
-        <ul>
-          <li>基础路线导览</li>
-          <li>Acc号自助讲解</li>
-          <li>TTS音频播放</li>
-        </ul>
-        <button class="btn-login btn-visitor" onclick="login('visitor', '')">免费进入</button>
+        <div class="login-card-text">
+          <h3>普通用户</h3>
+          <p>Visitor / Guest</p>
+          <ul>
+            <li>基础路线导览</li>
+            <li>Acc号自助讲解</li>
+            <li>TTS音频播放</li>
+          </ul>
+        </div>
+        <div class="login-card-action">
+          <div class="login-pwd-group">
+            <input type="password" id="pwd-visitor" placeholder="访客密码"
+                   onkeypress="if(event.key==='Enter') login('visitor', this.value)" />
+            <button class="btn-login btn-visitor"
+                    onclick="login('visitor', document.getElementById('pwd-visitor').value)">进入</button>
+          </div>
+        </div>
       </div>
 
       <!-- Lecturer -->
-      <div class="login-card card-lecturer" onclick="selectRole('lecturer')">
+      <div class="login-card card-lecturer">
         <div class="login-card-icon">🎓</div>
-        <h3>讲解员 / 讲师</h3>
-        <p>Lecturer · Guide</p>
-        <ul>
-          <li>全部内容 + 实时笔记</li>
-          <li>自定义讲解脚本</li>
-          <li>进度追踪 + 导出</li>
-        </ul>
-        <div class="login-pwd-group">
-          <input type="password" id="pwd-lecturer" placeholder="讲解员密码"
-                 onkeypress="if(event.key==='Enter') login('lecturer', this.value)" />
-          <button class="btn-login btn-lecturer" onclick="login('lecturer', document.getElementById('pwd-lecturer').value)">登录</button>
+        <div class="login-card-text">
+          <h3>讲解员 / 讲师</h3>
+          <p>Lecturer · Guide</p>
+          <ul>
+            <li>全部内容 + 实时笔记</li>
+            <li>自定义讲解脚本</li>
+            <li>进度追踪 + 导出</li>
+          </ul>
+        </div>
+        <div class="login-card-action">
+          <div class="login-pwd-group">
+            <input type="password" id="pwd-lecturer" placeholder="讲解员密码"
+                   onkeypress="if(event.key==='Enter') login('lecturer', this.value)" />
+            <button class="btn-login btn-lecturer"
+                    onclick="login('lecturer', document.getElementById('pwd-lecturer').value)">登录</button>
+          </div>
         </div>
       </div>
 
       <!-- Admin -->
-      <div class="login-card card-admin" onclick="selectRole('admin')">
+      <div class="login-card card-admin">
         <div class="login-card-icon">🏛️</div>
-        <h3>博物馆方</h3>
-        <p>Museum Admin</p>
-        <ul>
-          <li>全访问 + 内容编辑</li>
-          <li>用户统计 + 导出CSV</li>
-          <li>CRUD 作品数据</li>
-        </ul>
-        <div class="login-pwd-group">
-          <input type="password" id="pwd-admin" placeholder="管理员密码"
-                 onkeypress="if(event.key==='Enter') login('admin', this.value)" />
-          <button class="btn-login btn-admin" onclick="login('admin', document.getElementById('pwd-admin').value)">登录</button>
+        <div class="login-card-text">
+          <h3>博物馆方</h3>
+          <p>Museum Admin</p>
+          <ul>
+            <li>全访问 + 内容编辑</li>
+            <li>用户统计 + 导出CSV</li>
+            <li>CRUD 作品数据</li>
+          </ul>
+        </div>
+        <div class="login-card-action">
+          <div class="login-pwd-group">
+            <input type="password" id="pwd-admin" placeholder="管理员密码"
+                   onkeypress="if(event.key==='Enter') login('admin', this.value)" />
+            <button class="btn-login btn-admin"
+                    onclick="login('admin', document.getElementById('pwd-admin').value)">登录</button>
+          </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /login-cards -->
 
     <p id="login-error" class="login-error"></p>
-    <p class="login-hint">💡 讲解员密码：lecturer2026 &nbsp;|&nbsp; 管理员密码：metadmin2026</p>
+    <p class="login-hint">💡 访客码：当日日期MMDD + met &nbsp;|&nbsp; 讲解员：lecturer2026 &nbsp;|&nbsp; 管理员：metadmin2026</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     VISITOR REGISTRATION — blurred painting background
+═══════════════════════════════════════════════════════════════ -->
+<div id="visitor-reg" class="visitor-reg hidden">
+  <!-- Blurred painting bg (src set by JS from WORKS_DATA) -->
+  <div class="visitor-reg-bg">
+    <div class="visitor-reg-bg-img" id="visitor-reg-bg-img"></div>
+    <div class="visitor-reg-bg-overlay"></div>
+  </div>
+
+  <div class="visitor-reg-card">
+    <!-- Painting preview strip -->
+    <div class="visitor-reg-art-strip" id="visitor-reg-art-strip"></div>
+
+    <div class="visitor-reg-header">
+      <div class="visitor-reg-frame-line"></div>
+      <p class="visitor-reg-museum">The Metropolitan Museum of Art</p>
+      <h2>欢迎光临 · Welcome</h2>
+      <p class="visitor-reg-sub">请留下您的到访信息，开始您的艺术之旅</p>
+      <p class="visitor-reg-en">Please register to begin your tour of European Paintings</p>
+      <div class="visitor-reg-frame-line"></div>
+    </div>
+
+    <form class="visitor-reg-form" onsubmit="submitVisitorForm(event)">
+      <div class="form-field">
+        <label for="reg-name">姓名 · Name <span class="form-required">*</span></label>
+        <input type="text" id="reg-name" placeholder="您的姓名 / Your name"
+               required autocomplete="name" />
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="reg-city">城市 · City <span class="form-required">*</span></label>
+          <input type="text" id="reg-city" placeholder="所在城市" required
+                 autocomplete="address-level2" />
+        </div>
+        <div class="form-field">
+          <label for="reg-country">国家 · Country <span class="form-required">*</span></label>
+          <input type="text" id="reg-country" placeholder="Country" required
+                 autocomplete="country-name" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="reg-date">到访日期 · Visit Date <span class="form-required">*</span></label>
+        <input type="date" id="reg-date" required />
+      </div>
+      <button type="submit" class="visitor-reg-submit">开始导览 · Start Tour →</button>
+    </form>
   </div>
 </div>
 
@@ -100,26 +175,22 @@
         <span class="nav-logo-m">M</span>
         <span class="nav-title-text">Met Tour</span>
       </button>
-      <div class="nav-periods" id="nav-periods">
-        <!-- Injected by JS -->
-      </div>
+      <div class="nav-periods" id="nav-periods"></div>
     </div>
     <div class="navbar-right">
-      <!-- Language toggle -->
       <button class="nav-btn" id="lang-btn" onclick="toggleLang()" title="切换语言">EN / 中</button>
-      <!-- Acc search -->
       <div class="nav-search">
         <input type="text" id="nav-acc-input" placeholder="Acc# 快速搜索" maxlength="20"
                onkeypress="if(event.key==='Enter') accSearch(this.value.trim())" />
         <button class="nav-search-btn" onclick="accSearch(document.getElementById('nav-acc-input').value.trim())">▶</button>
       </div>
-      <!-- Role badge + logout -->
       <div class="nav-role" id="nav-role-badge">
         <span id="nav-role-icon"></span>
         <span id="nav-role-label"></span>
       </div>
-      <button class="nav-btn btn-logout" onclick="logout()"><span class="logout-text">登出</span><span class="logout-icon">↩</span></button>
-      <!-- Admin panel toggle -->
+      <button class="nav-btn btn-logout" onclick="logout()">
+        <span class="logout-text">登出</span><span class="logout-icon">↩</span>
+      </button>
       <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">⚙️ 管理</button>
     </div>
   </nav>
@@ -128,21 +199,13 @@
   <section class="hero-section" id="section-route">
     <div class="hero-content">
       <h1 class="hero-title" id="hero-title">欧洲绘画 3小时导览</h1>
-      <p class="hero-sub" id="hero-sub">哥特至印象派 · Gothic to Impressionism · 大都会博物馆 · The Metropolitan Museum of Art</p>
-
-      <!-- Role welcome banner -->
+      <p class="hero-sub" id="hero-sub">哥特至印象派 · Gothic to Impressionism · 大都会博物馆</p>
       <div class="role-banner" id="role-banner"></div>
-
-      <!-- Route SVG Map -->
       <div class="route-map-wrapper">
         <svg class="route-svg" id="route-svg" viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
-          <!-- Connecting line -->
-          <line x1="60" y1="60" x2="840" y2="60" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-dasharray="8,4"/>
-          <!-- Nodes injected by JS -->
+          <line x1="60" y1="60" x2="840" y2="60" stroke="rgba(201,168,76,0.3)" stroke-width="2" stroke-dasharray="6,4"/>
         </svg>
       </div>
-
-      <!-- Route progress (Lecturer only) -->
       <div class="route-progress hidden" id="route-progress">
         <div class="progress-label">导览进度 <span id="progress-pct">0%</span></div>
         <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
@@ -154,22 +217,67 @@
   <!-- ACC FULLSCREEN OVERLAY -->
   <div class="acc-overlay hidden" id="acc-overlay">
     <button class="acc-close" onclick="closeAccOverlay()">✕</button>
-    <div class="acc-card" id="acc-card">
-      <!-- injected -->
-    </div>
+    <div class="acc-card" id="acc-card"></div>
   </div>
 
-  <!-- MOBILE PERIOD BAR (visible only on phones) -->
+  <!-- MOBILE PERIOD BAR -->
   <div class="mobile-period-bar" id="mobile-period-bar">
-    <div class="mobile-period-scroll" id="mobile-period-scroll">
-      <!-- Injected by JS -->
-    </div>
+    <div class="mobile-period-scroll" id="mobile-period-scroll"></div>
   </div>
 
-  <!-- PERIODS CONTENT -->
+  <!-- MAIN CONTENT -->
   <main class="main-content" id="main-content">
 
-    <!-- Lecturer Notes Pad (lecturer/admin only) -->
+    <!-- Visitor Log (lecturer/admin) -->
+    <div class="visitor-log hidden" id="visitor-log">
+      <div class="visitor-log-header">
+        <h3>📋 访客登记册 · Visitor Registry</h3>
+        <div class="visitor-log-actions">
+          <input type="date" id="visitor-filter-date" onchange="filterVisitorLog()"
+                 title="按日期筛选" />
+          <button onclick="clearVisitorFilter()">全部</button>
+          <button onclick="exportVisitorCSV()" class="btn-export-visitors">📊 导出CSV</button>
+          <button onclick="togglePanel('visitor-log')">收起</button>
+        </div>
+      </div>
+      <div class="visitor-log-stats" id="visitor-log-stats">
+        <div class="visitor-stat-item">
+          <span class="visitor-stat-num" id="vstat-total">0</span>
+          <span class="visitor-stat-label">总访客</span>
+        </div>
+        <div class="visitor-stat-item">
+          <span class="visitor-stat-num" id="vstat-today">0</span>
+          <span class="visitor-stat-label">今日</span>
+        </div>
+        <div class="visitor-stat-item">
+          <span class="visitor-stat-num" id="vstat-countries">0</span>
+          <span class="visitor-stat-label">国家/地区</span>
+        </div>
+        <div class="visitor-stat-item">
+          <span class="visitor-stat-num" id="vstat-cities">0</span>
+          <span class="visitor-stat-label">城市</span>
+        </div>
+      </div>
+      <div class="visitor-table-wrap">
+        <table class="visitor-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>姓名 · Name</th>
+              <th>城市 · City</th>
+              <th>国家 · Country</th>
+              <th>日期 · Date</th>
+              <th>时间 · Time</th>
+            </tr>
+          </thead>
+          <tbody id="visitor-table-body">
+            <tr><td colspan="6" class="visitor-empty">暂无访客记录 · No visitors yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lecturer Notes Pad -->
     <div class="notes-pad hidden" id="notes-pad">
       <div class="notes-header">
         <h3>📝 讲解笔记</h3>
@@ -179,7 +287,8 @@
           <button onclick="document.getElementById('notes-pad').classList.toggle('minimized')">─</button>
         </div>
       </div>
-      <textarea id="notes-textarea" placeholder="在此记录现场笔记、观众问题、进度标记...&#10;&#10;例：14:30 - Gal 628 伦勃朗前 观众提问关于光影技法&#10;14:45 - 进入Baroque区，约15人到场"></textarea>
+      <textarea id="notes-textarea"
+                placeholder="在此记录现场笔记、观众问题、进度标记...&#10;&#10;例：14:30 - Gal 628 伦勃朗前 观众提问关于光影技法"></textarea>
       <div class="notes-stamp" id="notes-stamp"></div>
     </div>
 
@@ -190,18 +299,19 @@
         <button onclick="togglePanel('admin')">收起</button>
       </div>
       <div class="admin-grid">
-        <div class="admin-stat" id="stat-visits">
+        <div class="admin-stat">
           <div class="stat-num" id="stat-visits-num">0</div>
           <div class="stat-label">总Acc查询次数</div>
         </div>
-        <div class="admin-stat" id="stat-top">
+        <div class="admin-stat">
           <div class="stat-label">最热门作品 Top 5</div>
           <ul id="top-works-list"></ul>
         </div>
         <div class="admin-stat">
           <div class="stat-label">功能</div>
           <div class="admin-actions">
-            <button onclick="exportCSV()">📊 导出访问CSV</button>
+            <button onclick="togglePanel('visitor-log')">📋 访客登记册</button>
+            <button onclick="exportCSV()">📊 导出Acc统计</button>
             <button onclick="resetStats()">🗑️ 重置统计</button>
             <button onclick="exportAllData()">💾 导出全部数据</button>
           </div>
@@ -209,7 +319,7 @@
       </div>
     </div>
 
-    <!-- PERIOD SECTIONS (injected by JS) -->
+    <!-- PERIOD SECTIONS -->
     <div id="periods-container"></div>
 
   </main>
@@ -219,7 +329,8 @@
     <div class="footer-inner">
       <p class="footer-copyright">© 2026 Yuetong Ma. All rights reserved.</p>
       <p>大都会艺术博物馆 · The Metropolitan Museum of Art · 1000 Fifth Avenue, New York</p>
-      <p>本导览内容仅供教育用途 · For educational purposes · <a href="https://www.metmuseum.org/art/collection" target="_blank">Met Open Access</a></p>
+      <p>本导览内容仅供教育用途 · For educational purposes ·
+         <a href="https://www.metmuseum.org/art/collection" target="_blank">Met Open Access</a></p>
     </div>
   </footer>
 
@@ -232,7 +343,7 @@
 
 </div><!-- /app -->
 
-<!-- Audio Player (bottom fixed) -->
+<!-- Audio Player -->
 <div class="audio-player hidden" id="audio-player">
   <div class="audio-info">
     <span class="audio-title" id="audio-playing-title"></span>
@@ -251,11 +362,12 @@
     <span id="rate-val">1.0x</span>
   </div>
   <div class="voice-settings">
-    <button class="voice-btn active" id="voice-tts-btn" onclick="setVoiceMode('tts')" title="系统TTS">🔊 TTS</button>
-    <button class="voice-btn" id="voice-ai-btn" onclick="setVoiceMode('elevenlabs')" title="AI语音">✨ AI</button>
+    <button class="voice-btn active" id="voice-tts-btn" onclick="setVoiceMode('tts')">🔊 TTS</button>
+    <button class="voice-btn" id="voice-ai-btn" onclick="setVoiceMode('elevenlabs')">✨ AI</button>
     <span class="voice-status" id="voice-status">系统语音</span>
   </div>
-  <button class="audio-close" onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">✕</button>
+  <button class="audio-close"
+    onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">✕</button>
 </div>
 
 <script src="data.js"></script>

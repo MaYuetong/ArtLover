@@ -38,13 +38,14 @@ let elAudio        = null;   // current ElevenLabs HTMLAudioElement
 let db = null;
 function initIDB() {
   return new Promise((res, rej) => {
-    const req = indexedDB.open('MetTourDB', 2);
+    const req = indexedDB.open('MetTourDB', 3);
     req.onupgradeneeded = e => {
       const d = e.target.result;
-      if (!d.objectStoreNames.contains('works'))   d.createObjectStore('works',   { keyPath: 'acc' });
-      if (!d.objectStoreNames.contains('notes'))   d.createObjectStore('notes',   { keyPath: 'id'  });
-      if (!d.objectStoreNames.contains('stats'))   d.createObjectStore('stats',   { keyPath: 'acc' });
-      if (!d.objectStoreNames.contains('settings'))d.createObjectStore('settings',{ keyPath: 'key' });
+      if (!d.objectStoreNames.contains('works'))    d.createObjectStore('works',    { keyPath: 'acc' });
+      if (!d.objectStoreNames.contains('notes'))    d.createObjectStore('notes',    { keyPath: 'id'  });
+      if (!d.objectStoreNames.contains('stats'))    d.createObjectStore('stats',    { keyPath: 'acc' });
+      if (!d.objectStoreNames.contains('settings')) d.createObjectStore('settings', { keyPath: 'key' });
+      if (!d.objectStoreNames.contains('visitors')) d.createObjectStore('visitors', { keyPath: 'id', autoIncrement: true });
     };
     req.onsuccess = e => { db = e.target.result; res(db); };
     req.onerror   = e => { console.warn('IDB error', e); res(null); };
@@ -82,17 +83,155 @@ function idbGetAll(store) {
 }
 
 /* ── AUTH ─────────────────────────────────────────────────────── */
+function todayVisitorCode() {
+  const d = new Date();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return mm + dd + 'met';
+}
+
 function login(role, pwd) {
-  if (role !== 'visitor' && pwd !== PASSWORDS[role]) {
+  let correct;
+  if (role === 'visitor') {
+    correct = pwd === todayVisitorCode();
+  } else {
+    correct = pwd === PASSWORDS[role];
+  }
+  if (!correct) {
     const errEl = document.getElementById('login-error');
-    errEl.textContent = '密码错误，请重试 / Incorrect password';
-    setTimeout(() => { errEl.textContent = ''; }, 2500);
+    errEl.textContent = role === 'visitor'
+      ? '访客码错误 · 格式：MMDD + met（如 0423met）'
+      : '密码错误，请重试 / Incorrect password';
+    setTimeout(() => { errEl.textContent = ''; }, 3000);
     return;
   }
   localStorage.setItem('metTourRole', role);
   localStorage.setItem('metTourAuthed', '1');
   currentRole = role;
+  if (role === 'visitor') {
+    showVisitorForm();
+  } else {
+    startApp();
+  }
+}
+
+/* ── VISITOR REGISTRATION ─────────────────────────────────────── */
+function showVisitorForm() {
+  const overlay = document.getElementById('visitor-reg');
+  overlay.classList.remove('hidden');
+
+  // Auto-fill today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('reg-date').value = today;
+
+  // Set blurred background painting (pick a rich Baroque/Renaissance work)
+  const bgAccs = ['49.7.11','61.198','32.100.67','56.171','89.15.16'];
+  const chosen  = bgAccs.find(a => WORKS_DATA[a]?.img) || Object.values(WORKS_DATA).find(w => w.img)?.acc;
+  const imgUrl  = (chosen && WORKS_DATA[chosen]?.img) || (Object.values(WORKS_DATA).find(w => w.img)?.img);
+  if (imgUrl) {
+    document.getElementById('visitor-reg-bg-img').style.backgroundImage = `url('${imgUrl}')`;
+    const strip = document.getElementById('visitor-reg-art-strip');
+    if (strip) strip.style.backgroundImage = `url('${imgUrl}')`;
+  }
+
+  // Also set login screen painting bg
+  const loginPainting = document.getElementById('login-bg-painting');
+  if (loginPainting && imgUrl) loginPainting.style.backgroundImage = `url('${imgUrl}')`;
+}
+
+async function submitVisitorForm(e) {
+  e.preventDefault();
+  const name    = document.getElementById('reg-name').value.trim();
+  const city    = document.getElementById('reg-city').value.trim();
+  const country = document.getElementById('reg-country').value.trim();
+  const date    = document.getElementById('reg-date').value;
+  if (!name || !city || !country || !date) return;
+
+  const now = new Date();
+  const record = {
+    name, city, country, date,
+    time: now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
+    timestamp: now.getTime()
+  };
+
+  await initIDB();
+  await idbAddVisitor(record);
+
+  document.getElementById('visitor-reg').classList.add('hidden');
   startApp();
+}
+
+function idbAddVisitor(obj) {
+  return new Promise(res => {
+    if (!db) return res();
+    const tx  = db.transaction('visitors', 'readwrite');
+    const req = tx.objectStore('visitors').add(obj);
+    req.onsuccess = () => res();
+    req.onerror   = () => res();
+  });
+}
+
+async function loadVisitorLog() {
+  const all = await idbGetAll('visitors');
+  renderVisitorLog(all);
+}
+
+function renderVisitorLog(records) {
+  const tbody = document.getElementById('visitor-table-body');
+  if (!tbody) return;
+
+  const today = new Date().toISOString().split('T')[0];
+  const todayCount    = records.filter(r => r.date === today).length;
+  const countries     = new Set(records.map(r => r.country.trim())).size;
+  const cities        = new Set(records.map(r => r.city.trim())).size;
+
+  const el = id => document.getElementById(id);
+  if (el('vstat-total'))     el('vstat-total').textContent    = records.length;
+  if (el('vstat-today'))     el('vstat-today').textContent    = todayCount;
+  if (el('vstat-countries')) el('vstat-countries').textContent = countries;
+  if (el('vstat-cities'))    el('vstat-cities').textContent   = cities;
+
+  if (!records.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="visitor-empty">暂无访客记录 · No visitors yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = [...records].reverse().map((r, i) => `
+    <tr>
+      <td class="vrow-num">${records.length - i}</td>
+      <td class="vrow-name">${escHtml(r.name)}</td>
+      <td>${escHtml(r.city)}</td>
+      <td class="vrow-country">${escHtml(r.country)}</td>
+      <td>${r.date || ''}</td>
+      <td>${r.time || ''}</td>
+    </tr>
+  `).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function filterVisitorLog() {
+  const date = document.getElementById('visitor-filter-date')?.value;
+  let all = await idbGetAll('visitors');
+  if (date) all = all.filter(r => r.date === date);
+  renderVisitorLog(all);
+}
+
+function clearVisitorFilter() {
+  const inp = document.getElementById('visitor-filter-date');
+  if (inp) inp.value = '';
+  loadVisitorLog();
+}
+
+async function exportVisitorCSV() {
+  const all = await idbGetAll('visitors');
+  if (!all.length) { showToast('暂无访客数据'); return; }
+  const rows = [['#','姓名','城市','国家','日期','时间']];
+  all.forEach((r, i) => rows.push([i+1, r.name, r.city, r.country, r.date, r.time]));
+  const csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+  downloadFile(`met-tour-visitors-${new Date().toISOString().slice(0,10)}.csv`, csv, 'text/csv');
+  showToast('✅ 访客记录已导出');
 }
 
 function logout() {
@@ -170,18 +309,26 @@ function applyRoleUI() {
   const isLec   = hasRole('lecturer');
   const isAdmin = hasRole('admin');
 
-  // Notes pad
   if (isLec) document.getElementById('notes-pad').classList.remove('hidden');
-  // Admin panel + button
-  if (isAdmin) {
-    document.getElementById('btn-admin-panel').classList.remove('hidden');
-  }
-  // Route progress
+  if (isLec) document.getElementById('visitor-log').classList.remove('hidden');
+  if (isAdmin) document.getElementById('btn-admin-panel').classList.remove('hidden');
   if (isLec) document.getElementById('route-progress').classList.remove('hidden');
-  // Nav role badge
+
   const meta = ROLE_META[currentRole];
   document.getElementById('nav-role-icon').textContent  = meta.icon;
   document.getElementById('nav-role-label').textContent = meta.label;
+
+  if (isLec) loadVisitorLog();
+}
+
+function setLoginBgPainting() {
+  const candidates = ['61.198','49.7.11','32.100.67','56.171'];
+  const acc = candidates.find(a => WORKS_DATA[a]?.img);
+  const img = (acc && WORKS_DATA[acc].img) || Object.values(WORKS_DATA).find(w => w.img)?.img;
+  if (img) {
+    const el = document.getElementById('login-bg-painting');
+    if (el) el.style.backgroundImage = `url('${img}')`;
+  }
 }
 
 function renderRoleBanner() {
@@ -912,20 +1059,19 @@ if ('serviceWorker' in navigator) {
 
 /* ── BOOTSTRAP ────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Load voices async (Chrome needs this)
   if (window.speechSynthesis) {
     speechSynthesis.getVoices();
     speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
   }
 
+  // Set blurred painting on login screen background
+  setLoginBgPainting();
+
   if (checkAutoLogin()) {
     startApp().then(() => initScrollSpy());
   }
 
-  // Auto-save notes every 60s for lecturers
   setInterval(() => {
-    if (hasRole('lecturer') && document.getElementById('notes-textarea')) {
-      saveNotes();
-    }
+    if (hasRole('lecturer') && document.getElementById('notes-textarea')) saveNotes();
   }, 60000);
 });
