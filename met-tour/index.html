@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#f5efe0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Met Tour" />
-  <meta name="apple-touch-startup-image" href="icons/icon-512.png" />
-  <meta name="description" content="大都会博物馆欧洲绘画3小时导览 — 哥特至印象派" />
-  <title>Met Art Tour · 大都会欧洲绘画导览</title>
+  <meta name="apple-mobile-web-app-title" content="Art Tour" />
+  <meta name="description" content="多博物馆国际艺术导览 — Multi-Museum International Art Guide" />
+  <title>Art Tour · 国际博物馆导览</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,61 +16,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="role-visitor" data-lang="zh">
+<body data-lang="zh">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MUSEUM SELECTOR SCREEN
+═══════════════════════════════════════════════════════════════ -->
+<div id="museum-selector" class="museum-selector">
+
+  <header class="selector-header">
+    <div class="selector-logo">
+      <div class="selector-logo-icon">A</div>
+      <div class="selector-logo-text">
+        <h1 class="selector-title" data-zh="国际博物馆导览" data-en="International Art Guide">国际博物馆导览</h1>
+        <p class="selector-subtitle" data-zh="精选12座全球顶级博物馆" data-en="12 world-class museums, curated">精选12座全球顶级博物馆</p>
+      </div>
+    </div>
+    <div class="selector-controls">
+      <button class="selector-lang-btn" id="selector-lang-btn" onclick="toggleSelectorLang()">EN</button>
+      <button class="selector-theme-btn" id="selector-theme-btn" onclick="toggleTheme()" title="切换深色模式">◐</button>
+    </div>
+  </header>
+
+  <div class="selector-filter-bar">
+    <button class="filter-tab active" data-region="all" onclick="filterMuseums('all', this)"
+            data-zh="全部" data-en="All">全部</button>
+    <button class="filter-tab" data-region="americas" onclick="filterMuseums('americas', this)"
+            data-zh="美洲" data-en="Americas">美洲</button>
+    <button class="filter-tab" data-region="europe" onclick="filterMuseums('europe', this)"
+            data-zh="欧洲" data-en="Europe">欧洲</button>
+    <button class="filter-tab" data-region="asia" onclick="filterMuseums('asia', this)"
+            data-zh="亚洲" data-en="Asia">亚洲</button>
+  </div>
+
+  <div class="museum-grid" id="museum-grid">
+    <!-- Populated by JS -->
+  </div>
+
+  <footer class="selector-footer">
+    <p data-zh="本导览内容仅供教育参考 · 图像来源：公共领域 / Wikimedia Commons CC0 / 机构开放许可"
+       data-en="For educational purposes only · Images: Public Domain / Wikimedia Commons CC0 / Institution open licenses">
+      本导览内容仅供教育参考 · 图像来源：公共领域 / Wikimedia Commons CC0
+    </p>
+    <p>© 2026 Yuetong Ma · Art Tour · <span data-zh="开发者" data-en="Developer">开发者</span>: Ma Yuetong</p>
+  </footer>
+
+</div><!-- /museum-selector -->
 
 <!-- ═══════════════════════════════════════════════════════════════
      LOGIN SCREEN
 ═══════════════════════════════════════════════════════════════ -->
-<div id="login-screen" class="login-screen">
+<div id="login-screen" class="login-screen hidden">
   <div class="login-bg">
     <div class="login-bg-painting" id="login-bg-painting"></div>
     <div class="login-bg-overlay"></div>
   </div>
   <div class="login-container">
 
+    <button class="login-back-btn" onclick="backToSelector()">← <span data-zh="返回选择" data-en="Back">返回选择</span></button>
+
     <div class="login-logo">
-      <div class="login-logo-icon">M</div>
+      <div class="login-logo-icon" id="login-logo-icon">M</div>
       <div>
-        <h1 class="login-title">Met Art Tour</h1>
-        <p class="login-subtitle">大都会博物馆 · 欧洲绘画导览</p>
-        <p class="login-subtitle-en">European Paintings · Gothic to Impressionism</p>
+        <h1 class="login-title" id="login-museum-name">Met Art Tour</h1>
+        <p class="login-subtitle" id="login-museum-city">New York, USA</p>
+        <p class="login-subtitle-en" id="login-museum-highlight">European Paintings · Gothic to Impressionism</p>
       </div>
+    </div>
+
+    <!-- Exhibition badge (shown for museums with active exhibitions) -->
+    <div class="login-exhibition-badge hidden" id="login-exhibition-badge">
+      <span class="exhibition-dot"></span>
+      <span id="login-exhibition-name"></span>
+      <span id="login-exhibition-dates"></span>
     </div>
 
     <div class="login-cards">
 
       <!-- Visitor -->
       <div class="login-card card-visitor">
-        <div class="login-card-icon">👤</div>
+        <div class="login-card-icon">&#128100;</div>
         <div class="login-card-text">
-          <h3>普通用户</h3>
+          <h3 data-zh="普通访客" data-en="Visitor">普通访客</h3>
           <p>Visitor / Guest</p>
           <ul>
-            <li>基础路线导览</li>
-            <li>Acc号自助讲解</li>
-            <li>TTS音频播放</li>
+            <li data-zh="基础导览路线" data-en="Guided route">基础导览路线</li>
+            <li data-zh="作品讲解 + 音频" data-en="Audio guide">作品讲解 + 音频</li>
+            <li data-zh="个人笔记" data-en="Personal notes">个人笔记</li>
           </ul>
         </div>
         <div class="login-card-action">
           <div class="login-pwd-group">
-            <input type="password" id="pwd-visitor" placeholder="访客密码"
+            <input type="password" id="pwd-visitor" placeholder="访客码 / Access code"
                    onkeypress="if(event.key==='Enter') login('visitor', this.value)" />
             <button class="btn-login btn-visitor"
-                    onclick="login('visitor', document.getElementById('pwd-visitor').value)">进入</button>
+                    onclick="login('visitor', document.getElementById('pwd-visitor').value)"
+                    data-zh="进入" data-en="Enter">进入</button>
           </div>
         </div>
       </div>
 
       <!-- Lecturer -->
       <div class="login-card card-lecturer">
-        <div class="login-card-icon">🎓</div>
+        <div class="login-card-icon">&#127891;</div>
         <div class="login-card-text">
-          <h3>讲解员 / 讲师</h3>
+          <h3 data-zh="讲解员 / 讲师" data-en="Lecturer / Guide">讲解员 / 讲师</h3>
           <p>Lecturer · Guide</p>
           <ul>
-            <li>全部内容 + 实时笔记</li>
-            <li>自定义讲解脚本</li>
-            <li>进度追踪 + 导出</li>
+            <li data-zh="全部内容 + 实时笔记" data-en="Full content + live notes">全部内容 + 实时笔记</li>
+            <li data-zh="自定义讲解脚本" data-en="Custom scripts">自定义讲解脚本</li>
+            <li data-zh="进度追踪 + 导出" data-en="Progress tracking">进度追踪 + 导出</li>
           </ul>
         </div>
         <div class="login-card-action">
@@ -79,21 +132,22 @@
             <input type="password" id="pwd-lecturer" placeholder="讲解员密码"
                    onkeypress="if(event.key==='Enter') login('lecturer', this.value)" />
             <button class="btn-login btn-lecturer"
-                    onclick="login('lecturer', document.getElementById('pwd-lecturer').value)">登录</button>
+                    onclick="login('lecturer', document.getElementById('pwd-lecturer').value)"
+                    data-zh="登录" data-en="Login">登录</button>
           </div>
         </div>
       </div>
 
       <!-- Admin -->
       <div class="login-card card-admin">
-        <div class="login-card-icon">🏛️</div>
+        <div class="login-card-icon">&#127963;</div>
         <div class="login-card-text">
-          <h3>博物馆方</h3>
+          <h3 data-zh="博物馆方 / 管理员" data-en="Museum Admin">博物馆方</h3>
           <p>Museum Admin</p>
           <ul>
-            <li>全访问 + 内容编辑</li>
-            <li>用户统计 + 导出CSV</li>
-            <li>CRUD 作品数据</li>
+            <li data-zh="全访问 + 内容管理" data-en="Full access + content">全访问 + 内容管理</li>
+            <li data-zh="访客统计 + 导出CSV" data-en="Visitor analytics + CSV">访客统计 + 导出CSV</li>
+            <li data-zh="行为追踪仪表板" data-en="Behavior dashboard">行为追踪仪表板</li>
           </ul>
         </div>
         <div class="login-card-action">
@@ -101,7 +155,8 @@
             <input type="password" id="pwd-admin" placeholder="管理员密码"
                    onkeypress="if(event.key==='Enter') login('admin', this.value)" />
             <button class="btn-login btn-admin"
-                    onclick="login('admin', document.getElementById('pwd-admin').value)">登录</button>
+                    onclick="login('admin', document.getElementById('pwd-admin').value)"
+                    data-zh="登录" data-en="Login">登录</button>
           </div>
         </div>
       </div>
@@ -109,34 +164,39 @@
     </div><!-- /login-cards -->
 
     <p id="login-error" class="login-error"></p>
-    <p class="login-hint">💡 访客码：当日日期MMDD + met &nbsp;|&nbsp; 讲解员：lecturer2026 &nbsp;|&nbsp; 管理员：metadmin2026</p>
+    <p class="login-hint" id="login-hint">
+      访客码：当日日期MMDD + met &nbsp;|&nbsp; 或输入 "yuetong" 快速进入 &nbsp;|&nbsp; 讲解员：lecturer2026
+    </p>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     VISITOR REGISTRATION — blurred painting background
+     VISITOR REGISTRATION — with password generation
 ═══════════════════════════════════════════════════════════════ -->
 <div id="visitor-reg" class="visitor-reg hidden">
-  <!-- Blurred painting bg (src set by JS from WORKS_DATA) -->
   <div class="visitor-reg-bg">
     <div class="visitor-reg-bg-img" id="visitor-reg-bg-img"></div>
     <div class="visitor-reg-bg-overlay"></div>
   </div>
 
   <div class="visitor-reg-card">
-    <!-- Painting preview strip -->
     <div class="visitor-reg-art-strip" id="visitor-reg-art-strip"></div>
 
     <div class="visitor-reg-header">
       <div class="visitor-reg-frame-line"></div>
-      <p class="visitor-reg-museum">The Metropolitan Museum of Art</p>
-      <h2>欢迎光临 · Welcome</h2>
-      <p class="visitor-reg-sub">请留下您的到访信息，开始您的艺术之旅</p>
-      <p class="visitor-reg-en">Please register to begin your tour of European Paintings</p>
+      <p class="visitor-reg-museum" id="visitor-reg-museum-name">The Metropolitan Museum of Art</p>
+      <h2 data-zh="欢迎光临 · Welcome" data-en="Welcome">欢迎光临 · Welcome</h2>
+      <p class="visitor-reg-sub" data-zh="请留下您的到访信息，开始您的艺术之旅" data-en="Please register to begin your tour">请留下您的到访信息，开始您的艺术之旅</p>
+      <p class="visitor-reg-honest-note" data-zh="请如实填写现场信息，以便提供更准确的参观建议" data-en="Please answer honestly so we can serve you better">请如实填写现场信息</p>
       <div class="visitor-reg-frame-line"></div>
     </div>
 
-    <form class="visitor-reg-form" onsubmit="submitVisitorForm(event)">
+    <!-- Registration form -->
+    <form class="visitor-reg-form" id="visitor-reg-form" onsubmit="submitVisitorForm(event)">
+      <div class="form-field">
+        <label for="reg-museum" data-zh="博物馆 · Museum" data-en="Museum">博物馆 · Museum</label>
+        <input type="text" id="reg-museum" readonly class="form-readonly" />
+      </div>
       <div class="form-field">
         <label for="reg-name">姓名 · Name <span class="form-required">*</span></label>
         <input type="text" id="reg-name" placeholder="您的姓名 / Your name"
@@ -144,22 +204,61 @@
       </div>
       <div class="form-row">
         <div class="form-field">
-          <label for="reg-city">城市 · City <span class="form-required">*</span></label>
-          <input type="text" id="reg-city" placeholder="所在城市" required
-                 autocomplete="address-level2" />
+          <label for="reg-country" data-zh="国家 · Country" data-en="Country">国家 · Country <span class="form-required">*</span></label>
+          <input type="text" id="reg-country" placeholder="Country" required autocomplete="country-name" />
         </div>
         <div class="form-field">
-          <label for="reg-country">国家 · Country <span class="form-required">*</span></label>
-          <input type="text" id="reg-country" placeholder="Country" required
-                 autocomplete="country-name" />
+          <label for="reg-city" data-zh="城市 · City" data-en="City">城市 · City <span class="form-required">*</span></label>
+          <input type="text" id="reg-city" placeholder="City / Province" required autocomplete="address-level2" />
         </div>
       </div>
       <div class="form-field">
-        <label for="reg-date">到访日期 · Visit Date <span class="form-required">*</span></label>
+        <label for="reg-date" data-zh="到访日期 · Visit Date" data-en="Visit Date">到访日期 · Visit Date <span class="form-required">*</span></label>
         <input type="date" id="reg-date" required />
       </div>
-      <button type="submit" class="visitor-reg-submit">开始导览 · Start Tour →</button>
+      <div class="form-field">
+        <label data-zh="您从哪里得知此导览？· Source" data-en="How did you find this guide?">您从哪里得知此导览？</label>
+        <div class="source-channel-grid">
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="xiaohongshu" />
+            <span data-zh="小红书" data-en="Xiaohongshu">小红书</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="official" />
+            <span data-zh="博物馆官网" data-en="Museum website">博物馆官网</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="linkedin" />
+            <span>LinkedIn</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="friend" />
+            <span data-zh="朋友推荐" data-en="Friend referral">朋友推荐</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="other" />
+            <span data-zh="其他" data-en="Other">其他</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-field form-onsite-field">
+        <label class="onsite-label">
+          <input type="checkbox" id="reg-onsite" />
+          <span data-zh="我目前在博物馆现场" data-en="I am currently at the museum in person">我目前在博物馆现场</span>
+        </label>
+        <p class="onsite-note" data-zh="请如实回答，以便提供适合您处境的参观建议" data-en="Please answer honestly so we can tailor your experience">请如实回答</p>
+      </div>
+      <button type="submit" class="visitor-reg-submit" data-zh="开始导览 · Start Tour" data-en="Start Tour">开始导览 · Start Tour →</button>
     </form>
+
+    <!-- Password display (shown after submission) -->
+    <div class="visitor-password-panel hidden" id="visitor-password-panel">
+      <div class="visitor-reg-frame-line"></div>
+      <p class="pwd-panel-label" data-zh="您的专属访问码" data-en="Your access code">您的专属访问码</p>
+      <div class="pwd-panel-code" id="visitor-generated-pwd"></div>
+      <p class="pwd-panel-note" data-zh="请记录此访问码，下次可凭此码直接进入" data-en="Save this code for future visits">请记录此访问码，下次可凭此码直接进入</p>
+      <button class="visitor-reg-submit" onclick="startAppAfterReg()" data-zh="进入导览 · Enter Tour" data-en="Enter Tour">进入导览 →</button>
+    </div>
   </div>
 </div>
 
@@ -171,27 +270,32 @@
   <!-- NAV BAR -->
   <nav class="navbar" id="navbar">
     <div class="navbar-left">
-      <button class="nav-logo" onclick="scrollToTop()">
-        <span class="nav-logo-m">M</span>
-        <span class="nav-title-text">Met Tour</span>
+      <button class="nav-logo" onclick="backToSelector()">
+        <span class="nav-logo-m" id="nav-logo-m">M</span>
+        <span class="nav-title-text" id="nav-title-text">Art Tour</span>
       </button>
       <div class="nav-periods" id="nav-periods"></div>
     </div>
     <div class="navbar-right">
       <button class="nav-btn" id="lang-btn" onclick="toggleLang()" title="切换语言">EN / 中</button>
+      <button class="nav-btn nav-theme-btn" onclick="toggleTheme()" title="深色/浅色">◐</button>
       <div class="nav-search">
-        <input type="text" id="nav-acc-input" placeholder="Acc# 快速搜索" maxlength="20"
+        <input type="text" id="nav-acc-input" placeholder="Acc# 或作品名" maxlength="40"
                onkeypress="if(event.key==='Enter') accSearch(this.value.trim())" />
-        <button class="nav-search-btn" onclick="accSearch(document.getElementById('nav-acc-input').value.trim())">▶</button>
+        <button class="nav-search-btn" onclick="accSearch(document.getElementById('nav-acc-input').value.trim())">&#9654;</button>
       </div>
+      <button class="nav-btn nav-notes-toggle" id="nav-notes-toggle" onclick="toggleNotesPanel()" title="笔记">
+        <span data-zh="笔记" data-en="Notes">笔记</span>
+      </button>
       <div class="nav-role" id="nav-role-badge">
         <span id="nav-role-icon"></span>
         <span id="nav-role-label"></span>
       </div>
       <button class="nav-btn btn-logout" onclick="logout()">
-        <span class="logout-text">登出</span><span class="logout-icon">↩</span>
+        <span class="logout-text" data-zh="登出" data-en="Exit">登出</span>
+        <span class="logout-icon">&#8617;</span>
       </button>
-      <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">⚙️ 管理</button>
+      <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">&#9881; <span data-zh="管理" data-en="Admin">管理</span></button>
     </div>
   </nav>
 
@@ -199,7 +303,7 @@
   <section class="hero-section" id="section-route">
     <div class="hero-content">
       <h1 class="hero-title" id="hero-title">欧洲绘画 3小时导览</h1>
-      <p class="hero-sub" id="hero-sub">哥特至印象派 · Gothic to Impressionism · 大都会博物馆</p>
+      <p class="hero-sub" id="hero-sub">哥特至印象派 · Gothic to Impressionism</p>
       <div class="role-banner" id="role-banner"></div>
       <div class="route-map-wrapper">
         <svg class="route-svg" id="route-svg" viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
@@ -207,16 +311,16 @@
         </svg>
       </div>
       <div class="route-progress hidden" id="route-progress">
-        <div class="progress-label">导览进度 <span id="progress-pct">0%</span></div>
+        <div class="progress-label"><span data-zh="导览进度" data-en="Tour progress">导览进度</span> <span id="progress-pct">0%</span></div>
         <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-        <div class="progress-status" id="progress-status">尚未开始导览</div>
+        <div class="progress-status" id="progress-status" data-zh="尚未开始导览" data-en="Tour not started">尚未开始导览</div>
       </div>
     </div>
   </section>
 
   <!-- ACC FULLSCREEN OVERLAY -->
   <div class="acc-overlay hidden" id="acc-overlay">
-    <button class="acc-close" onclick="closeAccOverlay()">✕</button>
+    <button class="acc-close" onclick="closeAccOverlay()">&#10005;</button>
     <div class="acc-card" id="acc-card"></div>
   </div>
 
@@ -231,31 +335,48 @@
     <!-- Visitor Log (lecturer/admin) -->
     <div class="visitor-log hidden" id="visitor-log">
       <div class="visitor-log-header">
-        <h3>📋 访客登记册 · Visitor Registry</h3>
+        <h3 data-zh="访客登记册 · Visitor Registry" data-en="Visitor Registry">访客登记册 · Visitor Registry</h3>
         <div class="visitor-log-actions">
-          <input type="date" id="visitor-filter-date" onchange="filterVisitorLog()"
-                 title="按日期筛选" />
-          <button onclick="clearVisitorFilter()">全部</button>
-          <button onclick="exportVisitorCSV()" class="btn-export-visitors">📊 导出CSV</button>
-          <button onclick="togglePanel('visitor-log')">收起</button>
+          <input type="date" id="visitor-filter-date" onchange="filterVisitorLog()" title="按日期筛选" />
+          <select id="visitor-filter-museum" onchange="filterVisitorLog()">
+            <option value="all" data-zh="全部博物馆" data-en="All museums">全部博物馆</option>
+          </select>
+          <button onclick="clearVisitorFilter()" data-zh="全部" data-en="All">全部</button>
+          <button onclick="exportVisitorCSV()" class="btn-export-visitors" data-zh="导出CSV" data-en="Export CSV">导出CSV</button>
+          <button onclick="togglePanel('visitor-log')" data-zh="收起" data-en="Close">收起</button>
         </div>
       </div>
       <div class="visitor-log-stats" id="visitor-log-stats">
         <div class="visitor-stat-item">
           <span class="visitor-stat-num" id="vstat-total">0</span>
-          <span class="visitor-stat-label">总访客</span>
+          <span class="visitor-stat-label" data-zh="总访客" data-en="Total">总访客</span>
         </div>
         <div class="visitor-stat-item">
           <span class="visitor-stat-num" id="vstat-today">0</span>
-          <span class="visitor-stat-label">今日</span>
+          <span class="visitor-stat-label" data-zh="今日" data-en="Today">今日</span>
         </div>
         <div class="visitor-stat-item">
           <span class="visitor-stat-num" id="vstat-countries">0</span>
-          <span class="visitor-stat-label">国家/地区</span>
+          <span class="visitor-stat-label" data-zh="国家/地区" data-en="Countries">国家/地区</span>
         </div>
         <div class="visitor-stat-item">
           <span class="visitor-stat-num" id="vstat-cities">0</span>
-          <span class="visitor-stat-label">城市</span>
+          <span class="visitor-stat-label" data-zh="城市" data-en="Cities">城市</span>
+        </div>
+      </div>
+      <!-- Canvas pie charts -->
+      <div class="visitor-charts-row">
+        <div class="visitor-chart-wrap">
+          <p class="chart-label" data-zh="城市分布" data-en="City distribution">城市分布</p>
+          <canvas id="city-pie-chart" width="180" height="180"></canvas>
+        </div>
+        <div class="visitor-chart-wrap">
+          <p class="chart-label" data-zh="来源渠道" data-en="Source channels">来源渠道</p>
+          <canvas id="source-pie-chart" width="180" height="180"></canvas>
+        </div>
+        <div class="visitor-chart-wrap">
+          <p class="chart-label" data-zh="博物馆分布" data-en="Museum distribution">博物馆分布</p>
+          <canvas id="museum-pie-chart" width="180" height="180"></canvas>
         </div>
       </div>
       <div class="visitor-table-wrap">
@@ -263,57 +384,48 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>姓名 · Name</th>
-              <th>城市 · City</th>
-              <th>国家 · Country</th>
-              <th>日期 · Date</th>
-              <th>时间 · Time</th>
+              <th data-zh="姓名" data-en="Name">姓名</th>
+              <th data-zh="博物馆" data-en="Museum">博物馆</th>
+              <th data-zh="城市" data-en="City">城市</th>
+              <th data-zh="国家" data-en="Country">国家</th>
+              <th data-zh="来源" data-en="Source">来源</th>
+              <th data-zh="日期" data-en="Date">日期</th>
+              <th data-zh="访问码" data-en="Code">访问码</th>
             </tr>
           </thead>
           <tbody id="visitor-table-body">
-            <tr><td colspan="6" class="visitor-empty">暂无访客记录 · No visitors yet</td></tr>
+            <tr><td colspan="8" class="visitor-empty" data-zh="暂无访客记录" data-en="No visitors yet">暂无访客记录</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Lecturer Notes Pad -->
-    <div class="notes-pad hidden" id="notes-pad">
-      <div class="notes-header">
-        <h3>📝 讲解笔记</h3>
-        <div class="notes-actions">
-          <button onclick="saveNotes()">💾 保存</button>
-          <button onclick="exportNotes()">📤 导出</button>
-          <button onclick="document.getElementById('notes-pad').classList.toggle('minimized')">─</button>
-        </div>
-      </div>
-      <textarea id="notes-textarea"
-                placeholder="在此记录现场笔记、观众问题、进度标记...&#10;&#10;例：14:30 - Gal 628 伦勃朗前 观众提问关于光影技法"></textarea>
-      <div class="notes-stamp" id="notes-stamp"></div>
-    </div>
-
     <!-- Admin Stats Panel -->
     <div class="admin-panel hidden" id="admin-panel">
       <div class="admin-header">
-        <h3>⚙️ 管理控制台</h3>
-        <button onclick="togglePanel('admin')">收起</button>
+        <h3 data-zh="管理控制台" data-en="Admin Console">管理控制台</h3>
+        <button onclick="togglePanel('admin')" data-zh="收起" data-en="Close">收起</button>
       </div>
       <div class="admin-grid">
         <div class="admin-stat">
           <div class="stat-num" id="stat-visits-num">0</div>
-          <div class="stat-label">总Acc查询次数</div>
+          <div class="stat-label" data-zh="总Acc查询次数" data-en="Total artwork views">总Acc查询次数</div>
         </div>
         <div class="admin-stat">
-          <div class="stat-label">最热门作品 Top 5</div>
+          <div class="stat-label" data-zh="最热门作品 Top 5" data-en="Top 5 artworks">最热门作品 Top 5</div>
           <ul id="top-works-list"></ul>
         </div>
         <div class="admin-stat">
-          <div class="stat-label">功能</div>
+          <div class="stat-label" data-zh="行为事件统计" data-en="Behavior events">行为事件统计</div>
+          <canvas id="events-pie-chart" width="180" height="180"></canvas>
+        </div>
+        <div class="admin-stat">
+          <div class="stat-label" data-zh="功能" data-en="Actions">功能</div>
           <div class="admin-actions">
-            <button onclick="togglePanel('visitor-log')">📋 访客登记册</button>
-            <button onclick="exportCSV()">📊 导出Acc统计</button>
-            <button onclick="resetStats()">🗑️ 重置统计</button>
-            <button onclick="exportAllData()">💾 导出全部数据</button>
+            <button onclick="togglePanel('visitor-log')" data-zh="访客登记册" data-en="Visitor Registry">访客登记册</button>
+            <button onclick="exportCSV()" data-zh="导出Acc统计" data-en="Export stats">导出Acc统计</button>
+            <button onclick="resetStats()" data-zh="重置统计" data-en="Reset stats">重置统计</button>
+            <button onclick="exportAllData()" data-zh="导出全部数据" data-en="Export all data">导出全部数据</button>
           </div>
         </div>
       </div>
@@ -324,21 +436,50 @@
 
   </main>
 
+  <!-- PERSISTENT NOTES PANEL — floats right on desktop, bottom sheet on mobile -->
+  <div class="notes-panel" id="notes-panel" data-state="closed">
+    <div class="notes-panel-header">
+      <div class="notes-panel-title">
+        <span class="notes-panel-icon">&#9998;</span>
+        <span class="notes-panel-label" data-zh="我的笔记" data-en="My Notes">我的笔记</span>
+        <span class="notes-panel-context" id="notes-context"></span>
+      </div>
+      <div class="notes-panel-actions">
+        <button class="notes-action-btn" onclick="saveNotes()" title="保存">&#10003;</button>
+        <button class="notes-action-btn" onclick="exportNotes()" title="导出">&#8599;</button>
+        <button class="notes-action-btn notes-close-btn" onclick="toggleNotesPanel()" title="关闭">&#10005;</button>
+      </div>
+    </div>
+    <textarea id="notes-textarea"
+              class="notes-panel-textarea"
+              placeholder="在此记录您的观察、感受与问题...&#10;&#10;Notes on artworks, observations, questions..."></textarea>
+    <div class="notes-panel-footer">
+      <span class="notes-save-status" id="notes-save-status"></span>
+      <span class="notes-guide-credit">Guide: yuetong · Dev: Ma Yuetong</span>
+    </div>
+  </div>
+  <!-- Notes toggle tab (always visible) -->
+  <button class="notes-tab" id="notes-tab" onclick="toggleNotesPanel()" title="笔记">
+    <span data-zh="笔记" data-en="Notes">笔记</span>
+  </button>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
       <p class="footer-copyright">© 2026 Yuetong Ma. All rights reserved.</p>
-      <p>大都会艺术博物馆 · The Metropolitan Museum of Art · 1000 Fifth Avenue, New York</p>
-      <p>本导览内容仅供教育用途 · For educational purposes ·
-         <a href="https://www.metmuseum.org/art/collection" target="_blank">Met Open Access</a></p>
+      <p id="footer-museum-line">国际博物馆导览 · International Art Guide</p>
+      <p data-zh="本导览内容仅供教育用途 · 图像来源：公共领域及机构开放授权"
+         data-en="For educational purposes only · Images: Public Domain / Open Access">
+        本导览内容仅供教育用途 · 图像来源：公共领域及机构开放授权
+      </p>
     </div>
   </footer>
 
   <!-- PWA Install Banner -->
   <div class="install-banner hidden" id="install-banner">
-    <p>📱 安装此应用以离线使用</p>
-    <button onclick="installPWA()">安装</button>
-    <button onclick="dismissInstall()">✕</button>
+    <p data-zh="安装此应用以离线使用" data-en="Install this app for offline use">安装此应用以离线使用</p>
+    <button onclick="installPWA()" data-zh="安装" data-en="Install">安装</button>
+    <button onclick="dismissInstall()">&#10005;</button>
   </div>
 
 </div><!-- /app -->
@@ -350,27 +491,27 @@
     <span class="audio-painter" id="audio-playing-painter"></span>
   </div>
   <div class="audio-controls">
-    <button onclick="prevWork()" title="上一件">⏮</button>
-    <button onclick="pauseAudio()" id="audio-pause-btn" title="暂停/继续">⏸</button>
-    <button onclick="stopAudio()" title="停止">⏹</button>
-    <button onclick="nextWork()" title="下一件">⏭</button>
+    <button onclick="prevWork()" title="上一件">&#9198;</button>
+    <button onclick="pauseAudio()" id="audio-pause-btn" title="暂停/继续">&#9208;</button>
+    <button onclick="stopAudio()" title="停止">&#9209;</button>
+    <button onclick="nextWork()" title="下一件">&#9197;</button>
   </div>
   <div class="audio-rate">
-    <label>速度</label>
+    <label data-zh="速度" data-en="Speed">速度</label>
     <input type="range" id="rate-slider" min="0.5" max="2" step="0.1" value="1"
            oninput="setRate(this.value)" />
     <span id="rate-val">1.0x</span>
   </div>
   <div class="voice-settings">
-    <button class="voice-btn active" id="voice-tts-btn" onclick="setVoiceMode('tts')">🔊 TTS</button>
-    <button class="voice-btn" id="voice-ai-btn" onclick="setVoiceMode('elevenlabs')">✨ AI</button>
-    <span class="voice-status" id="voice-status">系统语音</span>
+    <button class="voice-btn active" id="voice-tts-btn" onclick="setVoiceMode('tts')">TTS</button>
+    <span class="voice-status" id="voice-status" data-zh="系统语音 — 合成" data-en="Synthetic voice">系统语音 — 合成</span>
   </div>
   <button class="audio-close"
-    onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">✕</button>
+    onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">&#10005;</button>
 </div>
 
 <script src="data.js"></script>
+<script src="museums.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

@@ -3,13 +3,14 @@
    Cache-first for static assets, network-first for Met CDN images
 ════════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME  = 'met-tour-v1.2';
+const CACHE_NAME  = 'met-tour-v2.0';
 const CORE_ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './data.js',
+  './museums.js',
   './manifest.json'
 ];
 
@@ -40,8 +41,8 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Met CDN + Wikimedia images: stale-while-revalidate
-  if (url.hostname === 'images.metmuseum.org' || url.hostname === 'upload.wikimedia.org') {
+  // Met CDN + Wikimedia + AIC IIIF images: stale-while-revalidate
+  if (url.hostname === 'images.metmuseum.org' || url.hostname === 'upload.wikimedia.org' || url.hostname === 'www.artic.edu') {
     e.respondWith(staleWhileRevalidate(e.request));
     return;
   }
