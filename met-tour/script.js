@@ -13,10 +13,37 @@ const PASSWORDS = {
 };
 
 const ROLE_META = {
-  visitor:  { icon: '◎', label: '普通访客', labelEn: 'Visitor',  cls: 'visitor'  },
-  lecturer: { icon: '◈', label: '讲解员',   labelEn: 'Lecturer', cls: 'lecturer' },
-  admin:    { icon: '◉', label: '博物馆方',  labelEn: 'Admin',    cls: 'admin'    }
+  visitor:  { label: '普通访客', labelEn: 'Visitor',  cls: 'visitor'  },
+  lecturer: { label: '讲解员',   labelEn: 'Lecturer', cls: 'lecturer' },
+  admin:    { label: '博物馆方',  labelEn: 'Admin',    cls: 'admin'    }
 };
+
+// Simplified world continent outlines — equirectangular 1000×500
+// Points pre-computed: x = (lng+180)/360*1000, y = (90−lat)/180*500
+const WORLD_CONTINENTS = [
+  // North America
+  '30,66 115,50 295,15 352,119 325,125 289,153 278,181 231,178 265,222 194,186 156,117 122,92',
+  // South America
+  '265,222 325,220 403,236 403,272 381,314 311,406 292,378 275,264',
+  // Greenland
+  '350,25 383,14 417,19 417,50 400,67 372,72 350,56',
+  // British Isles
+  '483,92 492,83 500,89 494,103',
+  // Europe mainland (Scandinavia + central + Balkans)
+  '503,78 519,72 533,67 572,53 583,83 567,92 550,89 528,97 514,103 506,114 489,117 486,108 494,97',
+  // Iberian Peninsula
+  '475,125 494,119 503,133 494,147 486,153 475,144',
+  // Italy
+  '519,122 536,122 544,144 536,153 527,144 519,133',
+  // Africa
+  '486,150 528,147 536,158 581,164 597,169 608,192 625,217 642,218 611,208 589,194 575,222 550,311 511,389 500,397 475,350 450,261 436,194 453,153 475,144',
+  // Asia (mainland + Arabian Peninsula + Indian Peninsula + SE Asia)
+  '578,114 572,53 612,39 700,28 780,28 861,42 942,50 978,67 978,97 939,108 900,125 861,161 833,172 806,183 789,222 750,211 747,189 717,228 703,197 692,186 667,181 625,217 608,192 597,169 603,153 578,114',
+  // Japan
+  '864,164 878,150 892,125 900,131 892,136 878,158',
+  // Australia
+  '750,242 819,233 877,228 908,272 914,294 908,333 872,350 833,350 794,333 764,308',
+];
 
 const PWD_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no confusable chars
 
@@ -42,6 +69,8 @@ let elAudio             = null;
 let visitorSession      = {};
 let sessionId           = Date.now().toString(36);
 let notesContext        = '';      // current note key: museumId:acc or museumId:general
+let selectorMode        = 'region'; // 'map' | 'region' | 'list'
+let onsiteSelectedOnCard = false;  // on-site toggle state from museum card
 
 /* ── IDB v4 ───────────────────────────────────────────────────── */
 let db = null;
@@ -155,13 +184,17 @@ function renderMuseumGrid(region = 'all') {
     const soonLabel = selectorLang === 'zh' ? '即将开放' : 'Coming Soon';
     const enterLabel = selectorLang === 'zh' ? '进入导览' : 'Enter Guide';
 
+    const onsiteNote = selectorLang === 'zh'
+      ? '请如实选择，以便提供更合适的参观建议'
+      : 'Please answer honestly so we can tailor your experience';
+    const onsiteLabel = selectorLang === 'zh' ? '我现在在馆内' : 'I am currently on-site';
+
     return `
       <div class="museum-card ${m.comingSoon ? 'museum-card--soon' : ''} ${m.hasExhibition ? 'museum-card--exhibition' : ''}"
-           onclick="${m.comingSoon ? 'showComingSoon()' : `selectMuseum('${m.id}')`}"
            style="--museum-accent:${m.accentColor}">
         ${bgImg ? `<div class="museum-card-bg" style="background-image:url('${bgImg}')"></div>` : '<div class="museum-card-bg museum-card-bg--empty"></div>'}
         <div class="museum-card-overlay"></div>
-        <div class="museum-card-body">
+        <div class="museum-card-body" onclick="${m.comingSoon ? 'showComingSoon()' : `selectMuseum('${m.id}')`}">
           <div class="museum-card-icon-wrap">${m.icon}</div>
           ${exName ? `<div class="museum-card-exhibition-tag">${exName}</div>` : ''}
           <h3 class="museum-card-name">${name}</h3>
@@ -172,6 +205,14 @@ function renderMuseumGrid(region = 'all') {
             : `<div class="museum-card-enter">${enterLabel}</div>`
           }
         </div>
+        ${!m.comingSoon ? `
+        <div class="museum-card-onsite" onclick="event.stopPropagation()">
+          <label class="onsite-card-label">
+            <input type="checkbox" class="onsite-chk" id="onsite-${m.id}" />
+            <span>${onsiteLabel}</span>
+          </label>
+          <p class="onsite-card-note">${onsiteNote}</p>
+        </div>` : ''}
       </div>
     `;
   }).join('');
@@ -191,9 +232,122 @@ function toggleSelectorLang() {
   selectorLang = selectorLang === 'zh' ? 'en' : 'zh';
   document.getElementById('selector-lang-btn').textContent = selectorLang === 'zh' ? 'EN' : '中';
   applyDataLangText(document.querySelector('.museum-selector'));
-  renderMuseumGrid(
-    document.querySelector('.filter-tab.active')?.dataset.region || 'all'
-  );
+  // Re-render whichever view is currently active
+  if (selectorMode === 'map')    renderMuseumMap();
+  else if (selectorMode === 'list') renderMuseumList();
+  else renderMuseumGrid(document.querySelector('.filter-tab.active')?.dataset.region || 'all');
+}
+
+/* ── SELECTOR MODES ───────────────────────────────────────────── */
+function switchSelectorMode(mode) {
+  selectorMode = mode;
+
+  document.querySelectorAll('.mode-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.mode === mode));
+
+  const filterBar = document.getElementById('selector-filter-bar');
+  if (filterBar) filterBar.style.display = mode === 'region' ? 'flex' : 'none';
+
+  document.getElementById('museum-map-view').classList.toggle('hidden', mode !== 'map');
+  document.getElementById('museum-grid').classList.toggle('hidden', mode !== 'region');
+  document.getElementById('museum-list-view').classList.toggle('hidden', mode !== 'list');
+
+  if (mode === 'map')         renderMuseumMap();
+  else if (mode === 'region') renderMuseumGrid(document.querySelector('.filter-tab.active')?.dataset.region || 'all');
+  else                        renderMuseumList();
+}
+
+function latLngToSVG(lat, lng) {
+  return [(lng + 180) / 360 * 1000, (90 - lat) / 180 * 500];
+}
+
+function renderMuseumMap() {
+  const container = document.getElementById('museum-map-view');
+  if (!container) return;
+
+  const continentsSVG = WORLD_CONTINENTS.map(pts =>
+    `<polygon class="continent" points="${pts}"/>`
+  ).join('');
+
+  // Slight offsets for NYC cluster so markers don't perfectly overlap
+  const NYC_OFFSETS = { met: [0,0], moma: [-10,9], mcny: [10,-9], broadway: [-10,18] };
+
+  const markersSVG = MUSEUMS_REGISTRY.map(m => {
+    let [x, y] = latLngToSVG(m.lat, m.lng);
+    const off = NYC_OFFSETS[m.id];
+    if (off) { x += off[0]; y += off[1]; }
+    x = Math.round(x); y = Math.round(y);
+
+    const name    = selectorLang === 'zh' ? m.name.zh : m.name.en;
+    const soon    = m.comingSoon;
+    const exhb    = m.hasExhibition;
+    const markerCls = soon ? 'marker-soon' : (exhb ? 'marker-exhibition' : 'marker-active');
+    const onclick = soon ? 'showComingSoon()' : `selectMuseum('${m.id}')`;
+    const r = soon ? 4 : 6;
+
+    return `<g class="map-museum-group ${markerCls}" onclick="${onclick}" tabindex="0" role="button" aria-label="${escHtml(name)}">
+      <circle cx="${x}" cy="${y}" r="${r + 5}" class="marker-halo"/>
+      <circle cx="${x}" cy="${y}" r="${r}" class="marker-dot"/>
+      ${!soon ? `<text x="${x}" y="${y - 12}" class="marker-name" text-anchor="middle">${escHtml(name)}</text>` : ''}
+    </g>`;
+  }).join('');
+
+  const L = selectorLang;
+  const legendItems = [
+    { cls: 'marker-active',    label: L === 'zh' ? '可导览' : 'Available' },
+    { cls: 'marker-exhibition',label: L === 'zh' ? '特别展览' : 'Special Exhibition' },
+    { cls: 'marker-soon',      label: L === 'zh' ? '即将开放' : 'Coming Soon' },
+  ];
+  const legendSVG = legendItems.map((item, i) => `
+    <g transform="translate(${i * 160}, 0)">
+      <circle cx="8" cy="8" r="5" class="${item.cls} marker-dot legend-dot"/>
+      <text x="20" y="13" class="legend-label">${item.label}</text>
+    </g>`).join('');
+
+  container.innerHTML = `
+    <svg class="world-map-svg" viewBox="0 0 1000 500"
+         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"
+         role="img" aria-label="${L === 'zh' ? '博物馆世界地图' : 'World map of museums'}">
+      <g class="continents">${continentsSVG}</g>
+      <g class="museum-markers">${markersSVG}</g>
+      <g class="map-legend" transform="translate(24, 468)">${legendSVG}</g>
+    </svg>`;
+}
+
+function renderMuseumList() {
+  const container = document.getElementById('museum-list-view');
+  if (!container) return;
+  const L = selectorLang;
+
+  container.innerHTML = MUSEUMS_REGISTRY.map(m => {
+    const name   = L === 'zh' ? m.name.zh : m.name.en;
+    const city   = L === 'zh' ? m.city.zh : m.city.en;
+    const hl     = L === 'zh' ? (m.highlight?.zh || '') : (m.highlight?.en || '');
+    const vt     = L === 'zh' ? (m.visitTime?.zh || '') : (m.visitTime?.en || '');
+    const exName = m.hasExhibition && m.exhibitionName
+      ? (L === 'zh' ? m.exhibitionName.zh : m.exhibitionName.en) : '';
+    const soonLabel  = L === 'zh' ? '即将开放' : 'Coming Soon';
+    const enterLabel = L === 'zh' ? '进入' : 'Enter';
+    const onclick = m.comingSoon ? 'showComingSoon()' : `selectMuseum('${m.id}')`;
+
+    return `
+      <div class="museum-list-item ${m.comingSoon ? 'list-item--soon' : ''} ${m.hasExhibition ? 'list-item--exhibition' : ''}"
+           onclick="${onclick}" style="--museum-accent:${m.accentColor}">
+        <div class="list-item-icon">${escHtml(String(m.icon))}</div>
+        <div class="list-item-body">
+          <div class="list-item-name">${escHtml(name)}</div>
+          <div class="list-item-city">${escHtml(city)}</div>
+          <div class="list-item-hl">${escHtml(hl)}</div>
+          ${exName ? `<div class="list-item-ex">${escHtml(exName)}</div>` : ''}
+        </div>
+        <div class="list-item-right">
+          ${vt ? `<div class="list-item-vt">${escHtml(vt)}</div>` : ''}
+          <div class="${m.comingSoon ? 'list-item-soon' : 'list-item-enter'}">
+            ${m.comingSoon ? soonLabel : enterLabel}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 // Updates all [data-zh] / [data-en] elements in a container
@@ -206,6 +360,10 @@ function applyDataLangText(root = document) {
 }
 
 function selectMuseum(museumId) {
+  // Read on-site toggle from card before switching screen
+  const onsiteChk = document.getElementById(`onsite-${museumId}`);
+  onsiteSelectedOnCard = onsiteChk?.checked || false;
+
   currentMuseumId = museumId;
   currentMuseum   = getMuseumById(museumId);
 
@@ -384,6 +542,10 @@ function showVisitorForm() {
     musHeaderEl.textContent = currentMuseum.name.en;
   }
 
+  // Pre-fill on-site toggle from card selection
+  const onsiteEl = document.getElementById('reg-onsite');
+  if (onsiteEl) onsiteEl.checked = onsiteSelectedOnCard;
+
   // Set background painting
   const works = getMuseumWorks(currentMuseumId);
   const bgAcc = currentMuseum?.bgAccs?.find(a => works[a]?.img) || Object.values(works).find(w => w.img);
@@ -421,12 +583,23 @@ async function submitVisitorForm(e) {
   await idbAddVisitor(visitorSession);
   track('visitor_registered', { source, onsite });
 
+  // Populate credential save form fields (triggers browser Save Password on submit)
+  const unField  = document.getElementById('auth-username-field');
+  const pwdField = document.getElementById('auth-password-field');
+  if (unField)  unField.value  = name;
+  if (pwdField) pwdField.value = password;
+
   // Show password panel
   document.getElementById('visitor-reg-form').classList.add('hidden');
   const pwdPanel = document.getElementById('visitor-password-panel');
   const pwdEl    = document.getElementById('visitor-generated-pwd');
   pwdPanel.classList.remove('hidden');
   if (pwdEl) pwdEl.textContent = password;
+}
+
+function handleCredentialSave(event) {
+  event.preventDefault();
+  startAppAfterReg();
 }
 
 function startAppAfterReg() {
@@ -532,7 +705,6 @@ function applyRoleUI() {
   if (isAdmin || isLec) document.getElementById('admin-panel').classList.toggle('hidden', !isAdmin);
 
   const meta = ROLE_META[currentRole];
-  document.getElementById('nav-role-icon').textContent  = meta.icon;
   document.getElementById('nav-role-label').textContent = currentLang === 'zh' ? meta.label : meta.labelEn;
 
   if (isLec) loadVisitorLog();
@@ -696,7 +868,7 @@ function renderPeriodsContent() {
             ${period.duration ? `<span class="period-badge">${period.duration}</span>` : ''}
           </div>
         </div>
-        <div class="period-toggle">▼</div>
+        <div class="period-toggle"></div>
       </div>
       <div class="period-body">
         ${period.painters ? `<div class="painters-strip">${period.painters.map(p => `<div class="painter-chip">${p}</div>`).join('')}</div>` : ''}
@@ -713,7 +885,8 @@ function renderWorkCard(acc, w) {
   const title  = currentLang === 'zh' && w.titleZh ? w.titleZh : w.title;
   const desc   = currentLang === 'zh' ? (w.desc || '') : (w.descEn || w.desc || '');
   const editBtn = hasRole('admin')
-    ? `<button class="work-card-edit-btn" onclick="event.stopPropagation();openAccOverlay('${acc}',true)">&#9998;</button>` : '';
+    ? `<button class="work-card-edit-btn" onclick="event.stopPropagation();openAccOverlay('${acc}',true)"
+              data-zh="编辑" data-en="Edit">Edit</button>` : '';
 
   return `
     <div class="work-card" onclick="openAccOverlay('${acc}',false)" data-acc="${acc}">
@@ -721,10 +894,11 @@ function renderWorkCard(acc, w) {
         ${w.img
           ? `<img class="work-card-img" src="${w.img}" alt="${escHtml(w.title)}" loading="lazy"
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-             <div class="work-card-img-placeholder" style="display:none">&#128444;</div>`
-          : `<div class="work-card-img-placeholder">&#128444;</div>`}
+             <div class="work-card-img-placeholder" style="display:none"></div>`
+          : `<div class="work-card-img-placeholder"></div>`}
         <div class="work-card-acc">${acc}</div>
-        <button class="work-card-play" onclick="event.stopPropagation();quickPlay('${acc}')" title="播放讲解">&#9654;</button>
+        <button class="work-card-play" onclick="event.stopPropagation();quickPlay('${acc}')"
+                data-zh="播放" data-en="Play">Play</button>
         ${editBtn}
       </div>
       <div class="work-card-body">
@@ -801,15 +975,15 @@ function openAccOverlay(acc, editMode = false) {
   const editAttr = (editMode && canEdit) ? 'contenteditable="true"' : '';
   const editBtns = canEdit ? `
     ${editMode
-      ? `<button class="acc-btn acc-btn-save" onclick="saveWorkEdit('${acc}')">&#10003; 保存</button>`
-      : `<button class="acc-btn acc-btn-edit" onclick="openAccOverlay('${acc}',true)">&#9998; 编辑</button>`}` : '';
+      ? `<button class="acc-btn acc-btn-save" onclick="saveWorkEdit('${acc}')">保存</button>`
+      : `<button class="acc-btn acc-btn-edit" onclick="openAccOverlay('${acc}',true)">编辑</button>`}` : '';
 
   const prevNext = getAdjacentWorks(acc);
   const card     = document.getElementById('acc-card');
   card.innerHTML = `
     <div class="acc-card-header">
       <span class="acc-period-tag">${escHtml(periodLabel)}</span>
-      ${w.gal ? `<span class="acc-gal-tag">&#128205; ${w.gal}</span>` : ''}
+      ${w.gal ? `<span class="acc-gal-tag">${escHtml(w.gal)}</span>` : ''}
       <span class="acc-gal-tag" style="font-family:monospace">${acc}</span>
     </div>
 
@@ -823,8 +997,10 @@ function openAccOverlay(acc, editMode = false) {
     <div class="acc-desc" id="edit-desc" ${editAttr}>${escHtml(desc)}</div>
 
     <div class="acc-actions">
-      <button class="acc-btn acc-btn-play" onclick="playAcc('${acc}')">&#9654; 播放讲解</button>
-      <button class="acc-btn" onclick="openMapForWork('${acc}')">&#128205; 前往展厅</button>
+      <button class="acc-btn acc-btn-play" onclick="playAcc('${acc}')"
+              data-zh="播放讲解" data-en="Play Audio">播放讲解</button>
+      <button class="acc-btn" onclick="openMapForWork('${acc}')"
+              data-zh="前往展厅" data-en="Navigate">前往展厅</button>
       ${editBtns}
     </div>
 
@@ -835,8 +1011,8 @@ function openAccOverlay(acc, editMode = false) {
     </details>` : ''}
 
     <div class="acc-nav">
-      ${prevNext.prev ? `<button class="acc-nav-btn" onclick="openAccOverlay('${prevNext.prev}',false)">&#9198; ${escHtml(currentMuseumWorks[prevNext.prev]?.title||'')}</button>` : '<div></div>'}
-      ${prevNext.next ? `<button class="acc-nav-btn" style="text-align:right" onclick="openAccOverlay('${prevNext.next}',false)">${escHtml(currentMuseumWorks[prevNext.next]?.title||'')} &#9197;</button>` : '<div></div>'}
+      ${prevNext.prev ? `<button class="acc-nav-btn" onclick="openAccOverlay('${prevNext.prev}',false)">&larr; ${escHtml(currentMuseumWorks[prevNext.prev]?.title||'')}</button>` : '<div></div>'}
+      ${prevNext.next ? `<button class="acc-nav-btn" style="text-align:right" onclick="openAccOverlay('${prevNext.next}',false)">${escHtml(currentMuseumWorks[prevNext.next]?.title||'')} &rarr;</button>` : '<div></div>'}
     </div>
   `;
 
@@ -1000,19 +1176,21 @@ function showAudioPlayer(work) {
   player.classList.remove('hidden');
   document.getElementById('audio-playing-title').textContent   = work ? (currentLang === 'zh' && work.titleZh ? work.titleZh : work.title) : '';
   document.getElementById('audio-playing-painter').textContent  = work?.painter || '';
-  document.getElementById('audio-pause-btn').textContent = '⏸';
+  const pauseBtn = document.getElementById('audio-pause-btn');
+  if (pauseBtn) pauseBtn.textContent = currentLang === 'zh' ? '暂停' : 'Pause';
   ttsPaused = false;
 }
 
 function pauseAudio() {
   if (!window.speechSynthesis) return;
+  const pauseBtn = document.getElementById('audio-pause-btn');
   if (ttsPaused) {
     speechSynthesis.resume();
-    document.getElementById('audio-pause-btn').textContent = '⏸';
+    if (pauseBtn) pauseBtn.textContent = currentLang === 'zh' ? '暂停' : 'Pause';
     ttsPaused = false;
   } else {
     speechSynthesis.pause();
-    document.getElementById('audio-pause-btn').textContent = '▶';
+    if (pauseBtn) pauseBtn.textContent = currentLang === 'zh' ? '继续' : 'Resume';
     ttsPaused = true;
   }
 }

@@ -33,11 +33,22 @@
     </div>
     <div class="selector-controls">
       <button class="selector-lang-btn" id="selector-lang-btn" onclick="toggleSelectorLang()">EN</button>
-      <button class="selector-theme-btn" id="selector-theme-btn" onclick="toggleTheme()" title="切换深色模式">◐</button>
+      <button class="selector-theme-btn" id="selector-theme-btn" onclick="toggleTheme()"
+              data-zh="深色" data-en="Dark">深色</button>
     </div>
   </header>
 
-  <div class="selector-filter-bar">
+  <!-- Mode switcher -->
+  <div class="selector-mode-bar">
+    <button class="mode-tab active" data-mode="region" onclick="switchSelectorMode('region')"
+            data-zh="区域" data-en="Region">区域</button>
+    <button class="mode-tab" data-mode="map" onclick="switchSelectorMode('map')"
+            data-zh="地图" data-en="Map">地图</button>
+    <button class="mode-tab" data-mode="list" onclick="switchSelectorMode('list')"
+            data-zh="列表" data-en="List">列表</button>
+  </div>
+
+  <div class="selector-filter-bar" id="selector-filter-bar">
     <button class="filter-tab active" data-region="all" onclick="filterMuseums('all', this)"
             data-zh="全部" data-en="All">全部</button>
     <button class="filter-tab" data-region="americas" onclick="filterMuseums('americas', this)"
@@ -47,6 +58,12 @@
     <button class="filter-tab" data-region="asia" onclick="filterMuseums('asia', this)"
             data-zh="亚洲" data-en="Asia">亚洲</button>
   </div>
+
+  <!-- Map mode view -->
+  <div id="museum-map-view" class="museum-map-view hidden"></div>
+
+  <!-- List mode view -->
+  <div id="museum-list-view" class="museum-list-view hidden"></div>
 
   <div class="museum-grid" id="museum-grid">
     <!-- Populated by JS -->
@@ -72,7 +89,9 @@
   </div>
   <div class="login-container">
 
-    <button class="login-back-btn" onclick="backToSelector()">← <span data-zh="返回选择" data-en="Back">返回选择</span></button>
+    <button class="login-back-btn" onclick="backToSelector()">
+      <span data-zh="返回选择" data-en="Back">返回选择</span>
+    </button>
 
     <div class="login-logo">
       <div class="login-logo-icon" id="login-logo-icon">M</div>
@@ -94,7 +113,6 @@
 
       <!-- Visitor -->
       <div class="login-card card-visitor">
-        <div class="login-card-icon">&#128100;</div>
         <div class="login-card-text">
           <h3 data-zh="普通访客" data-en="Visitor">普通访客</h3>
           <p>Visitor / Guest</p>
@@ -117,7 +135,6 @@
 
       <!-- Lecturer -->
       <div class="login-card card-lecturer">
-        <div class="login-card-icon">&#127891;</div>
         <div class="login-card-text">
           <h3 data-zh="讲解员 / 讲师" data-en="Lecturer / Guide">讲解员 / 讲师</h3>
           <p>Lecturer · Guide</p>
@@ -140,7 +157,6 @@
 
       <!-- Admin -->
       <div class="login-card card-admin">
-        <div class="login-card-icon">&#127963;</div>
         <div class="login-card-text">
           <h3 data-zh="博物馆方 / 管理员" data-en="Museum Admin">博物馆方</h3>
           <p>Museum Admin</p>
@@ -251,13 +267,21 @@
       <button type="submit" class="visitor-reg-submit" data-zh="开始导览 · Start Tour" data-en="Start Tour">开始导览 · Start Tour →</button>
     </form>
 
-    <!-- Password display (shown after submission) -->
+    <!-- Password display (shown after submission) — form triggers browser Save Password -->
     <div class="visitor-password-panel hidden" id="visitor-password-panel">
       <div class="visitor-reg-frame-line"></div>
       <p class="pwd-panel-label" data-zh="您的专属访问码" data-en="Your access code">您的专属访问码</p>
-      <div class="pwd-panel-code" id="visitor-generated-pwd"></div>
-      <p class="pwd-panel-note" data-zh="请记录此访问码，下次可凭此码直接进入" data-en="Save this code for future visits">请记录此访问码，下次可凭此码直接进入</p>
-      <button class="visitor-reg-submit" onclick="startAppAfterReg()" data-zh="进入导览 · Enter Tour" data-en="Enter Tour">进入导览 →</button>
+      <form id="visitor-auth-form" method="post" action="#" onsubmit="handleCredentialSave(event)">
+        <!-- Hidden username field — triggers browser credential save with name context -->
+        <input type="text" name="username" autocomplete="username" id="auth-username-field"
+               style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true" />
+        <!-- Hidden password field — browser detects new-password and offers to save -->
+        <input type="password" name="password" autocomplete="new-password" id="auth-password-field"
+               style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true" />
+        <div class="pwd-panel-code" id="visitor-generated-pwd"></div>
+        <p class="pwd-panel-note" data-zh="请记录此访问码，下次可凭此码直接进入" data-en="Save this code for future visits">请记录此访问码，下次可凭此码直接进入</p>
+        <button type="submit" class="visitor-reg-submit" data-zh="进入导览" data-en="Enter Tour">进入导览</button>
+      </form>
     </div>
   </div>
 </div>
@@ -277,25 +301,27 @@
       <div class="nav-periods" id="nav-periods"></div>
     </div>
     <div class="navbar-right">
-      <button class="nav-btn" id="lang-btn" onclick="toggleLang()" title="切换语言">EN / 中</button>
-      <button class="nav-btn nav-theme-btn" onclick="toggleTheme()" title="深色/浅色">◐</button>
+      <button class="nav-btn" id="lang-btn" onclick="toggleLang()">EN / 中</button>
+      <button class="nav-btn nav-theme-btn" id="nav-theme-btn" onclick="toggleTheme()"
+              data-zh="深色" data-en="Dark">深色</button>
       <div class="nav-search">
         <input type="text" id="nav-acc-input" placeholder="Acc# 或作品名" maxlength="40"
                onkeypress="if(event.key==='Enter') accSearch(this.value.trim())" />
-        <button class="nav-search-btn" onclick="accSearch(document.getElementById('nav-acc-input').value.trim())">&#9654;</button>
+        <button class="nav-search-btn" onclick="accSearch(document.getElementById('nav-acc-input').value.trim())"
+                data-zh="搜索" data-en="Search">搜索</button>
       </div>
-      <button class="nav-btn nav-notes-toggle" id="nav-notes-toggle" onclick="toggleNotesPanel()" title="笔记">
+      <button class="nav-btn nav-notes-toggle" id="nav-notes-toggle" onclick="toggleNotesPanel()">
         <span data-zh="笔记" data-en="Notes">笔记</span>
       </button>
       <div class="nav-role" id="nav-role-badge">
-        <span id="nav-role-icon"></span>
         <span id="nav-role-label"></span>
       </div>
       <button class="nav-btn btn-logout" onclick="logout()">
-        <span class="logout-text" data-zh="登出" data-en="Exit">登出</span>
-        <span class="logout-icon">&#8617;</span>
+        <span data-zh="退出" data-en="Exit">退出</span>
       </button>
-      <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">&#9881; <span data-zh="管理" data-en="Admin">管理</span></button>
+      <button class="nav-btn btn-admin-panel hidden" id="btn-admin-panel" onclick="togglePanel('admin')">
+        <span data-zh="管理" data-en="Admin">管理</span>
+      </button>
     </div>
   </nav>
 
@@ -320,7 +346,7 @@
 
   <!-- ACC FULLSCREEN OVERLAY -->
   <div class="acc-overlay hidden" id="acc-overlay">
-    <button class="acc-close" onclick="closeAccOverlay()">&#10005;</button>
+    <button class="acc-close" onclick="closeAccOverlay()" data-zh="关闭" data-en="Close">关闭</button>
     <div class="acc-card" id="acc-card"></div>
   </div>
 
@@ -440,14 +466,14 @@
   <div class="notes-panel" id="notes-panel" data-state="closed">
     <div class="notes-panel-header">
       <div class="notes-panel-title">
-        <span class="notes-panel-icon">&#9998;</span>
         <span class="notes-panel-label" data-zh="我的笔记" data-en="My Notes">我的笔记</span>
         <span class="notes-panel-context" id="notes-context"></span>
       </div>
       <div class="notes-panel-actions">
-        <button class="notes-action-btn" onclick="saveNotes()" title="保存">&#10003;</button>
-        <button class="notes-action-btn" onclick="exportNotes()" title="导出">&#8599;</button>
-        <button class="notes-action-btn notes-close-btn" onclick="toggleNotesPanel()" title="关闭">&#10005;</button>
+        <button class="notes-action-btn" onclick="saveNotes()" data-zh="保存" data-en="Save">保存</button>
+        <button class="notes-action-btn" onclick="exportNotes()" data-zh="导出" data-en="Export">导出</button>
+        <button class="notes-action-btn notes-close-btn" onclick="toggleNotesPanel()"
+                data-zh="关闭" data-en="Close">关闭</button>
       </div>
     </div>
     <textarea id="notes-textarea"
@@ -491,10 +517,10 @@
     <span class="audio-painter" id="audio-playing-painter"></span>
   </div>
   <div class="audio-controls">
-    <button onclick="prevWork()" title="上一件">&#9198;</button>
-    <button onclick="pauseAudio()" id="audio-pause-btn" title="暂停/继续">&#9208;</button>
-    <button onclick="stopAudio()" title="停止">&#9209;</button>
-    <button onclick="nextWork()" title="下一件">&#9197;</button>
+    <button onclick="prevWork()" data-zh="上一件" data-en="Prev">上一件</button>
+    <button onclick="pauseAudio()" id="audio-pause-btn" data-zh="暂停" data-en="Pause">暂停</button>
+    <button onclick="stopAudio()" data-zh="停止" data-en="Stop">停止</button>
+    <button onclick="nextWork()" data-zh="下一件" data-en="Next">下一件</button>
   </div>
   <div class="audio-rate">
     <label data-zh="速度" data-en="Speed">速度</label>
@@ -503,11 +529,10 @@
     <span id="rate-val">1.0x</span>
   </div>
   <div class="voice-settings">
-    <button class="voice-btn active" id="voice-tts-btn" onclick="setVoiceMode('tts')">TTS</button>
-    <span class="voice-status" id="voice-status" data-zh="系统语音 — 合成" data-en="Synthetic voice">系统语音 — 合成</span>
+    <span class="voice-label" data-zh="AI 合成语音" data-en="AI synthesized voice">AI 合成语音</span>
   </div>
-  <button class="audio-close"
-    onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">&#10005;</button>
+  <button class="audio-close" data-zh="关闭" data-en="Close"
+    onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">关闭</button>
 </div>
 
 <script src="data.js"></script>

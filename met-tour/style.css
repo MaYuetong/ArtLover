@@ -1540,3 +1540,236 @@ body[data-lang="zh"] .en { display: none; }
 @media (max-width: 380px) {
   .museum-grid { grid-template-columns: 1fr; }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SELECTOR MODE BAR  (Map / Region / List)
+════════════════════════════════════════════════════════════════ */
+.selector-mode-bar {
+  display: flex; gap: 6px; padding: 14px 32px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.mode-tab {
+  padding: 8px 22px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.45);
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+}
+.mode-tab:hover  { color: rgba(255,255,255,0.75); }
+.mode-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ════════════════════════════════════════════════════════════════
+   WORLD MAP VIEW
+════════════════════════════════════════════════════════════════ */
+.museum-map-view {
+  flex: 1;
+  padding: 12px 20px 0;
+  display: flex; flex-direction: column;
+  min-height: 0;
+}
+
+.world-map-svg {
+  width: 100%;
+  max-height: 72vh;
+  display: block;
+}
+
+/* Continent outlines — no fill, just a clean stroke */
+.continent {
+  fill: none;
+  stroke: rgba(180,170,155,0.35);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+[data-theme="dark"] .continent { stroke: rgba(200,185,160,0.22); }
+
+/* Museum markers */
+.map-museum-group { cursor: pointer; }
+.map-museum-group:focus { outline: none; }
+.map-museum-group:focus .marker-halo { opacity: 1; r: 14; }
+
+.marker-halo {
+  fill: none;
+  stroke: transparent;
+  r: 12;
+  transition: r 0.18s;
+}
+.map-museum-group:hover .marker-halo { stroke: rgba(201,168,76,0.3); r: 14; }
+
+/* Marker dot colours by state */
+.marker-dot        { transition: r 0.18s; }
+.marker-active     .marker-dot { fill: var(--gold, #c9a84c); }
+.marker-exhibition .marker-dot { fill: #7aab8e; }
+.marker-soon       .marker-dot { fill: rgba(180,175,170,0.55); }
+
+.map-museum-group:hover .marker-dot { r: 8; }
+
+/* Marker name label */
+.marker-name {
+  font-family: var(--sans); font-size: 10px; font-weight: 600;
+  fill: rgba(255,255,255,0.88);
+  paint-order: stroke;
+  stroke: rgba(14,13,20,0.8); stroke-width: 3px;
+  pointer-events: none;
+}
+
+/* Legend */
+.legend-label {
+  font-family: var(--sans); font-size: 10px;
+  fill: rgba(255,255,255,0.5);
+}
+.legend-dot { pointer-events: none; }
+
+/* Map mobile: reduce padding */
+@media (max-width: 640px) {
+  .museum-map-view  { padding: 8px 8px 0; }
+  .world-map-svg    { max-height: 55vh; }
+  .marker-name      { font-size: 8px; }
+  .legend-label     { font-size: 8px; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MUSEUM LIST VIEW
+════════════════════════════════════════════════════════════════ */
+.museum-list-view {
+  padding: 8px 32px 32px;
+  display: flex; flex-direction: column; gap: 2px;
+  overflow-y: auto;
+}
+
+.museum-list-item {
+  display: flex; align-items: center; gap: 20px;
+  padding: 18px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.07);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+  background: rgba(255,255,255,0.03);
+}
+.museum-list-item:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(201,168,76,0.25);
+}
+.list-item--soon  { opacity: 0.5; cursor: default; }
+.list-item--exhibition { border-left: 3px solid #7aab8e; }
+
+.list-item-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--museum-accent, #c9a84c);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 1.2rem;
+  color: #fff; font-weight: 500;
+}
+
+.list-item-body { flex: 1; min-width: 0; }
+.list-item-name {
+  font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+  color: rgba(255,255,255,0.9); line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.list-item-city {
+  font-size: 0.78rem; color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+}
+.list-item-hl  {
+  font-size: 0.8rem; color: rgba(255,255,255,0.55);
+  margin-top: 4px; line-height: 1.3;
+}
+.list-item-ex  {
+  display: inline-block; margin-top: 5px;
+  font-size: 0.72rem; font-family: var(--sans);
+  color: #7aab8e;
+  padding: 2px 8px; border: 1px solid rgba(122,171,142,0.4);
+  border-radius: 12px; letter-spacing: 0.02em;
+}
+
+.list-item-right  { flex-shrink: 0; text-align: right; }
+.list-item-vt     { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+.list-item-enter  {
+  font-size: 0.78rem; font-family: var(--sans); font-weight: 600;
+  color: var(--gold); letter-spacing: 0.06em;
+}
+.list-item-soon   { font-size: 0.72rem; color: rgba(255,255,255,0.3); }
+
+@media (max-width: 640px) {
+  .museum-list-view  { padding: 8px 12px 24px; }
+  .museum-list-item  { padding: 14px 12px; gap: 12px; }
+  .list-item-hl      { display: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MUSEUM CARD — ON-SITE TOGGLE
+════════════════════════════════════════════════════════════════ */
+.museum-card-onsite {
+  position: relative; z-index: 10;
+  padding: 10px 16px 14px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.onsite-card-label {
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer;
+  font-family: var(--sans); font-size: 0.78rem;
+  color: rgba(255,255,255,0.8);
+  user-select: none;
+}
+.onsite-card-label input[type="checkbox"] {
+  width: 14px; height: 14px;
+  accent-color: var(--gold, #c9a84c);
+  cursor: pointer;
+}
+
+.onsite-card-note {
+  margin-top: 4px; margin-bottom: 0;
+  font-size: 0.68rem; color: rgba(255,255,255,0.38);
+  line-height: 1.3; font-style: italic;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PERIOD TOGGLE — CSS-only indicator (replaces ▼ symbol)
+════════════════════════════════════════════════════════════════ */
+.period-toggle {
+  width: 20px; height: 20px; flex-shrink: 0;
+  position: relative;
+}
+.period-toggle::before,
+.period-toggle::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  background: rgba(255,255,255,0.4);
+  border-radius: 1px;
+  transition: transform 0.25s;
+}
+.period-toggle::before {
+  width: 10px; height: 1.5px;
+  transform: translate(-50%, -50%);
+}
+.period-toggle::after {
+  width: 1.5px; height: 10px;
+  transform: translate(-50%, -50%);
+}
+.period-section:not(.collapsed) .period-toggle::after {
+  transform: translate(-50%, -50%) scaleY(0);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   DARK MODE — new components
+════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] .mode-tab           { color: rgba(255,255,255,0.35); }
+[data-theme="dark"] .mode-tab.active    { color: var(--gold); }
+[data-theme="dark"] .museum-list-item   { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .museum-list-item:hover { background: rgba(255,255,255,0.07); }
+[data-theme="dark"] .museum-card-onsite { background: rgba(0,0,0,0.55); }
+[data-theme="dark"] .marker-name        { stroke: rgba(17,16,23,0.9); }
