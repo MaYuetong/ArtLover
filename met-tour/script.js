@@ -882,8 +882,13 @@ function renderPeriodsContent() {
 }
 
 function renderWorkCard(acc, w) {
-  const title  = currentLang === 'zh' && w.titleZh ? w.titleZh : w.title;
-  const desc   = currentLang === 'zh' ? (w.desc || '') : (w.descEn || w.desc || '');
+  const isZh = currentLang === 'zh';
+  const titlePrimary = isZh && w.titleZh ? w.titleZh : w.title;
+  const titleAlt     = isZh ? w.title : (w.titleZh || '');
+  const painterDisplay = w.painterZh
+    ? (isZh ? `${w.painterZh}  ${w.painter}` : `${w.painter}  ${w.painterZh}`)
+    : w.painter;
+  const desc = isZh ? (w.desc || '') : (w.descEn || w.desc || '');
   const editBtn = hasRole('admin')
     ? `<button class="work-card-edit-btn" onclick="event.stopPropagation();openAccOverlay('${acc}',true)"
               data-zh="编辑" data-en="Edit">Edit</button>` : '';
@@ -902,8 +907,9 @@ function renderWorkCard(acc, w) {
         ${editBtn}
       </div>
       <div class="work-card-body">
-        <div class="work-card-title">${escHtml(title)}</div>
-        <div class="work-card-painter">${escHtml(w.painter)} · ${w.dates || ''}</div>
+        <div class="work-card-title">${escHtml(titlePrimary)}</div>
+        ${titleAlt && titleAlt !== titlePrimary ? `<div class="work-card-title-alt">${escHtml(titleAlt)}</div>` : ''}
+        <div class="work-card-painter">${escHtml(painterDisplay)} · ${w.dates || ''}</div>
         <div class="work-card-desc">${escHtml(desc).slice(0,120)}${desc.length>120?'…':''}</div>
       </div>
     </div>
@@ -962,23 +968,33 @@ function openAccOverlay(acc, editMode = false) {
   loadNotesForContext(acc);
   updateNotesContext();
 
-  const title  = currentLang === 'zh' && w.titleZh ? w.titleZh : w.title;
-  const desc   = currentLang === 'zh' ? (w.desc || '') : (w.descEn || w.desc || '');
-  const audio  = currentLang === 'zh' ? (w.audioText || '') : (w.audioTextEn || w.audioText || '');
+  const isZh = currentLang === 'zh';
+  const titlePrimary = isZh && w.titleZh ? w.titleZh : w.title;
+  const titleAlt     = isZh ? w.title : (w.titleZh || '');
+  const painterDisplay = w.painterZh
+    ? (isZh ? `${w.painterZh}  ${w.painter}` : `${w.painter}  ${w.painterZh}`)
+    : w.painter;
+  const desc   = isZh ? (w.desc || '') : (w.descEn || w.desc || '');
+  const audio  = isZh ? (w.audioText || '') : (w.audioTextEn || w.audioText || '');
 
   const periodDef = currentMuseumPeriods.find(p => p.id === w.period);
   const periodLabel = periodDef
-    ? (currentLang === 'zh' ? periodDef.labelZh : periodDef.label)
+    ? (isZh ? periodDef.labelZh : periodDef.label)
     : (w.periodLabel || '');
 
   const canEdit  = hasRole('admin') || hasRole('lecturer');
   const editAttr = (editMode && canEdit) ? 'contenteditable="true"' : '';
   const editBtns = canEdit ? `
     ${editMode
-      ? `<button class="acc-btn acc-btn-save" onclick="saveWorkEdit('${acc}')">保存</button>`
-      : `<button class="acc-btn acc-btn-edit" onclick="openAccOverlay('${acc}',true)">编辑</button>`}` : '';
+      ? `<button class="acc-btn acc-btn-save" onclick="saveWorkEdit('${acc}')" data-zh="保存" data-en="Save">保存</button>`
+      : `<button class="acc-btn acc-btn-edit" onclick="openAccOverlay('${acc}',true)" data-zh="编辑" data-en="Edit">编辑</button>`}` : '';
 
   const prevNext = getAdjacentWorks(acc);
+  const prevW    = currentMuseumWorks[prevNext.prev];
+  const nextW    = currentMuseumWorks[prevNext.next];
+  const prevTitle = prevW ? (isZh && prevW.titleZh ? prevW.titleZh : prevW.title) : '';
+  const nextTitle = nextW ? (isZh && nextW.titleZh ? nextW.titleZh : nextW.title) : '';
+
   const card     = document.getElementById('acc-card');
   card.innerHTML = `
     <div class="acc-card-header">
@@ -990,8 +1006,9 @@ function openAccOverlay(acc, editMode = false) {
     ${w.img ? `<img class="acc-card-img" src="${w.img}" alt="${escHtml(w.title)}"
                     onerror="this.style.display='none'" />` : ''}
 
-    <h2 class="acc-title" id="edit-title">${escHtml(title)}</h2>
-    <div class="acc-painter">${escHtml(w.painter)}</div>
+    <h2 class="acc-title" id="edit-title">${escHtml(titlePrimary)}</h2>
+    ${titleAlt && titleAlt !== titlePrimary ? `<div class="acc-title-alt">${escHtml(titleAlt)}</div>` : ''}
+    <div class="acc-painter">${escHtml(painterDisplay)}</div>
     <div class="acc-dates">${w.dates || ''}</div>
 
     <div class="acc-desc" id="edit-desc" ${editAttr}>${escHtml(desc)}</div>
@@ -1006,13 +1023,13 @@ function openAccOverlay(acc, editMode = false) {
 
     ${hasRole('lecturer') ? `
     <details style="margin-top:12px">
-      <summary style="color:rgba(255,255,255,0.5);font-size:0.82rem;cursor:pointer">完整讲解脚本</summary>
+      <summary style="color:rgba(255,255,255,0.5);font-size:0.82rem;cursor:pointer" data-zh="完整讲解脚本" data-en="Full Script">完整讲解脚本</summary>
       <div class="acc-audio-script" id="edit-audio" ${editAttr && hasRole('admin') ? 'contenteditable="true"' : ''}>${escHtml(audio)}</div>
     </details>` : ''}
 
     <div class="acc-nav">
-      ${prevNext.prev ? `<button class="acc-nav-btn" onclick="openAccOverlay('${prevNext.prev}',false)">&larr; ${escHtml(currentMuseumWorks[prevNext.prev]?.title||'')}</button>` : '<div></div>'}
-      ${prevNext.next ? `<button class="acc-nav-btn" style="text-align:right" onclick="openAccOverlay('${prevNext.next}',false)">${escHtml(currentMuseumWorks[prevNext.next]?.title||'')} &rarr;</button>` : '<div></div>'}
+      ${prevNext.prev ? `<button class="acc-nav-btn" onclick="openAccOverlay('${prevNext.prev}',false)">&larr; ${escHtml(prevTitle)}</button>` : '<div></div>'}
+      ${prevNext.next ? `<button class="acc-nav-btn" style="text-align:right" onclick="openAccOverlay('${prevNext.next}',false)">${escHtml(nextTitle)} &rarr;</button>` : '<div></div>'}
     </div>
   `;
 
