@@ -7,6 +7,22 @@
 'use strict';
 
 /* ── CONSTANTS ────────────────────────────────────────────────── */
+
+// Analytics backend — paste your Google Apps Script web-app URL here.
+// Leave empty to record events locally only (IndexedDB).
+const ANALYTICS_ENDPOINT = '';
+
+const CN_PROVINCES = [
+  '北京市','天津市','上海市','重庆市',
+  '河北省','山西省','辽宁省','吉林省','黑龙江省',
+  '江苏省','浙江省','安徽省','福建省','江西省','山东省',
+  '河南省','湖北省','湖南省','广东省','海南省',
+  '四川省','贵州省','云南省','陕西省','甘肃省','青海省',
+  '内蒙古自治区','广西壮族自治区','西藏自治区',
+  '宁夏回族自治区','新疆维吾尔自治区',
+  '香港特别行政区','澳门特别行政区'
+];
+
 const PASSWORDS = {
   lecturer: 'lecturer2026',
   admin:    'metadmin2026'
@@ -130,7 +146,7 @@ function idbAddVisitor(obj) {
 /* ── BEHAVIOR TRACKING ────────────────────────────────────────── */
 function track(type, data = {}) {
   const event = {
-    id: Date.now() + '-' + Math.random().toString(36).slice(2),
+    id:        Date.now() + '-' + Math.random().toString(36).slice(2),
     type,
     museum:    currentMuseumId || 'met',
     acc:       data.acc || currentAcc || null,
@@ -138,9 +154,37 @@ function track(type, data = {}) {
     lang:      currentLang,
     timestamp: Date.now(),
     sessionId,
+    visitorId: visitorSession?.password || null,
+    visitorName: visitorSession?.name   || null,
     ...data
   };
   idbPut('events', event);
+  if (ANALYTICS_ENDPOINT) scheduleEventFlush();
+}
+
+let _flushTimer = null;
+function scheduleEventFlush() {
+  if (_flushTimer) return;
+  _flushTimer = setTimeout(flushEventsToBackend, 8000);
+}
+async function flushEventsToBackend() {
+  _flushTimer = null;
+  if (!ANALYTICS_ENDPOINT) return;
+  try {
+    const events = await idbGetAll('events');
+    const batch  = events.filter(e => !e._sent).slice(-60);
+    if (!batch.length) return;
+    await postToBackend({ type: 'events', events: batch });
+    for (const e of batch) idbPut('events', { ...e, _sent: true });
+  } catch {}
+}
+async function postToBackend(payload) {
+  if (!ANALYTICS_ENDPOINT) return;
+  await fetch(ANALYTICS_ENDPOINT, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
 }
 
 /* ── DARK MODE ────────────────────────────────────────────────── */
@@ -429,19 +473,19 @@ function todayVisitorCode(museumId) {
 }
 
 function generateVisitorPassword() {
-  const d  = new Date();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  let suffix = '';
-  for (let i = 0; i < 4; i++) suffix += PWD_CHARS[Math.floor(Math.random() * PWD_CHARS.length)];
-  return `${mm}${dd}-${suffix}`;
+  let code = 'VIS-';
+  for (let i = 0; i < 8; i++) {
+    if (i === 4) code += '-';
+    code += PWD_CHARS[Math.floor(Math.random() * PWD_CHARS.length)];
+  }
+  return code; // format: VIS-XXXX-XXXX
 }
 
 function login(role, pwd) {
   const val = pwd.trim();
 
   if (role === 'visitor') {
-    // Quick yuetong access: "yuetong" or "YYYY-MM-DD yuetong"
+    // Quick dev bypass
     if (/^(\d{4}-\d{2}-\d{2}\s+)?yuetong$/i.test(val)) {
       visitorSession = {
         name: 'Yuetong Visitor', city: 'Auto', country: 'Auto',
@@ -456,9 +500,20 @@ function login(role, pwd) {
       return;
     }
 
-    // Also accept the generated visitor password stored in IDB
-    // (returning visitors with their code)
-    // For now, accept daily code or check against stored codes
+    // Accept generated visitor codes: VIS-XXXX-XXXX (returning visitors)
+    if (/^VIS-[A-Z0-9]{4}-[A-Z0-9]{4}$/i.test(val)) {
+      currentRole = 'visitor';
+      initIDB().then(() =>
+        idbGetAll('visitors').then(all => {
+          const sess = all.find(v => v.password === val.toUpperCase());
+          if (sess) visitorSession = sess;
+          startApp();
+        })
+      );
+      return;
+    }
+
+    // Legacy daily code or open-register flow
     const correct = val === todayVisitorCode(currentMuseumId);
     if (!correct) {
       showLoginError(role);
@@ -524,6 +579,36 @@ function logout() {
 }
 
 /* ── VISITOR REGISTRATION ─────────────────────────────────────── */
+
+// Called from visitor card "注册获取密码" button — no daily code required
+function openVisitorRegDirect() {
+  currentRole = 'visitor';
+  document.getElementById('login-screen').classList.add('hidden');
+  showVisitorForm();
+}
+
+// Country dropdown change — show/hide province selector
+function onRegCountryChange() {
+  const val = (document.getElementById('reg-country')?.value || '').toUpperCase();
+  const pg  = document.getElementById('reg-province-group');
+  if (!pg) return;
+  if (val === 'CN') {
+    pg.style.display = '';
+    const sel = document.getElementById('reg-province');
+    if (sel && sel.options.length <= 1) {
+      CN_PROVINCES.forEach(p => {
+        const o = document.createElement('option');
+        o.value = p; o.textContent = p;
+        sel.appendChild(o);
+      });
+    }
+  } else {
+    pg.style.display = 'none';
+    const sel = document.getElementById('reg-province');
+    if (sel) sel.value = '';
+  }
+}
+
 function showVisitorForm() {
   const overlay = document.getElementById('visitor-reg');
   overlay.classList.remove('hidden');
@@ -559,21 +644,25 @@ function showVisitorForm() {
 
 async function submitVisitorForm(e) {
   e.preventDefault();
-  const name    = document.getElementById('reg-name').value.trim();
-  const city    = document.getElementById('reg-city').value.trim();
-  const country = document.getElementById('reg-country').value.trim();
-  const date    = document.getElementById('reg-date').value;
-  const source  = document.querySelector('input[name="reg-source"]:checked')?.value || 'other';
-  const onsite  = document.getElementById('reg-onsite')?.checked || false;
+  const name     = document.getElementById('reg-name').value.trim();
+  const city     = document.getElementById('reg-city').value.trim();
+  const countryEl= document.getElementById('reg-country');
+  const country  = countryEl?.selectedOptions?.[0]?.text || countryEl?.value?.trim() || '';
+  const countryCode = countryEl?.value || '';
+  const province = document.getElementById('reg-province')?.value || '';
+  const date     = document.getElementById('reg-date').value;
+  const source   = document.querySelector('input[name="reg-source"]:checked')?.value || 'other';
+  const onsite   = document.getElementById('reg-onsite')?.checked || false;
   if (!name || !city || !country || !date) return;
 
   const password = generateVisitorPassword();
   const now      = new Date();
 
   visitorSession = {
-    name, city, country, date, source, onsite,
+    name, city, province, country, countryCode, date, source, onsite,
     museum:    currentMuseum?.name?.en || currentMuseumId,
     museumId:  currentMuseumId,
+    address:   currentMuseum?.address || '',
     password,
     time:      now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
     timestamp: now.getTime()
@@ -581,13 +670,24 @@ async function submitVisitorForm(e) {
 
   await initIDB();
   await idbAddVisitor(visitorSession);
-  track('visitor_registered', { source, onsite });
+  track('visitor_registered', { source, onsite, country, province, city });
 
-  // Populate credential save form fields (triggers browser Save Password on submit)
+  // POST registration to backend for admin visibility
+  postToBackend({ type: 'registration', ...visitorSession }).catch(() => {});
+
+  // Populate hidden credential fields — triggers browser/Apple Save Password prompt
   const unField  = document.getElementById('auth-username-field');
   const pwdField = document.getElementById('auth-password-field');
   if (unField)  unField.value  = name;
   if (pwdField) pwdField.value = password;
+
+  // Also try Credential Management API (Chrome/Safari/Edge)
+  if (window.PasswordCredential) {
+    navigator.credentials.store(new PasswordCredential({
+      id: name, password, name,
+      iconURL: location.origin + (location.pathname.replace(/\/[^/]*$/, '/')) + 'icons/icon-192.png'
+    })).catch(() => {});
+  }
 
   // Show password panel
   document.getElementById('visitor-reg-form').classList.add('hidden');
@@ -603,6 +703,7 @@ function handleCredentialSave(event) {
 }
 
 function startAppAfterReg() {
+  if (!currentRole) currentRole = 'visitor';
   document.getElementById('visitor-reg').classList.add('hidden');
   startApp();
 }

@@ -181,6 +181,25 @@ body.role-admin    { --role-color: var(--kuwazome); --role-light: var(--taikoh);
 .btn-lecturer { background: linear-gradient(135deg, var(--gold), #a07828); color: var(--umber); }
 .btn-admin    { background: linear-gradient(135deg, var(--kuwazome), #3a1a20); color: var(--taikoh); }
 
+/* Visitor registration button on login card */
+.login-reg-divider {
+  display: flex; align-items: center; gap: 8px;
+  margin: 10px 0 6px; font-size: 0.72rem; color: rgba(255,255,255,0.35);
+}
+.login-reg-divider::before, .login-reg-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.15);
+}
+.btn-visitor-register {
+  width: 100%; padding: 9px 12px;
+  border: 1px solid rgba(255,255,255,0.25); border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.82);
+  font-size: 0.8rem; font-family: var(--sans); cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-visitor-register:hover {
+  background: rgba(255,255,255,0.15); border-color: var(--gold);
+}
+
 .login-error {
   color: var(--taikoh); font-size: 0.9rem; min-height: 24px; text-align: center;
   animation: shake 0.3s var(--ease);

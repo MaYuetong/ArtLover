@@ -166,7 +166,100 @@ Deploy: `git push origin main && git push origin main:gh-pages`
 
 ---
 
-## §10 Implementation Log
+## §10 Analytics Backend — Google Apps Script Setup
+
+### Step 1: Create Google Sheet
+1. Go to sheets.google.com → New Sheet
+2. Rename Sheet1 to **Registrations**
+3. Add headers in row 1: `timestamp | password | name | country | province | city | visitDate | source | museum | address | onsite`
+4. Add a second sheet named **Events**
+5. Headers: `timestamp | sessionId | visitorId | visitorName | type | museum | acc | lang | details`
+
+### Step 2: Create Apps Script
+1. In the Sheet: Extensions → Apps Script
+2. Delete default code, paste this:
+
+```javascript
+const SS_ID = SpreadsheetApp.getActiveSpreadsheet().getId();
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const ss   = SpreadsheetApp.openById(SS_ID);
+
+    if (data.type === 'registration') {
+      const sheet = ss.getSheetByName('Registrations');
+      sheet.appendRow([
+        new Date(data.timestamp).toISOString(),
+        data.password, data.name, data.country,
+        data.province || '', data.city, data.date,
+        data.source, data.museum, data.address || '',
+        data.onsite ? 'yes' : 'no'
+      ]);
+    } else if (data.type === 'events' && Array.isArray(data.events)) {
+      const sheet = ss.getSheetByName('Events');
+      data.events.forEach(ev => {
+        const { id, timestamp, sessionId, visitorId, visitorName,
+                type, museum, acc, lang, ...rest } = ev;
+        sheet.appendRow([
+          new Date(timestamp).toISOString(),
+          sessionId || '', visitorId || '', visitorName || '',
+          type, museum || '', acc || '', lang || '',
+          JSON.stringify(rest)
+        ]);
+      });
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+```
+
+### Step 3: Deploy
+1. Click **Deploy** → **New deployment**
+2. Type: **Web App**
+3. Execute as: **Me**
+4. Who has access: **Anyone**
+5. Click **Deploy** → copy the URL (ends in `/exec`)
+
+### Step 4: Configure
+In `script.js` line 11:
+```js
+const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/YOUR_ID/exec';
+```
+
+### What you'll see in the Sheet
+- **Registrations** tab: one row per new visitor, with name/country/city/channel/museum
+- **Events** tab: all behavior events — artwork views, audio plays, notes, period clicks, session duration
+
+---
+
+## §11 Visitor Registration Flow (v2.2+)
+
+**New visitor:**
+1. Visitor sees login screen → clicks "注册获取专属访客码"
+2. Fills: museum address (pre-filled), visit date, name, country (+province if China), city, source channel
+3. Clicks submit → receives unique code `VIS-XXXX-XXXX`
+4. Browser prompts to save password (standard HTTP form + Credential Management API)
+5. Clicks "进入导览" → enters the app
+
+**Returning visitor:**
+1. Browser auto-fills the saved `VIS-XXXX-XXXX` code
+2. Click "进入" → app restores visitor session from IndexedDB
+
+**Password format:** `VIS-XXXX-XXXX` (8 chars from `ABCDEFGHJKLMNPQRSTUVWXYZ23456789`)
+
+**Tracking:** Every action post-login is tracked with `visitorId = password`, enabling per-visitor behavior analysis in Google Sheets.
+
+---
+
+## §12 Implementation Log
 
 | Date | Change |
 |---|---|

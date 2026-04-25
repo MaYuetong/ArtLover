@@ -125,11 +125,16 @@
         <div class="login-card-action">
           <div class="login-pwd-group">
             <input type="password" id="pwd-visitor" placeholder="访客码 / Access code"
+                   autocomplete="current-password"
                    onkeypress="if(event.key==='Enter') login('visitor', this.value)" />
             <button class="btn-login btn-visitor"
                     onclick="login('visitor', document.getElementById('pwd-visitor').value)"
                     data-zh="进入" data-en="Enter">进入</button>
           </div>
+          <div class="login-reg-divider"><span data-zh="首次访问" data-en="First visit">首次访问</span></div>
+          <button class="btn-visitor-register" onclick="openVisitorRegDirect()">
+            <span data-zh="注册获取专属访客码" data-en="Register to get your access code">注册获取专属访客码</span>
+          </button>
         </div>
       </div>
 
@@ -221,11 +226,35 @@
       <div class="form-row">
         <div class="form-field">
           <label for="reg-country" data-zh="国家 · Country" data-en="Country">国家 · Country <span class="form-required">*</span></label>
-          <input type="text" id="reg-country" placeholder="Country" required autocomplete="country-name" />
+          <select id="reg-country" required autocomplete="country" onchange="onRegCountryChange()">
+            <option value="">-- 请选择 / Select --</option>
+            <option value="CN">中国 China</option>
+            <option value="US">美国 USA</option>
+            <option value="GB">英国 UK</option>
+            <option value="FR">法国 France</option>
+            <option value="DE">德国 Germany</option>
+            <option value="JP">日本 Japan</option>
+            <option value="KR">韩国 Korea</option>
+            <option value="AU">澳大利亚 Australia</option>
+            <option value="CA">加拿大 Canada</option>
+            <option value="SG">新加坡 Singapore</option>
+            <option value="HK">香港 Hong Kong</option>
+            <option value="TW">台湾 Taiwan</option>
+            <option value="NL">荷兰 Netherlands</option>
+            <option value="IT">意大利 Italy</option>
+            <option value="ES">西班牙 Spain</option>
+            <option value="OTHER">其他 Other</option>
+          </select>
+        </div>
+        <div class="form-field" id="reg-province-group" style="display:none">
+          <label for="reg-province" data-zh="省份" data-en="Province">省份</label>
+          <select id="reg-province" autocomplete="address-level1">
+            <option value="">-- 请选择省份 --</option>
+          </select>
         </div>
         <div class="form-field">
           <label for="reg-city" data-zh="城市 · City" data-en="City">城市 · City <span class="form-required">*</span></label>
-          <input type="text" id="reg-city" placeholder="City / Province" required autocomplete="address-level2" />
+          <input type="text" id="reg-city" placeholder="City / 城市" required autocomplete="address-level2" />
         </div>
       </div>
       <div class="form-field">
@@ -237,19 +266,35 @@
         <div class="source-channel-grid">
           <label class="source-option">
             <input type="radio" name="reg-source" value="xiaohongshu" />
-            <span data-zh="小红书" data-en="Xiaohongshu">小红书</span>
+            <span>小红书</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="wechat" />
+            <span>微信</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="weibo" />
+            <span>微博</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="reg-source" value="douyin" />
+            <span>抖音</span>
           </label>
           <label class="source-option">
             <input type="radio" name="reg-source" value="official" />
-            <span data-zh="博物馆官网" data-en="Museum website">博物馆官网</span>
+            <span data-zh="博物馆官网" data-en="Museum site">博物馆官网</span>
           </label>
           <label class="source-option">
             <input type="radio" name="reg-source" value="linkedin" />
             <span>LinkedIn</span>
           </label>
           <label class="source-option">
+            <input type="radio" name="reg-source" value="instagram" />
+            <span>Instagram</span>
+          </label>
+          <label class="source-option">
             <input type="radio" name="reg-source" value="friend" />
-            <span data-zh="朋友推荐" data-en="Friend referral">朋友推荐</span>
+            <span data-zh="朋友推荐" data-en="Referral">朋友推荐</span>
           </label>
           <label class="source-option">
             <input type="radio" name="reg-source" value="other" />
