@@ -3,7 +3,7 @@
    Cache-first for static assets, network-first for Met CDN images
 ════════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME  = 'met-tour-v2.0';
+const CACHE_NAME  = 'met-tour-v2.1';
 const CORE_ASSETS = [
   './',
   './index.html',
