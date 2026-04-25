@@ -1782,6 +1782,72 @@ body[data-lang="zh"] .en { display: none; }
 /* ════════════════════════════════════════════════════════════════
    DARK MODE — new components
 ════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════
+   PERIOD ARTIST INTRO BLOCK
+════════════════════════════════════════════════════════════════ */
+.period-intro-block {
+  display: flex; gap: 28px; align-items: flex-start;
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(to bottom, rgba(245,239,224,0.5), transparent);
+}
+.period-intro-portrait-wrap {
+  flex-shrink: 0; width: 110px; text-align: center;
+}
+.period-intro-portrait {
+  width: 110px; height: 134px;
+  object-fit: cover; object-position: top center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--canvas);
+  filter: sepia(0.12) contrast(1.02);
+  display: block;
+}
+.period-intro-portrait-caption {
+  font-size: 0.68rem; color: var(--secondary2);
+  margin-top: 5px; line-height: 1.3; font-style: italic;
+}
+.period-intro-text { flex: 1; min-width: 0; }
+.period-intro-bio {
+  font-family: var(--serif); font-size: 1.05rem;
+  line-height: 1.75; color: var(--umber); margin-bottom: 10px;
+}
+.period-intro-style {
+  font-size: 0.875rem; line-height: 1.7;
+  color: var(--secondary); margin-bottom: 14px;
+}
+.period-intro-quote {
+  border-left: 2px solid var(--gold); padding-left: 14px;
+  margin: 0;
+}
+.period-intro-quote p {
+  font-family: var(--serif); font-size: 0.95rem;
+  font-style: italic; color: var(--umber); line-height: 1.65; margin: 0;
+}
+.period-intro-quote cite {
+  display: block; font-size: 0.72rem;
+  color: var(--secondary2); margin-top: 5px; font-style: normal;
+}
+@media (max-width: 640px) {
+  .period-intro-block { flex-direction: column; gap: 16px; padding: 20px 16px 16px; }
+  .period-intro-portrait-wrap { display: flex; align-items: center; gap: 14px; width: auto; }
+  .period-intro-portrait { width: 72px; height: 88px; }
+  .period-intro-portrait-caption { font-size: 0.65rem; }
+}
+
+/* acc-nav text direction labels */
+.acc-nav-dir { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+
+[data-theme="dark"] .period-intro-block {
+  background: linear-gradient(to bottom, rgba(30,20,14,0.45), transparent);
+}
+[data-theme="dark"] .period-intro-bio   { color: rgba(255,255,255,0.88); }
+[data-theme="dark"] .period-intro-style { color: rgba(255,255,255,0.52); }
+[data-theme="dark"] .period-intro-quote p    { color: rgba(255,255,255,0.78); }
+[data-theme="dark"] .period-intro-quote cite { color: rgba(255,255,255,0.32); }
+
+/* ════════════════════════════════════════════════════════════════
+   DARK MODE — new components
+════════════════════════════════════════════════════════════════ */
 [data-theme="dark"] .mode-tab           { color: rgba(255,255,255,0.45); }
 [data-theme="dark"] .mode-tab:hover     { color: rgba(255,255,255,0.75); }
 [data-theme="dark"] .mode-tab.active    { color: var(--gold); }

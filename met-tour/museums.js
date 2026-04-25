@@ -529,7 +529,18 @@ const AIC_PERIODS = [
     color: '#4a7fb5',
     desc: '光与色彩的革命，以瞬间感知取代学院传统，开创现代艺术之门。',
     descEn: 'Revolution of light and color — the fleeting moment captured in shimmering paint, the gateway to modern art.',
-    painters: ['Claude Monet (1840–1926)', 'Pierre-Auguste Renoir (1841–1919)', 'Mary Cassatt (1844–1926)']
+    painters: ['Claude Monet (1840–1926)', 'Pierre-Auguste Renoir (1841–1919)', 'Mary Cassatt (1844–1926)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Claude_Monet_1899_Nadar_crop.jpg',
+      nameZh: '克劳德·莫奈（1899年，纳达尔摄影）',
+      nameEn: 'Claude Monet (1899, photograph by Félix Nadar)',
+      bioZh: '芝加哥艺术博物馆拥有法国以外全球最集中的印象派收藏，莫奈的干草垛系列便有多幅在此长期展出。莫奈（1840–1926）是印象主义的灵魂人物：他在诺曼底画海浪，在巴黎画蒸汽，在吉维尼的花园里画睡莲，直到几近失明仍不放下画笔。塞尚称他为"只有一只眼睛，但那是多么了不起的眼睛"。在芝加哥的藏品中，你可以看到莫奈从早期饱满的色彩，到晚期几乎抽象的光之实验，是理解其一生追问的最佳路径之一。',
+      bioEn: 'The Art Institute of Chicago holds one of the world\'s greatest Impressionist collections outside France, including several of Monet\'s Haystacks series. Monet (1840–1926) was the soul of Impressionism: he painted breaking waves in Normandy, steam in Paris\'s Gare Saint-Lazare, and water lilies in his Giverny garden — nearly blind in his final years but still painting. Cézanne called him "only an eye, but what an eye." The AIC collection traces his arc from early saturated color to late near-abstract experiments with light — one of the finest ways to understand a life\'s single sustained question.',
+      styleZh: '印象派以三个层面革新了绘画：技法（户外写生、短促笔触、纯色并置）、认识论（瞬间比永恒更真实）、社会学（日常生活是合法的绘画题材）。在芝加哥，这些发现以馆藏的深度与广度得到完整呈现。',
+      styleEn: 'Impressionism revolutionized painting on three levels: technical (plein air, rapid brushwork, pure color), epistemological (the fleeting moment is more real than the eternal ideal), and social (everyday life is legitimate subject matter). The AIC presents these discoveries at depth and breadth found in few collections outside Paris.',
+      quote: '色彩是我每日的痴迷、喜悦与磨难。',
+      quoteAuthor: '克劳德·莫奈，1883年'
+    }
   },
   {
     id: 'post_impressionism',
@@ -541,7 +552,18 @@ const AIC_PERIODS = [
     color: '#8b3a52',
     desc: '在印象派感官基础上寻求结构、象征与情感的深度，通往现代主义。',
     descEn: 'Beyond Impressionist sensation toward structure, symbol, and emotional depth — the direct bridge to Modernism.',
-    painters: ['Georges Seurat (1859–1891)', 'Vincent van Gogh (1853–1890)', 'Paul Gauguin (1848–1903)', 'Paul Cézanne (1839–1906)', 'Henri de Toulouse-Lautrec (1864–1901)']
+    painters: ['Georges Seurat (1859–1891)', 'Vincent van Gogh (1853–1890)', 'Paul Gauguin (1848–1903)', 'Paul Cézanne (1839–1906)', 'Henri de Toulouse-Lautrec (1864–1901)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Georges_Seurat_-_Self-portrait_%281883%29.jpg',
+      nameZh: '乔治·修拉自画像（1883年）',
+      nameEn: 'Georges Seurat, Self-Portrait (1883)',
+      bioZh: '后印象主义不是一个流派，而是四种截然不同的回答：修拉（1859–1891）用色彩科学发明了点彩法，将光分解为纯色小点，追求"视觉混合"；梵高（1853–1890）将色彩变成情感的直接语言，笔触如火焰；高更（1848–1903）逃往大溪地，在"原始"中寻找文明无法给予的生命力；塞尚（1839–1906）则解构形体为几何——"用圆柱、球体和锥体处理自然"，直接指向20世纪的立体主义。他们共同的遗产：情感与结构，高于瞬间印象。',
+      bioEn: 'Post-Impressionism was not a movement but four entirely different answers to one question: what comes after the sensation? Seurat (1859–1891) invented Pointillism using color science — pure dots for "optical mixing." Van Gogh (1853–1890) turned color into direct emotional language; his brushstrokes burn. Gauguin (1848–1903) fled to Tahiti seeking vitality civilization could not give him. Cézanne (1839–1906) decomposed form into geometry — "treat nature by the cylinder, the sphere, the cone" — pointing directly to Cubism. Their shared legacy: emotion and structure over fleeting sensation.',
+      styleZh: '点彩法将色彩还原为科学；表现主义笔触将色彩变为心跳；象征主义将色彩变为神话；几何分析将色彩变为形式。后印象主义是现代主义的全部可能性的种子库。',
+      styleEn: 'Pointillism reduced color to science; Expressionist brushwork made color into heartbeat; Symbolism made color into myth; geometric analysis made color into pure form. Post-Impressionism was the seedbank of all Modernism\'s possibilities.',
+      quote: '艺术即和谐。和谐是对立物的类比——色调、色相与线条——在光的主导下，宁静、欢愉或悲哀地被考量。',
+      quoteAuthor: '乔治·修拉，《美学》笔记，1890年'
+    }
   },
   {
     id: 'modern',
@@ -553,7 +575,18 @@ const AIC_PERIODS = [
     color: '#3a6b4a',
     desc: '欧洲现代主义的美国回响与本土地域主义的反思，两者共同塑造了20世纪美国艺术身份。',
     descEn: "American responses to European Modernism alongside homegrown Regionalism — together shaping the 20th century's American artistic identity.",
-    painters: ['Pablo Picasso (1881–1973)', 'Grant Wood (1891–1942)', 'Edward Hopper (1882–1967)']
+    painters: ['Pablo Picasso (1881–1973)', 'Grant Wood (1891–1942)', 'Edward Hopper (1882–1967)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Edward_Hopper_self_portrait.jpg',
+      nameZh: '爱德华·霍珀自画像（约1925年）',
+      nameEn: 'Edward Hopper, Self-Portrait (c. 1925)',
+      bioZh: '20世纪前半叶，美国艺术界面临两种选择：追随欧洲的现代主义实验，还是坚守本土的民主叙事？霍珀（1882–1967）选择了第三条路——以美国的建筑、灯光与孤独为语言，创造出独特的"美国忧郁"。他画咖啡馆深夜的寂静，画加油站荒原上的孤独，画酒店房间里的无名苦闷。格兰特·伍德（1891–1942）则向相反方向走去，以中西部农村的质朴场景对抗欧洲的前卫喧嚣——《美国哥特式》是20世纪美国最具辨识度的图像之一。',
+      bioEn: 'In the first half of the 20th century, American artists faced a choice: follow European Modernism\'s experiments or maintain an indigenous democratic voice? Hopper (1882–1967) chose a third path — using American architecture, light, and solitude to create a distinctly "American melancholy." He painted the midnight silence of diners, isolated gas stations on prairie roads, nameless anguish in hotel rooms. Grant Wood (1891–1942) moved in the opposite direction: Midwestern rural plainness as counter-statement to European avant-garde noise. American Gothic became one of the most recognizable images of the 20th century.',
+      styleZh: '美国现代艺术是一场关于身份的追问：什么是美国的？在欧洲的影响与本土的现实之间，美国艺术家找到了不同的答案——有时是焦虑，有时是骄傲，有时是两者的奇异结合。',
+      styleEn: 'American Modern art was a sustained question about identity: what is American? Between European influence and domestic reality, artists found different answers — sometimes anxious, sometimes proud, sometimes a strange fusion of both.',
+      quote: '如果我能用文字表达，就用不着去画了。',
+      quoteAuthor: '爱德华·霍珀'
+    }
   },
   {
     id: 'european_masters',
@@ -565,7 +598,18 @@ const AIC_PERIODS = [
     color: '#6b4a1a',
     desc: '从矫饰主义的埃尔·格列科到新古典主义，欧洲绘画的历史广度在芝加哥的藏品中同样可见。',
     descEn: "From Mannerist El Greco to Neoclassicism — the AIC's European old master holdings span five centuries of Western painting.",
-    painters: ['El Greco (1541–1614)', 'Gustave Caillebotte (1848–1894)']
+    painters: ['El Greco (1541–1614)', 'Gustave Caillebotte (1848–1894)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/El_Greco_-_Portrait_of_a_Man_%28Metropolitan_Museum_of_Art%29.jpg',
+      nameZh: '埃尔·格列科，《一位男士的肖像》（约1595–1600年）',
+      nameEn: 'El Greco, Portrait of a Man (c. 1595–1600)',
+      bioZh: '埃尔·格列科（1541–1614）出生于克里特岛，在威尼斯学习了提香的色彩，在罗马经历了米开朗基罗的冲击，最终定居西班牙托莱多，用一种没有任何流派能够归类的方式改写了欧洲绘画。他拉长人物比例，扭曲空间，用幽灵般的绿色和迷幻的光创造出精神的风景。他超前了300年的表现主义，被梵高视为精神先驱。AIC的欧洲大师馆藏从矫饰主义横跨至新古典，呈现了从文艺复兴的和谐到启蒙理性的完整弧线。',
+      bioEn: 'El Greco (1541–1614) was born in Crete, absorbed Titian\'s color in Venice, was shaken by Michelangelo in Rome, and finally settled in Toledo — rewriting European painting in a way no movement could categorize. He elongated figures, twisted space, and used ghostly greens and hallucinatory light to create landscapes of the spirit. He preceded Expressionism by 300 years and was seen by Van Gogh as a spiritual ancestor. The AIC\'s European Masters collection spans from Mannerism to Neoclassicism, tracing the full arc from Renaissance harmony to Enlightenment reason.',
+      styleZh: '欧洲1500至1800年间的绘画是一段无限变奏的历史：从文艺复兴的秩序到矫饰主义的扭曲，从巴洛克的戏剧到洛可可的优雅，从新古典的严肃到浪漫主义的前奏。AIC的欧洲大师收藏让这段历史以单一馆藏的形式变得可触可感。',
+      styleEn: 'European painting from 1500 to 1800 was a history of infinite variation: from Renaissance order to Mannerist tension, Baroque drama to Rococo elegance, Neoclassical severity to the Romantic threshold. The AIC\'s European Masters collection makes this history tangible in a single gallery.',
+      quote: '色彩是我的日常痛苦，光是我的职责，形式是我的怀疑。',
+      quoteAuthor: '埃尔·格列科（传）'
+    }
   }
 ];
 
@@ -874,7 +918,18 @@ const KHM_PERIODS = [
     color: '#5a3e28',
     desc: '北方文艺复兴的精密与叙事，油画技法的革命，勃鲁盖尔的农村史诗。',
     descEn: 'Northern precision and narrative, oil technique revolution, Bruegel\'s peasant epics.',
-    painters: ['Pieter Bruegel the Elder (c.1525–1569)', 'Jan van Eyck (c.1390–1441)']
+    painters: ['Pieter Bruegel the Elder (c.1525–1569)', 'Jan van Eyck (c.1390–1441)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Pieter_Bruegel_d._%C3%84._-_Selbstbildnis_%281565%29.jpg',
+      nameZh: '彼得·勃鲁盖尔（老）自画像（约1565年）',
+      nameEn: 'Pieter Bruegel the Elder, Self-Portrait (c. 1565)',
+      bioZh: '弗拉芒文艺复兴有别于意大利的同类运动——北方画家不渴望古典神庙，而是凝视自己窗外的田野与市集。彼得·勃鲁盖尔（约1525–1569）是这一传统的顶峰：他的画是百科全书式的农村全景，超过百位人物各有其故事，没有一位是英雄，每一位都是人类。维也纳艺术史博物馆拥有世界最大的勃鲁盖尔收藏，包括《通天塔》《雪中猎人》《儿童游戏》《农民婚礼》——这四幅画几乎定义了"北方文艺复兴"这个概念。他的视角是俯瞰者的视角：既慈悲，又讽刺，永远对人类的愚蠢与活力保持同等的好奇。',
+      bioEn: 'Flemish Renaissance diverged fundamentally from its Italian counterpart — Northern painters did not crave classical temples; they looked out their windows at fields and markets. Pieter Bruegel the Elder (c. 1525–1569) was this tradition\'s summit: his paintings are encyclopedic rural panoramas, over a hundred figures each with their own story, none heroic, all human. The KHM holds the world\'s largest Bruegel collection — The Tower of Babel, Hunters in the Snow, Children\'s Games, The Peasant Wedding — four paintings that virtually define "Northern Renaissance." His viewpoint is always the observer\'s: both compassionate and ironic, equally curious about human folly and human vitality.',
+      styleZh: '北方油画技法始于凡·艾克（约1390–1441），他发明或完善了油画的透明叠加技法，使物体表面的光泽、质感与微观细节成为可能。勃鲁盖尔继承了这种精密性，并将其用于叙事——他的每一幅画都是对人类社会学的深刻观察，以百科全书式的精确完成。',
+      styleEn: 'Northern oil technique began with Van Eyck (c. 1390–1441), who perfected oil glazing — transparent layering that made possible the luminosity, texture, and microscopic detail of objects. Bruegel inherited this precision and directed it toward narrative: each painting is a profound sociological observation of humanity, executed with encyclopedic exactness.',
+      quote: '我画我所见，而不是我所想象的。',
+      quoteAuthor: '彼得·勃鲁盖尔（老）（传）'
+    }
   },
   {
     id: 'renaissance_venetian',
@@ -886,7 +941,18 @@ const KHM_PERIODS = [
     color: '#2e4a8b',
     desc: '色彩主义的荣耀，哈布斯堡皇室的意大利珍藏，从拉斐尔的和谐到提香的感官。',
     descEn: 'Colorist glory, Habsburg Italian treasures — from Raphael\'s harmony to Titian\'s sensuality.',
-    painters: ['Raphael (1483–1520)', 'Titian (c.1488–1576)']
+    painters: ['Raphael (1483–1520)', 'Titian (c.1488–1576)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Tizian_083.jpg',
+      nameZh: '提香·韦切利奥自画像（约1560年，柏林国立美术馆藏）',
+      nameEn: 'Titian (Tiziano Vecellio), Self-Portrait (c. 1560, Gemäldegalerie, Berlin)',
+      bioZh: '提香（约1488–1576）是威尼斯画派的最高代表，也是西方艺术史上寿命最长的天才之一，创作生涯长达七十余年。他开创了"威尼斯色彩主义"——不以佛罗伦萨的线条与轮廓为美，而以色彩的丰富、光的流动和肌肤的温度为理想。他为哈布斯堡皇帝查理五世和腓力二世创作了大量帝国肖像，使威尼斯绘画成为整个欧洲宫廷的美学标准。KHM的提香收藏包括《达娜厄与侍女》等极具感官震撼力的作品，是哈布斯堡数百年收藏热情的最直接体现。',
+      bioEn: 'Titian (c. 1488–1576) was the supreme representative of the Venetian school and one of the longest-lived geniuses in Western art history, with a creative career spanning over seventy years. He pioneered Venetian colorism — not the Florentine ideal of line and contour, but the richness of color, the flow of light, and the warmth of skin. He painted imperial portraits for Habsburgs Charles V and Philip II, making Venetian painting the aesthetic standard for courts across Europe. The KHM\'s Titian holdings — including the magnificently sensual Danaë — are the most direct expression of the Habsburgs\' centuries of passionate collecting.',
+      styleZh: '威尼斯文艺复兴与佛罗伦萨的核心分歧在于：佛罗伦萨以"线"塑形（disegno），威尼斯以"色"塑形（colorito）。提香的笔触最终从精细走向自由——晚年的提香以"手指直接在画布上涂抹"著称，他发明了现代意义上的"笔触可见"，对伦勃朗、委拉斯凯兹和印象派都有深远影响。',
+      styleEn: 'The Venetian Renaissance diverged from Florence on a core question: Florence shaped form with line (disegno), Venice with color (colorito). Titian\'s brushwork evolved from precision to freedom — his late works famously painted partly with his fingers, inventing the modern concept of visible brushstroke. His influence on Rembrandt, Velázquez, and the Impressionists was profound and direct.',
+      quote: '色彩是绘画最崇高的元素，因为它使绘画能够说谎而看起来像真实。',
+      quoteAuthor: '提香（传）'
+    }
   },
   {
     id: 'baroque_flemish',
@@ -898,7 +964,18 @@ const KHM_PERIODS = [
     color: '#6b2d8b',
     desc: '明暗法的戏剧革命，鲁本斯的能量，委拉斯凯兹的皇室凝视，卡拉瓦乔的光影战场。',
     descEn: 'Chiaroscuro revolution, Rubens\'s energy, Velázquez\'s royal gaze, Caravaggio\'s light and shadow.',
-    painters: ['Peter Paul Rubens (1577–1640)', 'Diego Velázquez (1599–1660)', 'Caravaggio (1571–1610)']
+    painters: ['Peter Paul Rubens (1577–1640)', 'Diego Velázquez (1599–1660)', 'Caravaggio (1571–1610)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/8/86/Peter_Paul_Rubens_-_Self-Portrait_-_Kunsthistorisches_Museum_Wien.jpg',
+      nameZh: '彼得·保罗·鲁本斯自画像（约1638–1640年，维也纳艺术史博物馆藏）',
+      nameEn: 'Peter Paul Rubens, Self-Portrait (c. 1638–1640, Kunsthistorisches Museum)',
+      bioZh: '鲁本斯（1577–1640）是巴洛克时代最具能量的存在——外交官、语言学家、收藏家，同时也是欧洲最多产的画家。他的工作室雇用数十位助手，却对每幅重要作品亲自上色，保证其独特的生命力。在他身旁，卡拉瓦乔（1571–1610）是巴洛克的阴影面：用街头穷人扮演圣徒，用凶猛的光从黑暗中召唤人物，以逃亡的一生完成了最革命性的绘画；委拉斯凯兹（1599–1660）则是宫廷中最自由的目光，他画的宫廷人物既有皇家威严又有人间疲倦。KHM的巴洛克收藏融合了三个国家、三种巴洛克，是这一时代最完整的视觉图谱之一。',
+      bioEn: 'Rubens (1577–1640) was the Baroque era\'s most energetic presence — diplomat, linguist, collector, and Europe\'s most prolific painter. His studio employed dozens of assistants, yet he personally touched every major canvas, ensuring its singular vitality. Beside him, Caravaggio (1571–1610) was the Baroque\'s shadow face: using street poor as saints, summoning figures from violent darkness with a fugitive\'s genius. Velázquez (1599–1660) brought the freest gaze in any royal court — his portraits hold both imperial authority and human tiredness. The KHM\'s Baroque collection combines three nations and three Baroques into one of the era\'s most complete visual atlases.',
+      styleZh: '巴洛克的统一语言是"明暗对比法"（chiaroscuro）：强光从黑暗中照亮人物，制造戏剧效果，象征精神从物质中升起。但三位大师的光各有性格：鲁本斯的光热情丰盛，卡拉瓦乔的光凶猛突兀，委拉斯凯兹的光优雅而心理化。',
+      styleEn: 'The Baroque\'s unifying language was chiaroscuro: strong light summoning figures from darkness, creating drama, symbolizing spirit emerging from matter. But each master\'s light had its own personality: Rubens\'s was warm and abundant, Caravaggio\'s violent and sudden, Velázquez\'s elegant and psychological.',
+      quote: '我的才能在于，无论我给自己布置什么题目，没有一个对我来说太大或太难。',
+      quoteAuthor: '彼得·保罗·鲁本斯，致法国人文学者皮雷斯克书信，1620年'
+    }
   },
   {
     id: 'baroque_dutch',
@@ -910,7 +987,18 @@ const KHM_PERIODS = [
     color: '#3a5a3a',
     desc: '维梅尔的光线哲学，市民文明的精微记录，窗边的晨光与静默。',
     descEn: 'Vermeer\'s philosophy of light, the minute record of civic civilization, morning light by the window.',
-    painters: ['Johannes Vermeer (1632–1675)']
+    painters: ['Johannes Vermeer (1632–1675)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Jan_Vermeer_-_The_Art_of_Painting_-_Google_Art_Project.jpg',
+      nameZh: '维梅尔《绘画艺术》局部（约1666–1668年，维也纳艺术史博物馆藏）',
+      nameEn: 'Vermeer, The Art of Painting (detail, c. 1666–1668, Kunsthistorisches Museum)',
+      bioZh: '约翰内斯·维梅尔（1632–1675）是荷兰黄金时代最神秘的画家。他一生从未离开代尔夫特，只留下约35幅画，却创造了西方艺术史上最持久的视觉奇迹——那扇窗，那道光，那个低头的女子。没有人确切知道他的技法：17世纪的相机暗箱？极度耐心的光影研究？只知道他的光不只是光，而是时间本身的重量。他从未出售《绘画艺术》——那是他保留给自己的一幅画，他知道它是什么。荷兰黄金时代是市民文明对自身生活的凝视：不是神话，不是权贵，而是一位倒牛奶的女子，一封被读了又读的信，一个窗边的清晨。',
+      bioEn: 'Johannes Vermeer (1632–1675) was the most mysterious painter of the Dutch Golden Age. He never left Delft, left only about 35 paintings, yet created Western art\'s most enduringly luminous visual miracle — that window, that light, that woman with her head bent down. No one knows exactly his technique: a 17th-century camera obscura? Extreme patience in studying light? What is certain is that his light is not merely light — it is the weight of time itself. He never sold The Art of Painting: he knew what it was. The Dutch Golden Age was civic civilization\'s gaze at its own life: not mythology or power, but a woman pouring milk, a letter read and reread, a morning by the window.',
+      styleZh: '荷兰黄金时代的绘画是市场经济的产物——宗教改革之后，没有教会委托，画家必须向市民阶层出售。这催生了一批专门描绘日常生活的风俗画（genre painting）：厨房、市集、船坊、窗边的女子。维梅尔是这一传统的绝顶，他将日常生活变成了形而上的沉思。',
+      styleEn: 'Dutch Golden Age painting was a product of market economics — after the Reformation, with no church commissions, painters sold to the merchant class. This created genre painting: kitchens, markets, shipyards, women by windows. Vermeer was this tradition\'s summit, transforming ordinary life into metaphysical contemplation.',
+      quote: '一个人必须用光来绘画，而不只是绘画光。',
+      quoteAuthor: '约翰内斯·维梅尔（传）'
+    }
   }
 ];
 
@@ -1220,7 +1308,18 @@ const HKMOA_PERIODS = [
     color: '#d4a853',
     desc: '户外写生的革命，捕捉瞬间光影，用"印象"命名了一个时代。',
     descEn: 'The plein air revolution, capturing the fleeting instant, naming an era with a single word.',
-    painters: ['Claude Monet (1840–1926) · Early period']
+    painters: ['Claude Monet (1840–1926) · Early period'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Claude_Monet_1899_Nadar_crop.jpg',
+      nameZh: '克劳德·莫奈（1899年，纳达尔摄影）',
+      nameEn: 'Claude Monet (1899, photograph by Félix Nadar)',
+      bioZh: '1840年，克劳德·莫奈出生于巴黎，在诺曼底的海边城市勒阿弗尔长大。少年时以讽刺漫画成名，后在巴黎跟随布丹和约翰·琼坎学习户外写生，从此明白：光不是背景，光就是主题。1869年，他与雷诺阿并肩坐在巴黎郊外的"青蛙塘"边写生，各自用短促的笔触记录水面光影的颤动——印象主义在那个夏天的傍晚诞生了。1872年的《印象·日出》在1874年第一届印象派画展上展出，为整个运动命名。这一展览厅汇集了莫奈早期最重要的作品，呈现他作为一位年轻艺术家如何一步步发现属于自己的视觉语言。',
+      bioEn: 'Born in Paris in 1840, Claude Monet grew up in the Norman seaside town of Le Havre. Famous as a teenager for caricatures, he later trained in plein air painting under Boudin and Jongkind in Paris — and understood: light is not background; light is the subject. In summer 1869, he and Renoir sat side by side at a Parisian bathing spot called La Grenouillère, each recording light on water with rapid dabs of pure color. Impressionism was born that evening. His 1872 Impression, Sunrise, exhibited at the first Impressionist show in 1874, named the entire movement. This gallery gathers Monet\'s most significant early works, showing a young artist discovering his own visual language step by step.',
+      styleZh: '早期莫奈的关键发现有三：一、阴影不是黑色而是补色；二、轮廓不必清晰——光本身就是形体；三、题材可以是任何东西，只要光在其上流动。这三条发现，颠覆了学院派三百年的传统。',
+      styleEn: 'The young Monet made three key discoveries: shadows are not black but complementary color; outlines need not be clear — light itself is form; subject matter can be anything, as long as light flows across it. These three realizations overturned three centuries of academic tradition.',
+      quote: '光是绘画中最重要的人物。',
+      quoteAuthor: '克劳德·莫奈，1888年'
+    }
   },
   {
     id: 'series_paintings',
@@ -1232,7 +1331,18 @@ const HKMOA_PERIODS = [
     color: '#4a8b6e',
     desc: '干草垛、大教堂、白杨树——同一对象在不同时刻的全部面貌，时间成为主题。',
     descEn: 'Haystacks, cathedrals, poplars — the same subject at every hour. Time itself becomes the subject.',
-    painters: ['Claude Monet (1840–1926) · Series period']
+    painters: ['Claude Monet (1840–1926) · Series period'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Claude_Monet_1899_Nadar_crop.jpg',
+      nameZh: '克劳德·莫奈（1899年，纳达尔摄影）',
+      nameEn: 'Claude Monet (1899, photograph by Félix Nadar)',
+      bioZh: '1890年代，莫奈发明了一种新的绘画方法——"序列绘画"（series painting）。他在田野间放置多块画布，随着光线从清晨到黄昏的变化在画布间切换，每幅只记录特定时刻光线的唯一面貌。干草垛系列约30幅，鲁昂大教堂系列约30幅，白杨树系列约23幅，泰晤士河系列约37幅。这不是对"对象"的描绘，而是对"时间"的描绘——干草垛只是一个借口，光才是主角。1895年的展览中，这些系列画引起轰动，塞尚站在展览前说"莫奈只是一只眼睛，但那是多么了不起的眼睛"。',
+      bioEn: 'In the 1890s, Monet invented serial painting. He set multiple canvases in a field, switching between them as light changed from dawn to dusk, each recording only the light of a specific moment. The Haystacks series: about 30 canvases. Rouen Cathedral: about 30. Poplars: about 23. Thames: about 37. These are not depictions of objects but of time — the haystack is only a pretext; light is the protagonist. At the 1895 exhibition of the series, Cézanne stood before them and said: "Monet is only an eye, but what an eye."',
+      styleZh: '序列绘画将印象主义的认识论推向了极致：如果真实是光的流动而非物体的固定形态，那么同一对象在不同时刻就是不同的画——因为光不同，世界就不同。莫奈的系列作品是哲学命题，也是气象学档案，更是20世纪极简主义的直接先驱。',
+      styleEn: 'Serial painting took Impressionism\'s epistemology to its logical extreme: if reality is light\'s flow rather than fixed object-form, then the same subject at different moments is a different painting — because different light means a different world. Monet\'s series are philosophical propositions, meteorological archives, and the direct ancestor of 20th-century Minimalism.',
+      quote: '对我来说，风景本身并不存在，只有大气的折射才使它存在。',
+      quoteAuthor: '克劳德·莫奈，约1895年'
+    }
   },
   {
     id: 'water_garden',
@@ -1244,7 +1354,18 @@ const HKMOA_PERIODS = [
     color: '#3a6b8b',
     desc: '吉维尼的日式花园，睡莲池与绿桥，视力衰退中反而走向更深的光之本质。',
     descEn: 'The Giverny water garden, lily pond and green bridge — failing eyesight driving him deeper into pure light.',
-    painters: ['Claude Monet (1840–1926) · Giverny / late period']
+    painters: ['Claude Monet (1840–1926) · Giverny / late period'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Claude_Monet_-_Self-Portrait_-_1917.jpg',
+      nameZh: '克劳德·莫奈自画像（1917年，乌菲齐美术馆藏）',
+      nameEn: 'Claude Monet, Self-Portrait (1917, Uffizi Gallery)',
+      bioZh: '1893年，莫奈在吉维尼购地，亲手设计了一座日式水景花园——他雇用专职园丁，每天监督莲花的种植与池水的调节，将花园本身视为一件艺术作品。这座花园成为他生命最后三十年的唯一画题。1912年，莫奈被确诊白内障；1923年接受手术后视力部分恢复。但白内障时期的绘画反而将他的睡莲推向了前所未有的抽象边界——不再有清晰的花瓣或倒影，只有色彩漩涡与光的震荡。晚年莫奈与法国政府商定，将大型睡莲组画永久捐赠给国家，安放于巴黎橘园美术馆，那是他给世界最后的礼物。他1926年辞世，与最爱的花园在同一片土地上长眠。',
+      bioEn: 'In 1893, Monet purchased land at Giverny and designed a Japanese water garden himself — employing dedicated gardeners he supervised daily, regarding the garden itself as an artwork. It became his sole subject for his final three decades. Diagnosed with cataracts in 1912 and partially restored after surgery in 1923, his cataract-era paintings pushed his lily pond into unprecedented abstraction — no clear petals or reflections, only swirling color and vibrating light. Late in life, Monet negotiated with the French government to donate his large lily panels permanently to the nation, to be housed in the Orangerie in Paris — his last gift to the world. He died in 1926, at rest in the same land as his beloved garden.',
+      styleZh: '晚期莫奈的睡莲在艺术史上有双重地位：它们是印象主义的终点，也是抽象表现主义的起点。纽约的抽象表现主义画家（波洛克、德·库宁、罗斯科）在20世纪50年代公开承认莫奈晚期睡莲是他们的精神先驱——这一联系在2021年的MoMA回顾展中得到正式确认。',
+      styleEn: 'Monet\'s late Water Lilies hold a dual position in art history: they are the endpoint of Impressionism and the origin point of Abstract Expressionism. New York\'s Abstract Expressionists — Pollock, de Kooning, Rothko — publicly acknowledged the late Monets as their spiritual ancestor in the 1950s. This lineage was formally confirmed by the 2021 MoMA retrospective.',
+      quote: '我只需要时间来观察和理解大自然——我深深地爱着它，并且，我相信，我理解它。',
+      quoteAuthor: '克劳德·莫奈，1926年'
+    }
   }
 ];
 
@@ -1480,7 +1601,18 @@ const DIA_PERIODS = [
     color: '#5a3e28',
     desc: '北方文艺复兴的精密叙事与农村史诗，凡·艾克到勃鲁盖尔的传承。',
     descEn: 'Northern narrative precision and peasant epics — from Van Eyck to Bruegel.',
-    painters: ['Jan van Eyck (c.1390–1441)', 'Pieter Bruegel the Elder (c.1525–1569)']
+    painters: ['Jan van Eyck (c.1390–1441)', 'Pieter Bruegel the Elder (c.1525–1569)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/Holbein-d-j-selbstbildnis.jpg',
+      nameZh: '小汉斯·霍尔拜因自画像（约1542–1543年）',
+      nameEn: 'Hans Holbein the Younger, Self-Portrait (c. 1542–1543)',
+      bioZh: '底特律艺术学院的弗拉芒文艺复兴馆藏横跨了这一传统的整个历程：从凡·艾克（约1390–1441）用油画技法革命性地捕捉物质世界的每一个细节，到勃鲁盖尔以鸟瞰视角描绘农村生活的百科全书，再到霍尔拜因以亨利八世御用画家的身份将都铎宫廷的面孔定格为历史档案。北方文艺复兴的精神与意大利截然不同：它不追求理想的神话秩序，而是凝视日常生活的具体真实——那位在书房读圣经的学者，那场婚礼宴席上喝多了的农民，都是永恒的。DIA的镇馆之宝《婚礼舞蹈》是勃鲁盖尔最充满生命力的杰作之一。',
+      bioEn: "The DIA's Flemish Renaissance holdings trace this tradition from its full arc: from Van Eyck (c. 1390–1441), whose oil technique revolutionized the capture of material detail, to Bruegel's bird's-eye encyclopedic peasant panoramas, to Holbein as Henry VIII's royal portraitist, preserving the Tudor court's faces as historical archive. The spirit of Northern Renaissance differs fundamentally from Italy: it pursues not ideal mythological order but the specific truth of daily life — the scholar reading his Bible in his study, the drunk peasant at the wedding feast, both permanent. The DIA's signature masterpiece, The Wedding Dance, is among Bruegel's most vitally alive works.",
+      styleZh: '弗拉芒油画技法的核心在于"透明叠涂"（glazing）：用半透明颜料层层叠加，让光从底层反射出来，产生宝石般的光泽感。这种技法允许绘画极端精细的表面细节，同时保持颜色的深度与亮度——是弗拉芒艺术与意大利蛋彩画（tempera）最直观的区别。',
+      styleEn: 'Flemish oil painting\'s core was glazing: semi-transparent paint layers built up so light reflects from beneath, creating jewel-like luminosity. This technique allowed extreme surface precision while maintaining depth and brightness of color — the most immediately visible difference between Flemish art and Italian tempera.',
+      quote: '画家用颜料和画笔工作，而非用文字。',
+      quoteAuthor: '扬·凡·艾克（传）'
+    }
   },
   {
     id: 'baroque_italian',
@@ -1492,7 +1624,18 @@ const DIA_PERIODS = [
     color: '#6b2d8b',
     desc: '卡拉瓦乔的明暗革命与伦勃朗的心理深度，光如何成为情感的语言。',
     descEn: 'Caravaggio\'s chiaroscuro revolution and Rembrandt\'s psychological depth — light as emotional language.',
-    painters: ['Caravaggio (1571–1610)', 'Rembrandt van Rijn (1606–1669)']
+    painters: ['Caravaggio (1571–1610)', 'Rembrandt van Rijn (1606–1669)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Caravaggio_ottavio_leoni.jpg',
+      nameZh: '卡拉瓦乔肖像（奥塔维奥·莱奥尼素描，约1621年）',
+      nameEn: 'Portrait of Caravaggio (drawing by Ottavio Leoni, c. 1621)',
+      bioZh: '卡拉瓦乔（1571–1610）用短暂而动荡的一生彻底改变了欧洲绘画。他用真实的穷人和罪犯扮演圣徒，拒绝任何理想化，让宗教叙事变得肉身可感——这在当时是对教会传统的冒犯，却在巴洛克时代引发了席卷欧洲的革命。他因斗殴杀人逃亡罗马以外多年，却在逃亡中完成了最震撼的作品；1610年，39岁的他在流亡中猝死，身后留下的影响延续四百年。DIA的《玛大肋纳与玛利亚》是他最精彩的女性题材作品之一，与同厅的伦勃朗《圣母拜访》共同展示了巴洛克如何以光替代语言，完成情感的最深触达。',
+      bioEn: 'Caravaggio (1571–1610) transformed European painting in a short, turbulent life. He replaced idealized saints with real poor people and criminals, refusing all conventional beauty — a provocation to Church tradition that unleashed a revolution spreading across Baroque Europe. A fugitive from Rome after a fatal brawl, he painted his most powerful works while in flight; he died at 39 in exile, but his influence has lasted four centuries. The DIA\'s Martha and Mary Magdalene is among his finest works on women subjects; shared with Rembrandt\'s Visitation in the same gallery, together they demonstrate how the Baroque used light in place of language to achieve the deepest emotional reach.',
+      styleZh: '卡拉瓦乔与伦勃朗都精通明暗对比法，但表达截然不同：卡拉瓦乔的光是舞台聚光灯，凶猛而突然，将人物从黑暗中一把揪出；伦勃朗的光是蜡烛的温度，缓慢而哲学，从内心深处照亮人物的灵魂。两者共同宣告：在绘画中，光不只是照明工具，而是情感本身。',
+      styleEn: 'Both Caravaggio and Rembrandt mastered chiaroscuro, but their expressions differ completely: Caravaggio\'s light is a spotlight, violent and sudden, yanking figures from total darkness; Rembrandt\'s is the warmth of a candle, slow and philosophical, illuminating the soul from within. Together they declared: in painting, light is not merely illumination — it is emotion itself.',
+      quote: '没有比模仿自然更好的教师，而我的模特就是我面前的人。',
+      quoteAuthor: '卡拉瓦乔（传）'
+    }
   },
   {
     id: 'romanticism_realism',
@@ -1504,7 +1647,18 @@ const DIA_PERIODS = [
     color: '#3a4a7a',
     desc: '从戈雅的心理洞察到德拉克洛瓦的激情，从库尔贝的物质现实到19世纪欧洲绘画的转型时刻。',
     descEn: "From Goya's psychological insight to Delacroix's Romantic passion, to Courbet's material Realism — the decisive 19th-century turn in European painting.",
-    painters: ['Francisco Goya (1746–1828)', 'Eugène Delacroix (1798–1863)', 'Gustave Courbet (1819–1877)']
+    painters: ['Francisco Goya (1746–1828)', 'Eugène Delacroix (1798–1863)', 'Gustave Courbet (1819–1877)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Eug%C3%A8ne_Delacroix_-_Self-Portrait_-_WGA6235.jpg',
+      nameZh: '欧仁·德拉克洛瓦自画像（约1837年，卢浮宫博物馆藏）',
+      nameEn: 'Eugène Delacroix, Self-Portrait (c. 1837, Musée du Louvre)',
+      bioZh: '19世纪欧洲绘画经历了从古典理性到浪漫激情、再到物质现实的巨大转变。戈雅（1746–1828）是宫廷画家中最黑暗的内心见证者，晚年独自在墙上画出《农神噬子》；德拉克洛瓦（1798–1863）是浪漫主义的旗手，以色彩替代线条，以激情替代秩序——他的《自由引导人民》是19世纪最具政治力量的图像；库尔贝（1819–1877）走向完全相反的方向，将农民和劳动者放上大型展览画，宣告：艺术的题材是人类生活的全部，不只是神话与权贵。DIA的这组收藏呈现了这一百年欧洲绘画最核心的张力与转变。',
+      bioEn: '19th-century European painting moved through a vast transformation: from classical reason to Romantic passion, then to material realism. Goya (1746–1828) was the most darkly witnessing soul among court painters, painting Saturn Devouring His Son alone on the walls of his house in old age. Delacroix (1798–1863) was Romanticism\'s champion: color over line, passion over order — his Liberty Leading the People is the 19th century\'s most politically powerful image. Courbet (1819–1877) moved in the opposite direction: placing peasants and workers at monumental scale, declaring that art\'s subject is all of human life, not only myth and power. The DIA\'s holdings in this grouping present the core tensions and transformations of a pivotal century.',
+      styleZh: '浪漫主义与现实主义是同一个时代的两种反叛：浪漫主义反叛新古典主义的理性冷静，以情感、自然与个体经验为武器；现实主义反叛浪漫主义的理想化，以具体可感的物质生活为武器。两者共同终结了欧洲绘画中神话与历史题材的霸权。',
+      styleEn: 'Romanticism and Realism were two revolts within the same era: Romanticism rebelled against Neoclassical rational coolness, using emotion, nature, and individual experience as weapons; Realism rebelled against Romantic idealization, using the concrete particulars of material life. Together they ended the hegemony of mythological and historical subject matter in European painting.',
+      quote: '我不会画天使，因为我从来没有见过天使。',
+      quoteAuthor: '古斯塔夫·库尔贝'
+    }
   },
   {
     id: 'modern_american',
@@ -1516,7 +1670,18 @@ const DIA_PERIODS = [
     color: '#3a6b3a',
     desc: '里维拉壁画与工业时代的劳动尊严，底特律作为20世纪美国制造业的灵魂。',
     descEn: 'Rivera\'s murals and industrial labor\'s dignity — Detroit as the soul of 20th-century American manufacturing.',
-    painters: ['Diego Rivera (1886–1957)']
+    painters: ['Diego Rivera (1886–1957)'],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/9/98/Diego_Rivera_portrait.jpg',
+      nameZh: '迭戈·里维拉（约1932年，底特律）',
+      nameEn: 'Diego Rivera (c. 1932, Detroit)',
+      bioZh: '迭戈·里维拉（1886–1957）是20世纪最伟大的公共艺术家之一，也是墨西哥壁画运动的核心人物。他在巴黎学习了立体主义，在意大利研究了文艺复兴壁画技法，回到墨西哥后将两者融合，创造出一种具有史诗格局的公共艺术语言。1932至1933年，埃德塞尔·福特委托他为底特律艺术学院创作27幅湿壁画，以福特胭脂河工厂的工业生产为题材。里维拉在接受这一资本主义委托的同时，悄悄在壁画中埋入对战争工业的批判图像——这种内在张力使底特律壁画成为20世纪公共艺术最复杂、最深刻的案例之一。他是弗里达·卡罗的丈夫，两人的爱情与冲突是20世纪最著名的艺术家传奇。',
+      bioEn: 'Diego Rivera (1886–1957) was one of the greatest public artists of the 20th century and the central figure of the Mexican Muralist movement. He studied Cubism in Paris, studied Renaissance fresco technique in Italy, and on returning to Mexico fused both into a public art language of epic scope. From 1932 to 1933, Edsel Ford commissioned him to create 27 frescoes for the DIA depicting production at the Ford Rouge Complex. Rivera, while accepting this capitalist commission, quietly embedded critical imagery of war industry within the murals — this internal tension makes the Detroit murals among the most complex and profound cases in 20th-century public art. He was Frida Kahlo\'s husband; their love and conflict is the most famous artist-legend of the 20th century.',
+      styleZh: '里维拉的壁画将文艺复兴的古典构图与20世纪工业现实融合：工人的身体被描绘得如古典雕塑般有力，机器被赋予了有机生命感，生产流水线成为现代史诗的主题。这是墨西哥壁画运动最重要的主张之一：艺术属于公众，而非博物馆展柜。',
+      styleEn: "Rivera's murals fused Renaissance classical composition with 20th-century industrial reality: workers' bodies painted with the power of classical sculpture, machines given organic vitality, assembly lines made the subject of modern epic. This is the Mexican Muralist movement's most important claim: art belongs to the public, not to museum cabinets.",
+      quote: '我从不画梦境或噩梦。我只画我自己的现实。',
+      quoteAuthor: '迭戈·里维拉'
+    }
   }
 ];
 

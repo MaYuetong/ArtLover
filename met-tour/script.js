@@ -535,7 +535,7 @@ function showVisitorForm() {
   document.getElementById('reg-date').value  = today;
   const musNameEl = document.getElementById('reg-museum');
   if (musNameEl && currentMuseum) {
-    musNameEl.value = currentLang === 'zh' ? currentMuseum.name.zh : currentMuseum.name.en;
+    musNameEl.value = currentMuseum.address || '';
   }
   const musHeaderEl = document.getElementById('visitor-reg-museum-name');
   if (musHeaderEl && currentMuseum) {
@@ -830,6 +830,28 @@ function renderRouteMap() {
   });
 }
 
+/* ── PERIOD INTRO BLOCK ───────────────────────────────────────── */
+function renderPeriodIntro(period) {
+  if (!period.intro) return '';
+  const i = period.intro;
+  const isZh = currentLang === 'zh';
+  const bio   = isZh ? (i.bioZh   || '') : (i.bioEn   || i.bioZh   || '');
+  const style = isZh ? (i.styleZh || '') : (i.styleEn || i.styleZh || '');
+  const name  = isZh ? (i.nameZh  || '') : (i.nameEn  || i.nameZh  || '');
+  const alt   = isZh ? (i.nameZh  || period.labelZh || period.label)
+                     : (i.nameEn  || period.label);
+  return `
+    <div class="period-intro-block">
+      ${i.portraitImg ? `<img class="period-intro-portrait" src="${escHtml(i.portraitImg)}" alt="${escHtml(alt)}" loading="lazy">` : ''}
+      <div class="period-intro-text">
+        ${name ? `<div class="period-intro-name">${name}</div>` : ''}
+        ${bio   ? `<p class="period-intro-bio">${bio}</p>`   : ''}
+        ${style ? `<p class="period-intro-style">${style}</p>` : ''}
+        ${i.quote ? `<blockquote class="period-intro-quote">${escHtml(i.quote)}<cite> — ${escHtml(i.quoteAuthor || '')}</cite></blockquote>` : ''}
+      </div>
+    </div>`;
+}
+
 /* ── PERIOD SECTIONS ──────────────────────────────────────────── */
 function renderPeriodsContent() {
   const container = document.getElementById('periods-container');
@@ -871,6 +893,7 @@ function renderPeriodsContent() {
         <div class="period-toggle"></div>
       </div>
       <div class="period-body">
+        ${renderPeriodIntro(period)}
         ${period.painters ? `<div class="painters-strip">${period.painters.map(p => `<div class="painter-chip">${p}</div>`).join('')}</div>` : ''}
         <div class="works-grid" id="grid-${period.id}">
           ${worksInPeriod.map(([acc, w]) => renderWorkCard(acc, w)).join('')}
@@ -1028,8 +1051,8 @@ function openAccOverlay(acc, editMode = false) {
     </details>` : ''}
 
     <div class="acc-nav">
-      ${prevNext.prev ? `<button class="acc-nav-btn" onclick="openAccOverlay('${prevNext.prev}',false)">&larr; ${escHtml(prevTitle)}</button>` : '<div></div>'}
-      ${prevNext.next ? `<button class="acc-nav-btn" style="text-align:right" onclick="openAccOverlay('${prevNext.next}',false)">${escHtml(nextTitle)} &rarr;</button>` : '<div></div>'}
+      ${prevNext.prev ? `<button class="acc-nav-btn acc-nav-prev" onclick="openAccOverlay('${prevNext.prev}',false)"><span class="acc-nav-dir" data-zh="上一件" data-en="Prev">上一件</span> ${escHtml(prevTitle)}</button>` : '<div></div>'}
+      ${prevNext.next ? `<button class="acc-nav-btn acc-nav-next" onclick="openAccOverlay('${prevNext.next}',false)">${escHtml(nextTitle)} <span class="acc-nav-dir" data-zh="下一件" data-en="Next">下一件</span></button>` : '<div></div>'}
     </div>
   `;
 

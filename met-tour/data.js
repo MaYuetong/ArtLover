@@ -85,8 +85,8 @@ const WORKS_DATA = {
     painterZh: "拉斐尔（拉斐尔罗·圣齐奥）",
     dates: "c. 1505",
     gal: "620",
-    period: "renaissance",
-    periodLabel: "Renaissance",
+    period: "raphael_exhibition",
+    periodLabel: "Raphael — Special Exhibition",
     routePos: 5,
     img: "https://images.metmuseum.org/CRDImages/ep/original/DP-43051-001.jpg",
     desc: "拉斐尔全幅祭坛画，构图金字塔形，人物关系和谐有序，完美展现盛期文艺复兴的庄重之美。",
@@ -456,7 +456,18 @@ const PERIODS = [
     color: "#8B4513",
     desc: "宗教叙事主导，金底圣像，拜占庭传统与人文主义萌芽的交汇点。",
     descEn: "Religion dominated, gold-ground icons, Byzantine tradition meeting the first stirrings of humanism.",
-    painters: ["Giotto di Bondone (1267–1337, Florence)", "Duccio di Buoninsegna (1255–1319, Siena)", "Fra Angelico (1395–1455, Florence/Rome)", "Jan van Eyck (1390–1441, Flanders)"]
+    painters: ["Giotto di Bondone (1267–1337, Florence)", "Duccio di Buoninsegna (1255–1319, Siena)", "Fra Angelico (1395–1455, Florence/Rome)", "Jan van Eyck (1390–1441, Flanders)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/2/2d/Ritratto_di_Giotto_da_Bondone.jpg',
+      nameZh: '乔托·迪邦多内（约1267–1337，佛罗伦萨）',
+      nameEn: 'Giotto di Bondone (c.1267–1337, Florence)',
+      bioZh: '乔托是欧洲绘画的奠基者，但丁的同时代人，第一位让宗教人物拥有真实体积、重量与情感的画家。他打破了延续千年的拜占庭平面传统，让圣母不再是金底符号，而是有血有肉的母亲。但丁在《神曲》中称他"将绘画从拜占庭解放出来的人"。他的这一步，开启了西方绘画长达六百年的人文主义演进。',
+      bioEn: 'Giotto di Bondone was the founding father of European painting — the first artist to give religious figures genuine weight, volume, and psychological presence. He broke a thousand years of Byzantine flatness, making the Madonna a real mother rather than a sacred symbol. Dante, his contemporary, called him the man who "took painting from the Greeks." That single revolution began Western art\'s six-hundred-year journey toward humanism.',
+      styleZh: '哥特绘画的核心张力在于神圣与人性之间：金底象征永恒天国，但乔托的人物有情感、有动作、有叙事。从杜乔的精致装饰到凡·艾克的油画微观，北方与南方各自演进，共同为文艺复兴奠基。',
+      styleEn: 'Gothic painting held the tension between the divine and the human: gold grounds evoked eternal heaven, yet Giotto\'s figures moved, grieved, and reached toward each other. From Duccio\'s refined ornament to Van Eyck\'s microscopic oil technique, North and South evolved together, preparing the Renaissance.',
+      quote: '一位好的画家，必须画两件事：人，以及人内心的活动。',
+      quoteAuthor: '乔托（引自瓦萨里《艺苑名人传》）'
+    }
   },
   {
     id: "renaissance",
@@ -469,7 +480,18 @@ const PERIODS = [
     color: "#2E5BA8",
     desc: "人文主义、线性透视、古典回归，美是秩序与和谐的宣言。",
     descEn: "Humanism, linear perspective, classical revival — beauty as a declaration of order and harmony.",
-    painters: ["Leonardo da Vinci (1452–1519, Florence/Milan)", "Raphael (1483–1520, Urbino/Rome)", "Sandro Botticelli (1445–1510, Florence)", "Titian (1488–1576, Venice)"]
+    painters: ["Leonardo da Vinci (1452–1519, Florence/Milan)", "Raphael (1483–1520, Urbino/Rome)", "Sandro Botticelli (1445–1510, Florence)", "Titian (1488–1576, Venice)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/f/f6/Raffaello_Sanzio.jpg',
+      nameZh: '拉斐尔自画像（约1506年，乌菲齐美术馆藏）',
+      nameEn: 'Raphael, Self-Portrait (c. 1506, Uffizi Gallery)',
+      bioZh: '拉斐尔（1483–1520）是文艺复兴三杰中最"完美"的那一位。他11岁丧父，15岁进入佩鲁吉诺画室，25岁被教皇儒略二世召至罗马，主持梵蒂冈宫室壁画，创作了《雅典学院》。他综合了达·芬奇的氛围感与米开朗基罗的宏大力量，转化为自己的甜美与秩序。37岁骤然离世，留下不足50幅确认画作，每一幅都被后人视为对"美是什么"这个问题的完美回答。',
+      bioEn: 'Raphael (1483–1520) was the most "perfect" of the Renaissance masters. Orphaned at fifteen, trained under Perugino, summoned to Rome at twenty-five by Pope Julius II to paint the Vatican Stanze — including The School of Athens. He absorbed Leonardo\'s atmospheric depth and Michelangelo\'s monumental power, transforming both into his own sweetness and order. He died suddenly at thirty-seven, leaving fewer than fifty confirmed paintings, each regarded as a definitive answer to the question of what beauty is.',
+      styleZh: '文艺复兴的核心信念：美即秩序，秩序即真理。线性透视将空间理性化，三角形构图将人物统合，古典比例让人体成为神圣的量度。从佛罗伦萨的柔情到威尼斯的色彩，文艺复兴是欧洲文明最自信的时刻。',
+      styleEn: 'The Renaissance\'s central belief: beauty is order, order is truth. Linear perspective rationalized space; pyramidal composition unified figures; classical proportion made the human body the measure of the divine. From Florentine lyrical grace to Venetian color — the Renaissance was European civilization at its most confident.',
+      quote: '为了画一位美丽的女人，我需要见许多美丽的女人——但由于美丽的女人太少，我只好依靠内心的某种理念。',
+      quoteAuthor: '拉斐尔，致巴尔达萨雷·卡斯蒂利奥内书信，约1514年'
+    }
   },
   {
     id: "baroque",
@@ -482,7 +504,18 @@ const PERIODS = [
     color: "#6B2D8B",
     desc: "光影戏剧性（明暗对比法），动势与情感，宗教改革后的分裂与繁盛。",
     descEn: "Chiaroscuro drama, dynamic movement and emotion, artistic diversity in the wake of the Reformation.",
-    painters: ["Caravaggio (1571–1610, Rome)", "Rembrandt van Rijn (1606–1669, Amsterdam)", "Johannes Vermeer (1632–1675, Delft)", "Diego Velázquez (1599–1660, Seville/Madrid)", "Peter Paul Rubens (1577–1640, Antwerp)"]
+    painters: ["Caravaggio (1571–1610, Rome)", "Rembrandt van Rijn (1606–1669, Amsterdam)", "Johannes Vermeer (1632–1675, Delft)", "Diego Velázquez (1599–1660, Seville/Madrid)", "Peter Paul Rubens (1577–1640, Antwerp)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg',
+      nameZh: '伦勃朗自画像（约1659年，华盛顿国家美术馆藏）',
+      nameEn: 'Rembrandt van Rijn, Self-Portrait (c. 1659, National Gallery of Art, Washington)',
+      bioZh: '巴洛克时代（1600–1750）横跨宗教改革的裂痕与科学革命的黎明。南方的卡拉瓦乔用街头穷人重新定义圣像，震惊17世纪；北方的伦勃朗一生留下约100幅自画像，将光影变成对衰老与灵魂的哲学追问；荷兰的维梅尔将一扇窗、一道光变成对日常生活的无尽凝视。他们共同的发现：光不只照亮物体——它揭示内心。',
+      bioEn: 'The Baroque era (1600–1750) spanned the fractures of the Reformation and the dawn of scientific revolution. In the South, Caravaggio replaced saints with street people, shocking the 17th century. In Amsterdam, Rembrandt painted nearly 100 self-portraits across a lifetime, turning chiaroscuro into philosophical inquiry about age and the soul. In Delft, Vermeer made one window and one shaft of light a meditation on ordinary life. Their shared discovery: light does not merely illuminate objects — it reveals the inner life.',
+      styleZh: '明暗对比法（chiaroscuro）是巴洛克的视觉语言：强光从黑暗中召唤人物，戏剧感油然而生。卡拉瓦乔的光凶猛突兀，伦勃朗的光温暖哲学，维梅尔的光静默如诗——同一时代，同一发现，三种不同的灵魂。',
+      styleEn: 'Chiaroscuro — light from darkness — was the Baroque\'s visual language. Caravaggio\'s light is violent and sudden; Rembrandt\'s is warm and philosophical; Vermeer\'s is silent as poetry. The same era, the same discovery, three entirely different souls.',
+      quote: '光是画家的上帝。',
+      quoteAuthor: '伦勃朗·凡·莱因（传）'
+    }
   },
   {
     id: "rococo",
@@ -495,7 +528,18 @@ const PERIODS = [
     color: "#C8859A",
     desc: "贵族生活的轻盈优雅，装饰性美感，在法国大革命前夕的最后辉煌。",
     descEn: "Aristocratic elegance, decorative beauty, the last flourish before the Revolutionary storm.",
-    painters: ["Antoine Watteau (1684–1721, Paris)", "Jean-Honoré Fragonard (1732–1806, Paris)", "François Boucher (1703–1770, Paris)"]
+    painters: ["Antoine Watteau (1684–1721, Paris)", "Jean-Honoré Fragonard (1732–1806, Paris)", "François Boucher (1703–1770, Paris)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/4/43/Antoine_Watteau_-_Self-portrait_%281718-1719%29.jpg',
+      nameZh: '安托万·华托自画像（约1718–1719年）',
+      nameEn: 'Antoine Watteau, Self-Portrait (c. 1718–1719)',
+      bioZh: '华托（1684–1721）是洛可可绘画的发明者，也是它最忧郁的诗人。他发明了"雅宴画"——贵族们在梦幻花园中玩乐、恋爱——却将自己藏在画面之外，以旁观者的眼光注视这一切轻盈。他患结核病多年，37岁早逝，画里始终有一种优雅的、难以说清的忧伤。弗拉戈纳尔与布歇继承并发扬了这种贵族情调，直至大革命的到来。',
+      bioEn: 'Watteau (1684–1721) invented Rococo painting and was its most melancholy poet. He created the fête galante — aristocrats at play in dreamlike garden fantasies — yet always placed himself outside the scene, watching with the outsider\'s eye. Suffering from tuberculosis, he died at thirty-seven; his paintings hold an elegance tinged with unnamed sadness. Fragonard and Boucher carried the tradition forward until the Revolution swept it away.',
+      styleZh: '洛可可是贵族文化的最后辉煌：轻盈、装饰、享乐主义。色调粉嫩如春花，笔触轻盈如羽毛，一切都在说：生命短暂，何不及时行乐。大革命的到来让这种欢笑戛然而止。',
+      styleEn: 'Rococo was the last flourishing of aristocratic culture: light, decorative, hedonistic. Pastel palettes, feathery brushwork, intimate scale — everything whispering that life is short and pleasure real. The Revolution ended the laughter abruptly.',
+      quote: '绘画是沉默的诗歌，诗歌是有声的绘画。',
+      quoteAuthor: '普鲁塔克（华托常引）'
+    }
   },
   {
     id: "neoclassical",
@@ -508,7 +552,18 @@ const PERIODS = [
     color: "#2E7D5A",
     desc: "对古典秩序与道德的回归，是对洛可可的反叛，与法国革命精神同步。",
     descEn: "A return to classical order and moral seriousness, twin of the revolutionary republican spirit.",
-    painters: ["Jacques-Louis David (1748–1825, Paris)", "Jean-Auguste-Dominique Ingres (1780–1867, Paris)"]
+    painters: ["Jacques-Louis David (1748–1825, Paris)", "Jean-Auguste-Dominique Ingres (1780–1867, Paris)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Jacques-Louis_David_-_Self-portrait_-_Google_Art_Project.jpg',
+      nameZh: '雅克-路易·大卫自画像（1794年，卢浮宫博物馆藏）',
+      nameEn: 'Jacques-Louis David, Self-Portrait (1794, Musée du Louvre)',
+      bioZh: '大卫（1748–1825）是法国大革命最重要的视觉宣传者，也是拿破仑的御用画家。他的新古典主义拒绝洛可可的甜蜜，回归古罗马的道德严肃性：构图稳定如建筑，人物姿态如雕塑，主题是美德、牺牲、公民责任。1787年的《苏格拉底之死》在大革命爆发前两年完成，立即成为共和精神的象征——艺术在他手里成为最有力也最危险的政治工具。',
+      bioEn: 'David (1748–1825) was the French Revolution\'s most powerful visual voice and Napoleon\'s court painter. His Neoclassicism rejected Rococo sweetness, returning to Roman moral seriousness: compositions stable as architecture, figures posed as sculptures, themes of virtue, sacrifice, and civic duty. The Death of Socrates, completed two years before the Revolution, became an instant symbol of republican virtue. In his hands, art became the most powerful — and most dangerous — of political instruments.',
+      styleZh: '新古典主义是对洛可可的反叛，也是对启蒙理性的视觉回应：清晰胜于模糊，道德胜于享乐，历史胜于装饰。希腊罗马的古典形式不只是美的标准，更是共和美德的象征。',
+      styleEn: 'Neoclassicism was revolt against Rococo and visual response to Enlightenment reason: clarity over ambiguity, moral weight over pleasure, history over decoration. Greco-Roman classical form was not merely aesthetic standard but symbol of republican virtue.',
+      quote: '艺术家应当是他所处时代的见证者。',
+      quoteAuthor: '雅克-路易·大卫'
+    }
   },
   {
     id: "romanticism",
@@ -521,7 +576,18 @@ const PERIODS = [
     color: "#8B2020",
     desc: "情感、自然、个体经验的颂歌；现实主义反对理想化，转向社会批判。",
     descEn: "Emotion, nature, individual experience celebrated; Realism opposed idealization and turned to social critique.",
-    painters: ["Francisco de Goya (1746–1828, Madrid)", "Eugène Delacroix (1798–1863, Paris)", "Gustave Courbet (1819–1877, Paris)", "El Greco (1541–1614, Toledo)"]
+    painters: ["Francisco de Goya (1746–1828, Madrid)", "Eugène Delacroix (1798–1863, Paris)", "Gustave Courbet (1819–1877, Paris)", "El Greco (1541–1614, Toledo)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/Goya_Selfportrait_1795-edit.jpg',
+      nameZh: '弗朗西斯科·戈雅自画像（1795年，皇家美术学院藏）',
+      nameEn: 'Francisco Goya, Self-Portrait (1795, Royal Academy of Fine Arts, Madrid)',
+      bioZh: '戈雅（1746–1828）是西班牙最后一位宫廷画家，也是第一位现代画家。他亲历了启蒙理性的破灭、法国大革命的暴力与拿破仑入侵的恐怖，晚年耳聋，隐居于"聋人之家"，在墙上画出了人类历史上最黑暗的图像——《农神噬子》。他的肖像画拒绝奉承，只看见人的灵魂。他的一生横跨了从宫廷优雅到革命恐怖的全部欧洲历史。',
+      bioEn: 'Goya (1746–1828) was Spain\'s last court painter and first modern painter. He witnessed the failure of Enlightenment reason, the violence of revolution, and the terror of Napoleon\'s invasion. Deaf and isolated in his final years, he painted the Black Paintings directly onto the walls of his house — among them Saturn Devouring His Son. His portraits refused flattery; they saw only the soul. His life spanned the full arc of European history from courtly elegance to revolutionary terror.',
+      styleZh: '浪漫主义转向情感、直觉、个体内心：理性无法解释一切，黑暗与神秘有其真实。现实主义进一步：拒绝任何理想化，将普通人的劳作与尊严放上最大的画布。两者都宣告：艺术的题材是人类生活的全部，不只是神话与权贵。',
+      styleEn: 'Romanticism turned toward emotion, intuition, and the individual interior: reason cannot explain everything; darkness and mystery are real. Realism went further: refusing all idealization, placing ordinary people\'s labor and dignity at monumental scale. Together they declared that art\'s subject is all of human life — not only mythology and the powerful.',
+      quote: '理性的沉睡唤醒了怪物。',
+      quoteAuthor: '弗朗西斯科·戈雅，《狂想曲》第43幅（1799年）'
+    }
   },
   {
     id: "impressionism",
@@ -534,18 +600,52 @@ const PERIODS = [
     color: "#4A7FB5",
     desc: "光与色的革命，现场写生捕捉瞬间，打破学院派传统，开启现代艺术之门。",
     descEn: "Revolution of light and color, en plein air painting capturing the fleeting moment — the gateway to modern art.",
-    painters: ["Claude Monet (1840–1926, Paris/Giverny)", "Pierre-Auguste Renoir (1841–1919, Paris)", "Edgar Degas (1834–1917, Paris)", "Paul Cézanne (1839–1906, Provence)"]
+    painters: ["Claude Monet (1840–1926, Paris/Giverny)", "Pierre-Auguste Renoir (1841–1919, Paris)", "Edgar Degas (1834–1917, Paris)", "Paul Cézanne (1839–1906, Provence)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Claude_Monet_1899_Nadar_crop.jpg',
+      nameZh: '克劳德·莫奈（1899年，纳达尔摄影）',
+      nameEn: 'Claude Monet (1899, photograph by Félix Nadar)',
+      bioZh: '莫奈（1840–1926）是印象主义的灵魂人物，也是有史以来最执着于光的画家。他在诺曼底的海边画日出，在巴黎的火车站画蒸汽，在伦敦的雾中画大桥，在吉维尼的花园里画睡莲——直到几近失明仍不放下画笔。他的一生是对一个问题的终身追问：光到底是什么颜色的？塞尚称他为"只有一只眼睛，但那是多么了不起的眼睛"。',
+      bioEn: 'Monet (1840–1926) was the soul of Impressionism and the most obsessive painter of light in history. He painted sunrise on the Normandy coast, steam in Paris\'s Gare Saint-Lazare, London bridges in fog, water lilies in his Giverny garden — nearly blind in his final years but still painting. His life was a single sustained question: what color is light, exactly? Cézanne called him "only an eye — but what an eye."',
+      styleZh: '印象派的革命有三个层面：技法（户外写生、短促笔触、纯色并置）、认识论（瞬间比永恒更真实）、社会学（日常生活是合法的绘画题材）。它打破学院派对历史与神话的垄断，把视线还给了阳光、河流、咖啡馆——还给了活生生的现代世界。',
+      styleEn: 'The Impressionist revolution had three dimensions: technical (plein air painting, rapid brushwork, pure color juxtaposition), epistemological (the fleeting moment is more real than the eternal ideal), and social (everyday life is a legitimate subject). It broke the Academy\'s monopoly on history and myth, returning the gaze to sunlight, rivers, cafés — to the living modern world.',
+      quote: '色彩是我每日的痴迷、喜悦与磨难。',
+      quoteAuthor: '克劳德·莫奈，1883年'
+    }
+  },
+  {
+    id: "raphael_exhibition",
+    label: "Raphael — Special Exhibition",
+    labelZh: "拉斐尔特展",
+    years: "1483–1520",
+    galleries: "619–621",
+    duration: "30 min",
+    color: "#1a3a6b",
+    desc: "大都会博物馆拉斐尔特展，汇聚馆藏精品，呈现盛期文艺复兴最完美画家的生命与艺术。",
+    descEn: "The Met's special Raphael exhibition presents collection highlights, illuminating the life and art of the High Renaissance's most harmonious master.",
+    painters: ["Raphael (Raffaello Sanzio da Urbino, 1483–1520)"],
+    intro: {
+      portraitImg: 'https://upload.wikimedia.org/wikipedia/commons/f/f6/Raffaello_Sanzio.jpg',
+      nameZh: '拉斐尔自画像（约1506年，乌菲齐美术馆藏）',
+      nameEn: 'Raphael, Self-Portrait (c. 1506, Uffizi Gallery, Florence)',
+      bioZh: '拉斐尔·桑乔（Raffaello Sanzio da Urbino，1483–1520）生于意大利乌尔比诺，11岁丧父。15岁进入佩鲁吉诺画室，学习构图与色彩；25岁被教皇儒略二世召至罗马，主持梵蒂冈宫室绘画，创作了《雅典学院》《帕纳苏斯山》等传世壁画。1515年起兼任圣彼得大教堂建筑监督，艺术与建筑双线并进。1520年4月6日，在37岁生日当天骤然离世，罗马为之举城哀悼。他一生留下不足50幅确认画作，其中每一幅都被后人视为完美的标准。',
+      bioEn: 'Raffaello Sanzio da Urbino (1483–1520) was born in Urbino, orphaned at eleven. He entered Perugino\'s workshop at fifteen, mastering composition and color; at twenty-five, Pope Julius II summoned him to Rome to paint the Vatican Stanze — The School of Athens, Parnassus, and more. From 1515 he also served as chief architect of St. Peter\'s Basilica. On April 6, 1520 — his thirty-seventh birthday — he died suddenly; Rome mourned for days. He left fewer than fifty confirmed paintings, every one regarded as a standard of perfection.',
+      styleZh: '拉斐尔的伟大在于和谐：三角形构图将人物统合为宁静整体，色彩温暖有序，人物既具神圣理想美又有可感的人情温度。他将达·芬奇的大气透视与米开朗基罗的雕塑力量融入自己天生的甜美与清晰，创造出文艺复兴最广受赞誉的视觉语言——后人称之为"拉斐尔式的完美"。',
+      styleEn: 'Raphael\'s greatness lay in harmony: pyramidal compositions uniting figures in serene order, warm measured color, figures both divinely ideal and warmly human. He absorbed Leonardo\'s atmospheric depth and Michelangelo\'s sculptural power, fusing both into his innate sweetness and clarity — creating the High Renaissance\'s most admired visual language, which posterity calls "Raphaelesque perfection."',
+      quote: '为了画一位美丽的女人，我需要见许多美丽的女人——但由于美丽的女人太少，我只好依靠内心的某种理念。',
+      quoteAuthor: '拉斐尔，致巴尔达萨雷·卡斯蒂利奥内书信，约1514年'
+    }
   }
 ];
 
 // Route sequence
 const ROUTE = [
-  { label: "Great Hall Entry", labelZh: "大厅入口", gal: "Entry", icon: "🏛️" },
-  { label: "Gal 611–618 Gothic", labelZh: "哥特展厅", gal: "611–618", icon: "⛪", period: "gothic", duration: "30 min" },
-  { label: "Gal 619–625 Renaissance", labelZh: "文艺复兴展厅", gal: "619–625", icon: "🎨", period: "renaissance", duration: "40 min" },
-  { label: "Gal 626–632 Baroque", labelZh: "巴洛克展厅", gal: "626–632", icon: "🕯️", period: "baroque", duration: "30 min" },
-  { label: "Gal 633–637 Rococo/Nec", labelZh: "洛可可展厅", gal: "633–637", icon: "🌸", period: "rococo", duration: "20 min" },
-  { label: "Gal 638–641 Rom/Real", labelZh: "浪漫现实厅", gal: "638–641", icon: "🌪️", period: "romanticism", duration: "20 min" },
-  { label: "Gal 642–645 Impressionism", labelZh: "印象主义厅", gal: "642–645", icon: "🌅", period: "impressionism", duration: "30 min" },
-  { label: "Exit / Shop", labelZh: "出口/商店", gal: "Exit", icon: "🚪" }
+  { label: "Great Hall Entry", labelZh: "大厅入口", gal: "Entry", icon: "In" },
+  { label: "Gal 611–618 Gothic", labelZh: "哥特展厅", gal: "611–618", icon: "Go", period: "gothic", duration: "30 min" },
+  { label: "Gal 619–625 Renaissance", labelZh: "文艺复兴展厅", gal: "619–625", icon: "Re", period: "renaissance", duration: "40 min" },
+  { label: "Gal 626–632 Baroque", labelZh: "巴洛克展厅", gal: "626–632", icon: "Ba", period: "baroque", duration: "30 min" },
+  { label: "Gal 633–637 Rococo/Nec", labelZh: "洛可可展厅", gal: "633–637", icon: "Ro", period: "rococo", duration: "20 min" },
+  { label: "Gal 638–641 Rom/Real", labelZh: "浪漫现实厅", gal: "638–641", icon: "Rm", period: "romanticism", duration: "20 min" },
+  { label: "Gal 642–645 Impressionism", labelZh: "印象主义厅", gal: "642–645", icon: "Im", period: "impressionism", duration: "30 min" },
+  { label: "Exit / Shop", labelZh: "出口/商店", gal: "Exit", icon: "Ex" }
 ];
