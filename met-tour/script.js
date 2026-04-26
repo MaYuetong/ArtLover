@@ -797,13 +797,18 @@ function updateNavForMuseum() {
 
 /* ── ROLE UI ──────────────────────────────────────────────────── */
 function applyRoleUI() {
-  const isLec   = hasRole('lecturer');
-  const isAdmin = hasRole('admin');
+  const isLec     = hasRole('lecturer');
+  const isAdmin   = hasRole('admin');
+  const isVisitor = currentRole === 'visitor';
 
   if (isLec) document.getElementById('visitor-log').classList.remove('hidden');
   if (isAdmin) document.getElementById('btn-admin-panel').classList.remove('hidden');
   if (isLec) document.getElementById('route-progress').classList.remove('hidden');
   if (isAdmin || isLec) document.getElementById('admin-panel').classList.toggle('hidden', !isAdmin);
+
+  // Show "End Tour" button only for visitors
+  const endBtn = document.getElementById('btn-end-tour');
+  if (endBtn) endBtn.classList.toggle('hidden', !isVisitor);
 
   const meta = ROLE_META[currentRole];
   document.getElementById('nav-role-label').textContent = currentLang === 'zh' ? meta.label : meta.labelEn;
@@ -1697,6 +1702,98 @@ function installPWA() {
 
 function dismissInstall() {
   document.getElementById('install-banner')?.classList.add('hidden');
+}
+
+/* ── FEEDBACK / END-TOUR ──────────────────────────────────────── */
+const _fbState = { overall: 0, audio: 0, content: 0, recommend: null };
+
+function showFeedback() {
+  const overlay = document.getElementById('feedback-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('hidden');
+
+  // Populate header
+  const museumTag = document.getElementById('feedback-museum-tag');
+  const visLine   = document.getElementById('feedback-visitor-line');
+  if (museumTag) museumTag.textContent = currentLang === 'zh'
+    ? (currentMuseum?.name?.zh || '')
+    : (currentMuseum?.name?.en || '');
+  if (visLine && visitorSession) {
+    visLine.textContent = visitorSession.name
+      + (visitorSession.city ? ' · ' + visitorSession.city : '');
+  }
+
+  // Reset to form view
+  document.getElementById('feedback-form').classList.remove('hidden');
+  document.getElementById('feedback-thanks').classList.add('hidden');
+
+  // Reset ratings
+  _fbState.overall = 0; _fbState.audio = 0; _fbState.content = 0; _fbState.recommend = null;
+  ['fb-overall-row','fb-audio-row','fb-content-row'].forEach(id => {
+    document.getElementById(id)?.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('active'));
+  });
+  document.getElementById('fb-rec-yes')?.classList.remove('active');
+  document.getElementById('fb-rec-no')?.classList.remove('active');
+  document.getElementById('fb-favorite') && (document.getElementById('fb-favorite').value = '');
+  document.getElementById('fb-suggestions') && (document.getElementById('fb-suggestions').value = '');
+  document.getElementById('fb-email') && (document.getElementById('fb-email').value = '');
+
+  // Update placeholder text for current lang
+  ['fb-favorite','fb-suggestions'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const key = currentLang === 'zh' ? 'data-zh-placeholder' : 'data-en-placeholder';
+    if (el.dataset[key.replace('data-','').replace(/-([a-z])/g, (_,c)=>c.toUpperCase())])
+      el.placeholder = el.getAttribute(key);
+  });
+
+  track('feedback_opened');
+}
+
+function closeFeedback() {
+  document.getElementById('feedback-overlay')?.classList.add('hidden');
+}
+
+function setRating(type, val) {
+  _fbState[type] = val;
+  const rowMap = { overall: 'fb-overall-row', audio: 'fb-audio-row', content: 'fb-content-row' };
+  const row = document.getElementById(rowMap[type]);
+  if (!row) return;
+  row.querySelectorAll('.rating-btn').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.val) <= val);
+  });
+}
+
+function setRecommend(val) {
+  _fbState.recommend = val;
+  document.getElementById('fb-rec-yes')?.classList.toggle('active', val === true);
+  document.getElementById('fb-rec-no')?.classList.toggle('active',  val === false);
+}
+
+async function submitFeedback(e) {
+  e.preventDefault();
+  const payload = {
+    type:          'feedback',
+    timestamp:     Date.now(),
+    visitorId:     visitorSession?.password   || null,
+    visitorName:   visitorSession?.name       || null,
+    museum:        currentMuseumId            || 'met',
+    ratingOverall: _fbState.overall,
+    ratingAudio:   _fbState.audio,
+    ratingContent: _fbState.content,
+    recommend:     _fbState.recommend,
+    favorite:      (document.getElementById('fb-favorite')?.value   || '').trim(),
+    suggestions:   (document.getElementById('fb-suggestions')?.value || '').trim(),
+    email:         (document.getElementById('fb-email')?.value       || '').trim(),
+    lang:          currentLang,
+    worksViewed:   Object.keys(visitStats || {}).length
+  };
+
+  track('feedback_submitted', { ratingOverall: payload.ratingOverall, recommend: payload.recommend });
+  postToBackend(payload).catch(() => {});
+
+  document.getElementById('feedback-form').classList.add('hidden');
+  document.getElementById('feedback-thanks').classList.remove('hidden');
 }
 
 /* ── KEYBOARD ─────────────────────────────────────────────────── */

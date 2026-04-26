@@ -361,6 +361,9 @@
       <div class="nav-role" id="nav-role-badge">
         <span id="nav-role-label"></span>
       </div>
+      <button class="nav-btn btn-end-tour hidden" id="btn-end-tour" onclick="showFeedback()">
+        <span data-zh="结束导览" data-en="End Tour">结束导览</span>
+      </button>
       <button class="nav-btn btn-logout" onclick="logout()">
         <span data-zh="退出" data-en="Exit">退出</span>
       </button>
@@ -578,6 +581,121 @@
   </div>
   <button class="audio-close" data-zh="关闭" data-en="Close"
     onclick="stopAudio(); document.getElementById('audio-player').classList.add('hidden')">关闭</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FEEDBACK OVERLAY
+═══════════════════════════════════════════════════════════════ -->
+<div class="feedback-overlay hidden" id="feedback-overlay">
+  <div class="feedback-card">
+
+    <div class="feedback-header">
+      <div class="feedback-museum-tag" id="feedback-museum-tag"></div>
+      <h2 class="feedback-title">
+        <span data-zh="感谢您的参观" data-en="Thank you for visiting">感谢您的参观</span>
+      </h2>
+      <p class="feedback-visitor-line" id="feedback-visitor-line"></p>
+    </div>
+
+    <form class="feedback-form" id="feedback-form" onsubmit="submitFeedback(event)">
+
+      <!-- Overall rating -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="整体体验" data-en="Overall experience">整体体验</label>
+        <div class="rating-row" id="fb-overall-row">
+          <button type="button" class="rating-btn" data-val="1" onclick="setRating('overall',1)">1</button>
+          <button type="button" class="rating-btn" data-val="2" onclick="setRating('overall',2)">2</button>
+          <button type="button" class="rating-btn" data-val="3" onclick="setRating('overall',3)">3</button>
+          <button type="button" class="rating-btn" data-val="4" onclick="setRating('overall',4)">4</button>
+          <button type="button" class="rating-btn" data-val="5" onclick="setRating('overall',5)">5</button>
+        </div>
+        <div class="rating-scale-labels">
+          <span data-zh="一般" data-en="Poor">一般</span>
+          <span data-zh="非常满意" data-en="Excellent">非常满意</span>
+        </div>
+      </div>
+
+      <!-- Audio quality -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="音频讲解质量" data-en="Audio guide quality">音频讲解质量</label>
+        <div class="rating-row" id="fb-audio-row">
+          <button type="button" class="rating-btn" data-val="1" onclick="setRating('audio',1)">1</button>
+          <button type="button" class="rating-btn" data-val="2" onclick="setRating('audio',2)">2</button>
+          <button type="button" class="rating-btn" data-val="3" onclick="setRating('audio',3)">3</button>
+          <button type="button" class="rating-btn" data-val="4" onclick="setRating('audio',4)">4</button>
+          <button type="button" class="rating-btn" data-val="5" onclick="setRating('audio',5)">5</button>
+        </div>
+      </div>
+
+      <!-- Content depth -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="内容丰富程度" data-en="Content depth">内容丰富程度</label>
+        <div class="rating-row" id="fb-content-row">
+          <button type="button" class="rating-btn" data-val="1" onclick="setRating('content',1)">1</button>
+          <button type="button" class="rating-btn" data-val="2" onclick="setRating('content',2)">2</button>
+          <button type="button" class="rating-btn" data-val="3" onclick="setRating('content',3)">3</button>
+          <button type="button" class="rating-btn" data-val="4" onclick="setRating('content',4)">4</button>
+          <button type="button" class="rating-btn" data-val="5" onclick="setRating('content',5)">5</button>
+        </div>
+      </div>
+
+      <!-- Would recommend -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="是否会推荐给朋友？" data-en="Would you recommend this?">是否会推荐给朋友？</label>
+        <div class="recommend-row">
+          <button type="button" class="recommend-btn" id="fb-rec-yes" onclick="setRecommend(true)">
+            <span data-zh="会推荐" data-en="Yes, definitely">会推荐</span>
+          </button>
+          <button type="button" class="recommend-btn" id="fb-rec-no" onclick="setRecommend(false)">
+            <span data-zh="暂不推荐" data-en="Not yet">暂不推荐</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Most memorable artwork -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="今天最令您印象深刻的展品（选填）" data-en="Most memorable artwork today (optional)">今天最令您印象深刻的展品（选填）</label>
+        <input class="fb-input" type="text" id="fb-favorite" maxlength="100" autocomplete="off"
+               data-zh-placeholder="作品名称或展厅号" data-en-placeholder="Artwork title or gallery number"
+               placeholder="作品名称或展厅号" />
+      </div>
+
+      <!-- Suggestions -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="建议与意见（选填）" data-en="Suggestions (optional)">建议与意见（选填）</label>
+        <textarea class="fb-textarea" id="fb-suggestions" rows="3" maxlength="500"
+                  data-zh-placeholder="您希望我们改进的地方…" data-en-placeholder="What could we improve…"
+                  placeholder="您希望我们改进的地方…"></textarea>
+      </div>
+
+      <!-- Contact email -->
+      <div class="fb-field">
+        <label class="fb-label" data-zh="联系邮箱（选填，用于回复您）" data-en="Contact email (optional, for follow-up)">联系邮箱（选填）</label>
+        <input class="fb-input" type="email" id="fb-email" maxlength="120" autocomplete="email"
+               placeholder="your@email.com" />
+      </div>
+
+      <button type="submit" class="fb-submit-btn">
+        <span data-zh="提交反馈" data-en="Submit feedback">提交反馈</span>
+      </button>
+
+    </form>
+
+    <!-- Thank-you state (shown after submit) -->
+    <div class="feedback-thanks hidden" id="feedback-thanks">
+      <div class="thanks-mark"></div>
+      <h3 class="thanks-title" data-zh="感谢您的宝贵反馈！" data-en="Thank you for your feedback!">感谢您的宝贵反馈！</h3>
+      <p class="thanks-body" data-zh="您的意见将帮助我们持续改善导览体验。" data-en="Your input helps us make every tour better.">您的意见将帮助我们持续改善导览体验。</p>
+      <button class="fb-close-btn" onclick="closeFeedback()">
+        <span data-zh="关闭" data-en="Close">关闭</span>
+      </button>
+    </div>
+
+    <button class="fb-dismiss-link" onclick="closeFeedback()">
+      <span data-zh="稍后再说" data-en="Maybe later">稍后再说</span>
+    </button>
+
+  </div>
 </div>
 
 <script src="data.js"></script>

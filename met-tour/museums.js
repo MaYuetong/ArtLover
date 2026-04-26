@@ -328,7 +328,7 @@ const AIC_WORKS = {
     gal: 'Gallery 391',
     period: 'modern',
     periodLabel: 'Early Modern / Blue Period',
-    img: 'https://upload.wikimedia.org/wikipedia/en/d/de/Old_guitarist_chicago.jpg',
+    img: 'https://www.artic.edu/iiif/2/28067/full/843,/0/default.jpg',
     desc: '毕加索"蓝色时期"最深沉的作品：盲眼老人在蓝色阴影中与吉他相依为命。贫困、孤独、艺术是唯一的救赎——这是22岁的毕加索在好友自杀后创作的，将个人悲痛升华为人类困境的普世象征。',
     descEn: "Picasso's most profound Blue Period statement: a blind old man fused with his guitar in blue shadow. Poverty, isolation, art as the only salvation. Painted at 22 after the suicide of his close friend, he transformed private grief into a universal emblem of human desolation.",
     audioText: '这是巴勃罗·毕加索的《老吉他手》，1903至1904年作，展于391号展厅。这是毕加索"蓝色时期"的代表作，也是他个人最深沉的创作之一。1901年，好友卡洛斯·卡萨吉马斯自杀，毕加索陷入悲痛，整个"蓝色时期"都笼罩在这阴影之下。画中盲眼老人蜷缩在角落，与吉他融为一体——在彻底的贫困与孤独中，音乐是他唯一的生命线。蓝色不是装饰，而是情感的温度。',

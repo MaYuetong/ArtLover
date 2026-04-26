@@ -174,6 +174,8 @@ Deploy: `git push origin main && git push origin main:gh-pages`
 3. Add headers in row 1: `timestamp | password | name | country | province | city | visitDate | source | museum | address | onsite`
 4. Add a second sheet named **Events**
 5. Headers: `timestamp | sessionId | visitorId | visitorName | type | museum | acc | lang | details`
+6. Add a third sheet named **Feedback**
+7. Headers: `timestamp | visitorId | visitorName | museum | ratingOverall | ratingAudio | ratingContent | recommend | favorite | suggestions | email | worksViewed | lang`
 
 ### Step 2: Create Apps Script
 1. In the Sheet: Extensions → Apps Script
@@ -208,6 +210,16 @@ function doPost(e) {
           JSON.stringify(rest)
         ]);
       });
+    } else if (data.type === 'feedback') {
+      const sheet = ss.getSheetByName('Feedback');
+      sheet.appendRow([
+        new Date(data.timestamp).toISOString(),
+        data.visitorId || '', data.visitorName || '', data.museum || '',
+        data.ratingOverall || '', data.ratingAudio || '', data.ratingContent || '',
+        data.recommend === true ? 'yes' : data.recommend === false ? 'no' : '',
+        data.favorite || '', data.suggestions || '', data.email || '',
+        data.worksViewed || 0, data.lang || ''
+      ]);
     }
 
     return ContentService
