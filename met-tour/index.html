@@ -288,8 +288,33 @@
       <button type="submit" class="visitor-reg-submit" data-zh="进入导览 · Enter Tour" data-en="Enter Tour">进入导览 · Enter Tour</button>
     </form>
 
-    <!-- Password panel kept hidden — code saved to browser keychain only, never displayed -->
+    <!-- Code reveal panel (shown after registration) -->
     <div class="visitor-password-panel hidden" id="visitor-password-panel"></div>
+
+    <!-- Returning visitor / Lecturer login toggle -->
+    <div class="vreg-alt-login">
+      <button class="vreg-alt-toggle" onclick="toggleAltLogin()">
+        <span data-zh="已有访客码或讲解员入口" data-en="Have a code or staff login">已有访客码或讲解员入口</span>
+      </button>
+      <div class="vreg-alt-panel hidden" id="vreg-alt-panel">
+        <div class="vreg-alt-section">
+          <p class="vreg-alt-label" data-zh="返访访客 — 输入您的访客码" data-en="Returning visitor — enter your access code">返访访客 — 输入您的访客码</p>
+          <div class="vreg-alt-row">
+            <input type="password" id="vreg-visitor-code" placeholder="VIS-XXXX-XXXX" autocomplete="current-password" />
+            <button onclick="loginFromReg('visitor')" data-zh="进入" data-en="Enter">进入</button>
+          </div>
+        </div>
+        <div class="vreg-alt-section">
+          <p class="vreg-alt-label" data-zh="讲解员 / 管理员" data-en="Lecturer / Admin">讲解员 / 管理员</p>
+          <div class="vreg-alt-row">
+            <input type="password" id="vreg-staff-pwd" placeholder="Staff password"
+                   onkeypress="if(event.key==='Enter') loginFromReg('staff')" />
+            <button onclick="loginFromReg('staff')" data-zh="登录" data-en="Login">登录</button>
+          </div>
+        </div>
+        <p id="vreg-login-error" class="login-error" style="margin-top:0.5rem"></p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -548,8 +573,8 @@
 <!-- ═══════════════════════════════════════════════════════════════
      FEEDBACK OVERLAY
 ═══════════════════════════════════════════════════════════════ -->
-<div class="feedback-overlay hidden" id="feedback-overlay">
-  <div class="feedback-card">
+<div class="feedback-overlay hidden" id="feedback-overlay" onclick="closeFeedback()">
+  <div class="feedback-card" onclick="event.stopPropagation()">
 
     <div class="feedback-header">
       <div class="feedback-museum-tag" id="feedback-museum-tag"></div>

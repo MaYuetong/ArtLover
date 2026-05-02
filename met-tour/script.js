@@ -437,18 +437,13 @@ function selectMuseum(museumId) {
     badge.classList.add('hidden');
   }
 
-  // Visitor code hint
-  const todayCode = todayVisitorCode(museumId);
-  const hintEl = document.getElementById('login-hint');
-  if (hintEl) {
-    hintEl.textContent = `访客码：${todayCode} | 或输入 "yuetong" 快速进入 | 讲解员：lecturer2026`;
-  }
-
   // Set login background painting
   setLoginBgPainting(museumId);
 
+  // New flow: show questionnaire first; returning visitors / staff use the link at the bottom
   document.getElementById('museum-selector').classList.add('hidden');
-  document.getElementById('login-screen').classList.remove('hidden');
+  currentRole = 'visitor';
+  showVisitorForm();
 
   track('museum_selected', { museum: museumId });
 }
@@ -655,8 +650,7 @@ async function submitVisitorForm(e) {
 
   const password = generateVisitorPassword();
   const now      = new Date();
-  // Use email prefix as display name, full email stored separately
-  const name     = email.split('@')[0] || email;
+  const name     = email;
 
   visitorSession = {
     name, email, country, countryCode, province, date, source,
@@ -687,8 +681,24 @@ async function submitVisitorForm(e) {
     })).catch(() => {});
   }
 
-  // Enter app directly — code is stored in browser credential manager, not shown on screen
-  startAppAfterReg();
+  // Show generated code so visitor can save it for return visits
+  const panel = document.getElementById('visitor-password-panel');
+  if (panel) {
+    panel.className = 'visitor-code-reveal';
+    panel.innerHTML = `
+      <div class="vcr-inner">
+        <p class="vcr-label">${currentLang === 'zh' ? '您的专属访客码（请截图保存）' : 'Your access code — screenshot to save it'}</p>
+        <div class="vcr-code" id="vcr-code-text">${password}</div>
+        <p class="vcr-hint">${currentLang === 'zh' ? '下次访问时使用此码直接登录' : 'Use this code on your next visit to log in directly'}</p>
+        <div class="vcr-actions">
+          <button class="vcr-copy-btn" onclick="navigator.clipboard?.writeText('${password}').then(()=>this.textContent='已复制 ✓').catch(()=>{})">${currentLang === 'zh' ? '复制' : 'Copy'}</button>
+          <button class="vcr-enter-btn" onclick="startAppAfterReg()">${currentLang === 'zh' ? '进入导览' : 'Enter Tour'}</button>
+        </div>
+      </div>`;
+    document.getElementById('visitor-reg-form').classList.add('hidden');
+  } else {
+    startAppAfterReg();
+  }
 }
 
 function handleCredentialSave(event) {
@@ -700,6 +710,50 @@ function startAppAfterReg() {
   if (!currentRole) currentRole = 'visitor';
   document.getElementById('visitor-reg').classList.add('hidden');
   startApp();
+}
+
+function toggleAltLogin() {
+  const panel = document.getElementById('vreg-alt-panel');
+  panel?.classList.toggle('hidden');
+}
+
+function loginFromReg(type) {
+  const errEl = document.getElementById('vreg-login-error');
+  if (type === 'visitor') {
+    const code = (document.getElementById('vreg-visitor-code')?.value || '').trim().toUpperCase();
+    if (/^VIS-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) {
+      currentRole = 'visitor';
+      initIDB().then(() =>
+        idbGetAll('visitors').then(all => {
+          const sess = all.find(v => v.password === code);
+          if (sess) visitorSession = sess;
+          document.getElementById('visitor-reg').classList.add('hidden');
+          startApp();
+        })
+      );
+    } else if (/^(\d{4}-\d{2}-\d{2}\s+)?yuetong$/i.test(code)) {
+      visitorSession = { name: 'Yuetong', email: 'yuetong@dev', country: 'Dev', museumId: currentMuseumId, date: new Date().toISOString().split('T')[0], source: 'dev', password: 'YUETONG', timestamp: Date.now() };
+      currentRole = 'visitor';
+      document.getElementById('visitor-reg').classList.add('hidden');
+      startApp();
+    } else {
+      if (errEl) errEl.textContent = currentLang === 'zh' ? '访客码格式不正确（VIS-XXXX-XXXX）' : 'Invalid code format (VIS-XXXX-XXXX)';
+    }
+    return;
+  }
+  // Staff login
+  const pwd = (document.getElementById('vreg-staff-pwd')?.value || '').trim();
+  if (pwd === PASSWORDS.lecturer) {
+    currentRole = 'lecturer';
+    document.getElementById('visitor-reg').classList.add('hidden');
+    startApp();
+  } else if (pwd === PASSWORDS.admin) {
+    currentRole = 'admin';
+    document.getElementById('visitor-reg').classList.add('hidden');
+    startApp();
+  } else {
+    if (errEl) errEl.textContent = currentLang === 'zh' ? '密码错误' : 'Incorrect password';
+  }
 }
 
 /* ── APP INIT ─────────────────────────────────────────────────── */
@@ -1126,7 +1180,7 @@ function openAccOverlay(acc, editMode = false) {
       <span class="acc-gal-tag" style="font-family:monospace">${acc}</span>
     </div>
 
-    ${w.img ? `<img class="acc-card-img" src="${w.img}" alt="${escHtml(w.title)}"
+    ${w.img ? `<img class="acc-card-img" src="${w.img}" alt="${escHtml(w.title)}" loading="lazy"
                     onerror="this.style.display='none'" />` : ''}
 
     <h2 class="acc-title" id="edit-title">${escHtml(titlePrimary)}</h2>
@@ -1322,7 +1376,14 @@ function playTTS(text, lang, work) {
   const voices   = speechSynthesis.getVoices();
   const preferred = voices.find(v =>
     v.lang === lang && (v.name.includes('Natural') || v.name.includes('Siri') || v.name.includes('Ting'))
-  ) || voices.find(v => v.lang === lang);
+  ) || voices.find(v => v.lang === lang)
+    || voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+
+  if (!preferred && lang.startsWith('zh')) {
+    showToast(currentLang === 'zh'
+      ? '此设备未安装中文语音包，将使用默认语音朗读。建议在系统设置中安装"普通话"语音。'
+      : 'No Chinese voice installed — playing with default voice. Install "Mandarin" in system settings for best results.');
+  }
   if (preferred) ttsUtterance.voice = preferred;
 
   ttsUtterance.onend = () => document.getElementById('audio-player').classList.add('hidden');

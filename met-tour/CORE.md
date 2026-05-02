@@ -137,7 +137,7 @@ The Raphael exhibition is a distinct period entry in the PERIODS array, separate
 
 ## §7 Service Worker
 
-Cache name: `met-tour-v2.2` (bump on every content deployment)  
+Cache name: `met-tour-v2.7` (bump on every content deployment)  
 Strategy:
 - Core assets: cache-first
 - Met CDN + Wikimedia + AIC IIIF images: stale-while-revalidate

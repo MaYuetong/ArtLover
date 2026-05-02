@@ -2347,3 +2347,93 @@ body { background: #FFFFFF; }
   font-size: 0.72rem; font-style: normal;
   color: rgba(255,255,255,0.3); letter-spacing: 0.04em;
 }
+
+/* ── VISITOR CODE REVEAL (after registration) ─────────────────── */
+.visitor-code-reveal {
+  padding: 1.5rem 1rem;
+}
+.vcr-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.75rem; text-align: center;
+}
+.vcr-label {
+  font-size: 0.82rem; color: var(--secondary);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.vcr-code {
+  font-family: 'Courier New', monospace;
+  font-size: 1.6rem; font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--met-red); background: rgba(228,0,43,0.07);
+  padding: 0.6rem 1.4rem; border: 1.5px solid rgba(228,0,43,0.3);
+  border-radius: var(--radius);
+}
+.vcr-hint {
+  font-size: 0.8rem; color: var(--secondary);
+}
+.vcr-actions {
+  display: flex; gap: 0.75rem; margin-top: 0.25rem;
+}
+.vcr-copy-btn, .vcr-enter-btn {
+  padding: 0.55rem 1.4rem;
+  font-size: 0.85rem; font-weight: 600;
+  border-radius: var(--radius); cursor: pointer;
+  border: none; transition: background 0.15s;
+}
+.vcr-copy-btn {
+  background: var(--canvas); color: var(--umber);
+  border: 1.5px solid rgba(0,0,0,0.15);
+}
+.vcr-copy-btn:hover { background: #e8e8e8; }
+.vcr-enter-btn {
+  background: var(--met-red); color: #fff;
+}
+.vcr-enter-btn:hover { background: var(--met-red-dk); }
+
+/* ── ALT LOGIN (returning visitor / staff) on registration page ── */
+.vreg-alt-login {
+  margin-top: 1.25rem; border-top: 1px solid rgba(0,0,0,0.08);
+  padding-top: 1rem;
+}
+.vreg-alt-toggle {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.8rem; color: var(--secondary);
+  text-decoration: underline; text-underline-offset: 3px;
+  padding: 0;
+}
+.vreg-alt-toggle:hover { color: var(--umber); }
+.vreg-alt-panel {
+  margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;
+}
+.vreg-alt-section {
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.vreg-alt-label {
+  font-size: 0.78rem; color: var(--secondary);
+  letter-spacing: 0.03em; margin: 0;
+}
+.vreg-alt-row {
+  display: flex; gap: 0.5rem;
+}
+.vreg-alt-row input {
+  flex: 1; padding: 0.5rem 0.75rem;
+  border: 1.5px solid rgba(0,0,0,0.15); border-radius: var(--radius);
+  font-size: 0.875rem; background: #fff; color: var(--umber);
+  font-family: var(--sans);
+}
+.vreg-alt-row button {
+  padding: 0.5rem 1rem; border: none; border-radius: var(--radius);
+  background: var(--umber); color: #fff;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  font-family: var(--sans);
+}
+.vreg-alt-row button:hover { background: #333; }
+[data-theme="dark"] .vreg-alt-row input {
+  background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15);
+  color: #fff;
+}
+[data-theme="dark"] .vreg-alt-toggle { color: rgba(255,255,255,0.45); }
+[data-theme="dark"] .vreg-alt-toggle:hover { color: rgba(255,255,255,0.8); }
+[data-theme="dark"] .vcr-code { background: rgba(228,0,43,0.15); }
+[data-theme="dark"] .vcr-copy-btn { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
+[data-theme="dark"] .vcr-copy-btn:hover { background: rgba(255,255,255,0.18); }
