@@ -1445,8 +1445,8 @@ function renderVisitorLog(records) {
   const el = id => document.getElementById(id);
   if (el('vstat-total'))     el('vstat-total').textContent    = records.length;
   if (el('vstat-today'))     el('vstat-today').textContent    = records.filter(r => r.date === today).length;
-  if (el('vstat-countries')) el('vstat-countries').textContent = new Set(records.map(r => (r.country||'').trim())).size;
-  if (el('vstat-cities'))    el('vstat-cities').textContent   = new Set(records.map(r => (r.city||'').trim())).size;
+  if (el('vstat-countries')) el('vstat-countries').textContent = new Set(records.map(r => (r.countryCode||r.country||'').trim()).filter(Boolean)).size;
+  if (el('vstat-cities'))    el('vstat-cities').textContent   = new Set(records.map(r => (r.source||'').trim()).filter(Boolean)).size;
 
   drawCityPieChart(records);
 
@@ -1457,10 +1457,10 @@ function renderVisitorLog(records) {
   tbody.innerHTML = [...records].reverse().map((r, i) => `
     <tr>
       <td class="vrow-num">${records.length - i}</td>
-      <td class="vrow-name">${escHtml(r.name || '')}</td>
+      <td class="vrow-name" style="font-size:0.82em">${escHtml(r.email || r.name || '')}</td>
       <td>${escHtml(r.museum || r.museumId || 'met')}</td>
-      <td>${escHtml(r.city || '')}</td>
-      <td class="vrow-country">${escHtml(r.country || '')}</td>
+      <td class="vrow-country">${escHtml(r.country || r.countryCode || '')}</td>
+      <td>${escHtml(r.province || '')}</td>
       <td>${escHtml(r.source || '')}</td>
       <td>${r.date || ''}</td>
       <td style="font-family:monospace;font-size:0.8em">${r.password || ''}</td>
@@ -1555,7 +1555,7 @@ function drawPieChart(canvasId, data) {
 
 function drawCityPieChart(records) {
   const counts = {};
-  records.forEach(r => { const k = r.city?.trim()||'Unknown'; counts[k] = (counts[k]||0)+1; });
+  records.forEach(r => { const k = r.country?.trim() || r.countryCode?.trim() || 'Unknown'; counts[k] = (counts[k]||0)+1; });
   drawPieChart('city-pie-chart', counts);
 }
 
@@ -1813,6 +1813,7 @@ async function submitFeedback(e) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeAccOverlay();
+    if (!document.getElementById('feedback-overlay')?.classList.contains('hidden')) closeFeedback();
     if (document.getElementById('notes-panel')?.dataset.state === 'open') toggleNotesPanel();
   }
   if (e.key === ' ' && currentAcc && !e.target.matches('input,textarea,[contenteditable]')) {

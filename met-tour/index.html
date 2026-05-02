@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#f5efe0" />
+  <meta name="theme-color" content="#1B1B1B" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Art Tour" />
@@ -343,7 +343,7 @@
       <div class="role-banner" id="role-banner"></div>
       <div class="route-map-wrapper">
         <svg class="route-svg" id="route-svg" viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg">
-          <line x1="60" y1="60" x2="840" y2="60" stroke="rgba(201,168,76,0.3)" stroke-width="2" stroke-dasharray="6,4"/>
+          <line x1="60" y1="60" x2="840" y2="60" stroke="rgba(228,0,43,0.25)" stroke-width="2" stroke-dasharray="6,4"/>
         </svg>
       </div>
       <div class="route-progress hidden" id="route-progress">
@@ -397,13 +397,13 @@
         </div>
         <div class="visitor-stat-item">
           <span class="visitor-stat-num" id="vstat-cities">0</span>
-          <span class="visitor-stat-label" data-zh="城市" data-en="Cities">城市</span>
+          <span class="visitor-stat-label" data-zh="来源渠道" data-en="Sources">来源渠道</span>
         </div>
       </div>
       <!-- Canvas pie charts -->
       <div class="visitor-charts-row">
         <div class="visitor-chart-wrap">
-          <p class="chart-label" data-zh="城市分布" data-en="City distribution">城市分布</p>
+          <p class="chart-label" data-zh="国家/地区分布" data-en="Country distribution">国家/地区分布</p>
           <canvas id="city-pie-chart" width="180" height="180"></canvas>
         </div>
         <div class="visitor-chart-wrap">
@@ -420,10 +420,10 @@
           <thead>
             <tr>
               <th>#</th>
-              <th data-zh="姓名" data-en="Name">姓名</th>
+              <th data-zh="邮箱" data-en="Email">邮箱</th>
               <th data-zh="博物馆" data-en="Museum">博物馆</th>
-              <th data-zh="城市" data-en="City">城市</th>
-              <th data-zh="国家" data-en="Country">国家</th>
+              <th data-zh="国家/地区" data-en="Country">国家/地区</th>
+              <th data-zh="省份" data-en="Province">省份</th>
               <th data-zh="来源" data-en="Source">来源</th>
               <th data-zh="日期" data-en="Date">日期</th>
               <th data-zh="访问码" data-en="Code">访问码</th>

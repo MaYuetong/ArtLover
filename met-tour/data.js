@@ -1083,7 +1083,8 @@ const ROUTE = [
   { label: "Gal 611–618 Gothic", labelZh: "哥特展厅", gal: "611–618", icon: "Go", period: "gothic", duration: "30 min" },
   { label: "Gal 619–625 Renaissance", labelZh: "文艺复兴展厅", gal: "619–625", icon: "Re", period: "renaissance", duration: "40 min" },
   { label: "Gal 626–632 Baroque", labelZh: "巴洛克展厅", gal: "626–632", icon: "Ba", period: "baroque", duration: "30 min" },
-  { label: "Gal 633–637 Rococo/Nec", labelZh: "洛可可展厅", gal: "633–637", icon: "Ro", period: "rococo", duration: "20 min" },
+  { label: "Gal 633–635 Rococo", labelZh: "洛可可展厅", gal: "633–635", icon: "Ro", period: "rococo", duration: "20 min" },
+  { label: "Gal 636–637 Neoclassical", labelZh: "新古典主义展厅", gal: "636–637", icon: "Nc", period: "neoclassical", duration: "15 min" },
   { label: "Gal 638–641 Rom/Real", labelZh: "浪漫现实厅", gal: "638–641", icon: "Rm", period: "romanticism", duration: "20 min" },
   { label: "Gal 642–645 Impressionism", labelZh: "印象主义厅", gal: "642–645", icon: "Im", period: "impressionism", duration: "30 min" },
   { label: "Exit / Shop", labelZh: "出口/商店", gal: "Exit", icon: "Ex" }
