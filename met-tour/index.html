@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body data-lang="zh">
@@ -186,7 +186,10 @@
 
     <p id="login-error" class="login-error"></p>
     <p class="login-hint" id="login-hint">
-      访客码：当日日期MMDD + met &nbsp;|&nbsp; 或输入 "yuetong" 快速进入 &nbsp;|&nbsp; 讲解员：lecturer2026
+      <span data-zh="返访者请输入您的邮箱注册码 · 讲解员 / 管理员请联系博物馆方获取密码"
+            data-en="Returning visitors: enter your registered access code · Staff: contact museum administration">
+        返访者请输入您的邮箱注册码 · 讲解员请联系博物馆方获取密码
+      </span>
     </p>
   </div>
 </div>
@@ -212,37 +215,47 @@
       <div class="visitor-reg-frame-line"></div>
     </div>
 
-    <!-- Registration form -->
+    <!-- Registration form — simplified: email + origin + date -->
     <form class="visitor-reg-form" id="visitor-reg-form" onsubmit="submitVisitorForm(event)">
+
+      <!-- Hidden credential fields — triggers browser/Apple Keychain save silently -->
+      <input type="text" name="username" autocomplete="username" id="auth-username-field"
+             style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true" />
+      <input type="password" name="password" autocomplete="new-password" id="auth-password-field"
+             style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true" />
+
       <div class="form-field">
-        <label for="reg-museum" data-zh="地址 · Address" data-en="Address">地址 · Address</label>
+        <label for="reg-museum" data-zh="参观地址 · Venue" data-en="Venue">参观地址 · Venue</label>
         <input type="text" id="reg-museum" readonly class="form-readonly" />
       </div>
+
       <div class="form-field">
-        <label for="reg-name">姓名 · Name <span class="form-required">*</span></label>
-        <input type="text" id="reg-name" placeholder="您的姓名 / Your name"
-               required autocomplete="name" />
+        <label for="reg-email">邮箱 · Email <span class="form-required">*</span></label>
+        <input type="email" id="reg-email" placeholder="your@email.com"
+               required autocomplete="email" />
       </div>
+
       <div class="form-row">
         <div class="form-field">
-          <label for="reg-country" data-zh="国家 · Country" data-en="Country">国家 · Country <span class="form-required">*</span></label>
+          <label for="reg-country" data-zh="来自地区 · From" data-en="Region / Country">来自地区 · From <span class="form-required">*</span></label>
           <select id="reg-country" required autocomplete="country" onchange="onRegCountryChange()">
             <option value="">-- 请选择 / Select --</option>
-            <option value="CN">中国 China</option>
+            <option value="CN">中国大陆 Mainland China</option>
+            <option value="HK">香港 Hong Kong</option>
+            <option value="TW">台湾 Taiwan</option>
+            <option value="MO">澳门 Macao</option>
             <option value="US">美国 USA</option>
             <option value="GB">英国 UK</option>
             <option value="FR">法国 France</option>
             <option value="DE">德国 Germany</option>
+            <option value="IT">意大利 Italy</option>
+            <option value="ES">西班牙 Spain</option>
+            <option value="NL">荷兰 Netherlands</option>
             <option value="JP">日本 Japan</option>
             <option value="KR">韩国 Korea</option>
             <option value="AU">澳大利亚 Australia</option>
             <option value="CA">加拿大 Canada</option>
             <option value="SG">新加坡 Singapore</option>
-            <option value="HK">香港 Hong Kong</option>
-            <option value="TW">台湾 Taiwan</option>
-            <option value="NL">荷兰 Netherlands</option>
-            <option value="IT">意大利 Italy</option>
-            <option value="ES">西班牙 Spain</option>
             <option value="OTHER">其他 Other</option>
           </select>
         </div>
@@ -252,82 +265,31 @@
             <option value="">-- 请选择省份 --</option>
           </select>
         </div>
-        <div class="form-field">
-          <label for="reg-city" data-zh="城市 · City" data-en="City">城市 · City <span class="form-required">*</span></label>
-          <input type="text" id="reg-city" placeholder="City / 城市" required autocomplete="address-level2" />
-        </div>
       </div>
+
       <div class="form-field">
-        <label for="reg-date" data-zh="到访日期 · Visit Date" data-en="Visit Date">到访日期 · Visit Date <span class="form-required">*</span></label>
+        <label for="reg-date" data-zh="入馆日期 · Visit Date" data-en="Visit Date">入馆日期 · Visit Date <span class="form-required">*</span></label>
         <input type="date" id="reg-date" required />
       </div>
+
       <div class="form-field">
-        <label data-zh="您从哪里得知此导览？· Source" data-en="How did you find this guide?">您从哪里得知此导览？</label>
+        <label data-zh="您从哪里了解到此导览？" data-en="How did you find this guide?">您从哪里了解到此导览？</label>
         <div class="source-channel-grid">
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="xiaohongshu" />
-            <span>小红书</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="wechat" />
-            <span>微信</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="weibo" />
-            <span>微博</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="douyin" />
-            <span>抖音</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="official" />
-            <span data-zh="博物馆官网" data-en="Museum site">博物馆官网</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="linkedin" />
-            <span>LinkedIn</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="instagram" />
-            <span>Instagram</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="friend" />
-            <span data-zh="朋友推荐" data-en="Referral">朋友推荐</span>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="reg-source" value="other" />
-            <span data-zh="其他" data-en="Other">其他</span>
-          </label>
+          <label class="source-option"><input type="radio" name="reg-source" value="xiaohongshu" /><span>小红书</span></label>
+          <label class="source-option"><input type="radio" name="reg-source" value="wechat" /><span>微信</span></label>
+          <label class="source-option"><input type="radio" name="reg-source" value="douyin" /><span>抖音</span></label>
+          <label class="source-option"><input type="radio" name="reg-source" value="official" /><span data-zh="博物馆官网" data-en="Museum site">博物馆官网</span></label>
+          <label class="source-option"><input type="radio" name="reg-source" value="instagram" /><span>Instagram</span></label>
+          <label class="source-option"><input type="radio" name="reg-source" value="friend" /><span data-zh="朋友推荐" data-en="Referral">朋友推荐</span></label>
+          <label class="source-option"><input type="radio" name="reg-source" value="other" /><span data-zh="其他" data-en="Other">其他</span></label>
         </div>
       </div>
-      <div class="form-field form-onsite-field">
-        <label class="onsite-label">
-          <input type="checkbox" id="reg-onsite" />
-          <span data-zh="我目前在博物馆现场" data-en="I am currently at the museum in person">我目前在博物馆现场</span>
-        </label>
-        <p class="onsite-note" data-zh="请如实回答，以便提供适合您处境的参观建议" data-en="Please answer honestly so we can tailor your experience">请如实回答</p>
-      </div>
-      <button type="submit" class="visitor-reg-submit" data-zh="开始导览 · Start Tour" data-en="Start Tour">开始导览 · Start Tour →</button>
+
+      <button type="submit" class="visitor-reg-submit" data-zh="进入导览 · Enter Tour" data-en="Enter Tour">进入导览 · Enter Tour</button>
     </form>
 
-    <!-- Password display (shown after submission) — form triggers browser Save Password -->
-    <div class="visitor-password-panel hidden" id="visitor-password-panel">
-      <div class="visitor-reg-frame-line"></div>
-      <p class="pwd-panel-label" data-zh="您的专属访问码" data-en="Your access code">您的专属访问码</p>
-      <form id="visitor-auth-form" method="post" action="#" onsubmit="handleCredentialSave(event)">
-        <!-- Hidden username field — triggers browser credential save with name context -->
-        <input type="text" name="username" autocomplete="username" id="auth-username-field"
-               style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true" />
-        <!-- Hidden password field — browser detects new-password and offers to save -->
-        <input type="password" name="password" autocomplete="new-password" id="auth-password-field"
-               style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;overflow:hidden" tabindex="-1" aria-hidden="true" />
-        <div class="pwd-panel-code" id="visitor-generated-pwd"></div>
-        <p class="pwd-panel-note" data-zh="请记录此访问码，下次可凭此码直接进入" data-en="Save this code for future visits">请记录此访问码，下次可凭此码直接进入</p>
-        <button type="submit" class="visitor-reg-submit" data-zh="进入导览" data-en="Enter Tour">进入导览</button>
-      </form>
-    </div>
+    <!-- Password panel kept hidden — code saved to browser keychain only, never displayed -->
+    <div class="visitor-password-panel hidden" id="visitor-password-panel"></div>
   </div>
 </div>
 

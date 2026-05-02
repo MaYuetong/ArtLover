@@ -24,7 +24,7 @@ const CN_PROVINCES = [
 ];
 
 const PASSWORDS = {
-  lecturer: 'lecturer2026',
+  lecturer: 'myt2026',
   admin:    'metadmin2026'
 };
 
@@ -644,22 +644,22 @@ function showVisitorForm() {
 
 async function submitVisitorForm(e) {
   e.preventDefault();
-  const name     = document.getElementById('reg-name').value.trim();
-  const city     = document.getElementById('reg-city').value.trim();
+  const email    = (document.getElementById('reg-email')?.value || '').trim();
   const countryEl= document.getElementById('reg-country');
   const country  = countryEl?.selectedOptions?.[0]?.text || countryEl?.value?.trim() || '';
   const countryCode = countryEl?.value || '';
   const province = document.getElementById('reg-province')?.value || '';
   const date     = document.getElementById('reg-date').value;
   const source   = document.querySelector('input[name="reg-source"]:checked')?.value || 'other';
-  const onsite   = document.getElementById('reg-onsite')?.checked || false;
-  if (!name || !city || !country || !date) return;
+  if (!email || !country || !date) return;
 
   const password = generateVisitorPassword();
   const now      = new Date();
+  // Use email prefix as display name, full email stored separately
+  const name     = email.split('@')[0] || email;
 
   visitorSession = {
-    name, city, province, country, countryCode, date, source, onsite,
+    name, email, country, countryCode, province, date, source,
     museum:    currentMuseum?.name?.en || currentMuseumId,
     museumId:  currentMuseumId,
     address:   currentMuseum?.address || '',
@@ -670,31 +670,25 @@ async function submitVisitorForm(e) {
 
   await initIDB();
   await idbAddVisitor(visitorSession);
-  track('visitor_registered', { source, onsite, country, province, city });
+  track('visitor_registered', { source, country, province, email });
 
-  // POST registration to backend for admin visibility
   postToBackend({ type: 'registration', ...visitorSession }).catch(() => {});
 
-  // Populate hidden credential fields — triggers browser/Apple Save Password prompt
+  // Silent credential save — browser/Apple Keychain prompt without showing code on screen
   const unField  = document.getElementById('auth-username-field');
   const pwdField = document.getElementById('auth-password-field');
-  if (unField)  unField.value  = name;
+  if (unField)  unField.value  = email;
   if (pwdField) pwdField.value = password;
 
-  // Also try Credential Management API (Chrome/Safari/Edge)
   if (window.PasswordCredential) {
     navigator.credentials.store(new PasswordCredential({
-      id: name, password, name,
+      id: email, password, name: email,
       iconURL: location.origin + (location.pathname.replace(/\/[^/]*$/, '/')) + 'icons/icon-192.png'
     })).catch(() => {});
   }
 
-  // Show password panel
-  document.getElementById('visitor-reg-form').classList.add('hidden');
-  const pwdPanel = document.getElementById('visitor-password-panel');
-  const pwdEl    = document.getElementById('visitor-generated-pwd');
-  pwdPanel.classList.remove('hidden');
-  if (pwdEl) pwdEl.textContent = password;
+  // Enter app directly — code is stored in browser credential manager, not shown on screen
+  startAppAfterReg();
 }
 
 function handleCredentialSave(event) {
@@ -1151,10 +1145,29 @@ function openAccOverlay(acc, editMode = false) {
     </div>
 
     ${hasRole('lecturer') ? `
-    <details style="margin-top:12px">
-      <summary style="color:rgba(255,255,255,0.5);font-size:0.82rem;cursor:pointer" data-zh="完整讲解脚本" data-en="Full Script">完整讲解脚本</summary>
+    <details class="lec-script-details" open>
+      <summary class="lec-details-summary" data-zh="完整讲解脚本" data-en="Full Script">完整讲解脚本</summary>
       <div class="acc-audio-script" id="edit-audio" ${editAttr && hasRole('admin') ? 'contenteditable="true"' : ''}>${escHtml(audio)}</div>
-    </details>` : ''}
+    </details>
+    ${periodDef?.intro ? (() => {
+      const i = periodDef.intro;
+      const bio   = isZh ? (i.bioZh   || '') : (i.bioEn   || i.bioZh   || '');
+      const style = isZh ? (i.styleZh || '') : (i.styleEn || i.styleZh || '');
+      const name  = isZh ? (i.nameZh  || '') : (i.nameEn  || i.nameZh  || '');
+      return `
+      <details class="lec-bio-details">
+        <summary class="lec-details-summary" data-zh="艺术家生平" data-en="Artist Biography">艺术家生平</summary>
+        <div class="lec-bio-block">
+          ${i.portraitImg ? `<img class="lec-bio-portrait" src="${escHtml(i.portraitImg)}" alt="${escHtml(name)}" loading="lazy" />` : ''}
+          <div class="lec-bio-text">
+            ${name ? `<div class="lec-bio-name">${escHtml(name)}</div>` : ''}
+            ${bio   ? `<p class="lec-bio-para">${escHtml(bio)}</p>`   : ''}
+            ${style ? `<p class="lec-bio-style">${escHtml(style)}</p>` : ''}
+            ${i.quote ? `<blockquote class="lec-bio-quote">${escHtml(i.quote)}<cite> — ${escHtml(i.quoteAuthor || '')}</cite></blockquote>` : ''}
+          </div>
+        </div>
+      </details>`;
+    })() : ''}` : ''}
 
     <div class="acc-nav">
       ${prevNext.prev ? `<button class="acc-nav-btn acc-nav-prev" onclick="openAccOverlay('${prevNext.prev}',false)"><span class="acc-nav-dir" data-zh="上一件" data-en="Prev">上一件</span> ${escHtml(prevTitle)}</button>` : '<div></div>'}
