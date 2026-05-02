@@ -149,7 +149,7 @@ Strategy:
 
 | Museum | Works | Periods | Intros |
 |---|---|---|---|
-| Met (MET) | 25 | 8 (incl. Raphael exhibition) | All complete |
+| Met (MET) | 48 | 8 (incl. Raphael exhibition) | All complete |
 | AIC | 10 | 4 | All complete |
 | KHM | 13 | 4 | All complete |
 | HKMoA | 13 | 3 | All complete |

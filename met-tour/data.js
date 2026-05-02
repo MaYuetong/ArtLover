@@ -1,4 +1,4 @@
-// Met Museum Works Data — 25 real open-access artworks
+// Met Museum Works Data — 49 real open-access artworks
 // Images served from Met Open Access CDN (CC0 public domain)
 // Accession numbers verified against metmuseum.org collection
 
@@ -440,6 +440,445 @@ const WORKS_DATA = {
     audioText: "这是克劳德·莫奈的《圣阿德雷斯的花园》，1867年，展于642号展厅。这是莫奈早期最重要的作品之一。画面构图明显受到日本浮世绘的影响——水平分层，强烈色块，近景花坛与远景船帆并置。旗帜在海风中飘扬，阳光炙热而欢快。莫奈曾称这是'一幅中国式的带旗帜的绘画'。这里可以看到他日后全面走向印象主义之前的过渡状态。",
     audioTextEn: "Monet's Garden at Sainte-Adresse, 1867, Gallery 642. This early masterpiece shows Japanese ukiyo-e influence — horizontal banding, bold flat color, foreground flowers against distant sailboats. Flags flutter in the sea breeze; summer light blazes. Monet called it 'a Chinese painting with flags' — a transitional moment before full Impressionism.",
     tags: ["early Monet", "Japanese influence", "seascape", "garden", "flags"]
+  },
+
+  // ── GOTHIC (additional) ───────────────────────────────────────────────────
+  "32.100.43": {
+    title: "Portrait of Francesco d'Este",
+    titleZh: "弗朗切斯科·德·埃斯特肖像",
+    painter: "Rogier van der Weyden",
+    painterZh: "罗希尔·范·德·韦登",
+    dates: "c. 1460",
+    gal: "612",
+    period: "gothic",
+    periodLabel: "Gothic / Flemish",
+    routePos: 3,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-26278-001.jpg",
+    desc: "北方哥特绘画的珠玑：范·德·韦登将宫廷贵族的心理状态凝固在木板之上，眼神穿越六百年仍清醒而警觉。",
+    descEn: "Northern Gothic portraiture at its peak: Van der Weyden freezes an aristocrat's psychological presence — eyes alert across six centuries.",
+    audioText: "这是罗希尔·范·德·韦登约1460年绘制的《弗朗切斯科·德·埃斯特肖像》，位于612号展厅。范·德·韦登是15世纪佛兰德斯最重要的画家，他将北方哥特的细腻油画技术与深刻的心理刻画结合。画中男子握着一枚戒指，面朝三分之二侧面，眼神冷静而穿透。北方画家用油彩的透明叠层捕捉皮肤的光泽、布料的质感，与南方意大利的蛋彩画形成鲜明对比。",
+    audioTextEn: "Van der Weyden's Portrait of Francesco d'Este, c. 1460, Gallery 612. Van der Weyden was the dominant Flemish master of the 15th century, combining Northern Gothic's meticulous oil technique with penetrating psychological insight. The sitter holds a ring, turns three-quarters, his gaze cool and timeless. Northern oil glazing captures skin luminosity and textile texture in ways Italian tempera could not.",
+    tags: ["Flemish", "portraiture", "oil", "Northern Gothic", "psychological"]
+  },
+
+  "2010.118": {
+    title: "Portrait of a Man",
+    titleZh: "老者像",
+    painter: "Hugo van der Goes",
+    painterZh: "胡戈·凡·德·胡斯",
+    dates: "c. 1475–1480",
+    gal: "613",
+    period: "gothic",
+    periodLabel: "Gothic / Flemish",
+    routePos: 4,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP234678.jpg",
+    desc: "凡·德·胡斯短暂而传奇的一生，留下最真实的晚期哥特人物画——皮肤纹理、眼袋、岁月都诚实可见。",
+    descEn: "Van der Goes's brief, legendary career distilled into one face: skin texture, tired eyes, and the honest weight of years — late Gothic at its most human.",
+    audioText: "胡戈·凡·德·胡斯的《老者像》，约1475–1480年，613号展厅。凡·德·胡斯是根特祭坛画《波提纳里祭坛》的作者，以惊人的心理深度著称。他晚年精神崩溃，最终在修道院度过余生——但这幅肖像完全展示了他鼎盛时期的力量：皮肤的每一道皱纹、眼睛的疲惫与清醒，都以油彩透明层层叠加而成。这是最早的'诚实肖像'之一，没有美化，只有真实。",
+    audioTextEn: "Hugo van der Goes, Portrait of a Man, c.1475–80, Gallery 613. Van der Goes painted the monumental Portinari Altarpiece and was celebrated for psychological depth. He suffered a breakdown late in life, retreating to a monastery. This portrait shows his full power: every crease of skin, the tired clarity of eyes, built up in transparent oil glazes. One of the earliest truly honest portraits.",
+    tags: ["Flemish", "portraiture", "psychological realism", "oil glazing"]
+  },
+
+  // ── RENAISSANCE (additional) ──────────────────────────────────────────────
+  "08.183.1": {
+    title: "Madonna and Child Enthroned",
+    titleZh: "宝座上的圣母与圣子",
+    painter: "Giovanni Bellini",
+    painterZh: "乔瓦尼·贝利尼",
+    dates: "c. 1480–1490",
+    gal: "621",
+    period: "renaissance",
+    periodLabel: "Renaissance",
+    routePos: 8,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DT375.jpg",
+    desc: "贝利尼将威尼斯光线的柔美与宗教的深情融为一体，圣母的忧郁眼神预示着儿子的命运——威尼斯色彩革命的奠基之作。",
+    descEn: "Bellini merges Venetian luminosity with religious tenderness — the Madonna's melancholy already knows her son's fate. Foundation stone of Venice's color revolution.",
+    audioText: "这是乔瓦尼·贝利尼的《宝座上的圣母与圣子》，约1480–90年，展于621号展厅。贝利尼是提香、乔尔乔内的老师，威尼斯色彩绘画传统的真正奠基人。他从佛兰德斯学来油画技术，将其与威尼斯明亮的光线结合，创造出一种前所未有的发光感。画中圣母面容忧郁而温柔，眼神望向远方——贝利尼的圣母总有预知悲剧的哀愁，这正是他作品打动人心的秘密。",
+    audioTextEn: "Bellini's Madonna and Child Enthroned, c.1480–90, Gallery 621. Bellini was Titian and Giorgione's teacher — the true founder of Venice's color tradition. He absorbed Flemish oil technique and fused it with Venetian luminosity. The Madonna's melancholy gaze seems to already know her son's fate. That quiet foreboding is the secret of Bellini's emotional power.",
+    tags: ["Venetian", "Madonna", "oil", "luminosity", "Renaissance foundation"]
+  },
+
+  "49.7.16": {
+    title: "Venus and Adonis",
+    titleZh: "维纳斯与阿多尼斯",
+    painter: "Titian",
+    painterZh: "提香",
+    dates: "c. 1550–1560",
+    gal: "620",
+    period: "renaissance",
+    periodLabel: "Renaissance / Venetian",
+    routePos: 9,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-19299-001.jpg",
+    desc: "提香的威尼斯感官主义：丰满的人体、燃烧的金红色彩、爱与死亡的预兆——文艺复兴盛期对古典神话的最华丽诠释。",
+    descEn: "Titian's Venetian sensualism at full power: opulent figures, burning gold-and-crimson palette, love and death foretold — the High Renaissance's most magnificent mythological vision.",
+    audioText: "这是提香约1550年代创作的《维纳斯与阿多尼斯》，展于620号展厅。提香是威尼斯绘画的顶峰，他的色彩不是线条填色，而是从内部发光的大气——光线透过大气层照耀人体。画面中维纳斯试图阻止阿多尼斯去狩猎——她知道他会死于野猪。金红色天空预示悲剧，人体的丰满与脆弱对比强烈。提香的笔触晚年愈发粗犷自由，近看只是颜料，退远才显出形体——这是西方绘画最早的'抽象笔触'。",
+    audioTextEn: "Titian's Venus and Adonis, c.1550–60, Gallery 620. Titian was the pinnacle of Venetian painting — his color glows atmospherically rather than filling outline. Venus tries to stop Adonis from the hunt she knows will kill him; gold-crimson sky foretells tragedy. Titian's late brushwork grows increasingly free — up close, just pigment; stand back and form emerges. Western painting's first abstract brushstrokes.",
+    tags: ["Venetian", "mythology", "sensual", "color", "atmospheric"]
+  },
+
+  "14.40.642": {
+    title: "The Last Communion of Saint Jerome",
+    titleZh: "圣哲罗姆最后的圣餐",
+    painter: "Sandro Botticelli",
+    painterZh: "桑德罗·波提切利",
+    dates: "c. 1495",
+    gal: "619",
+    period: "renaissance",
+    periodLabel: "Renaissance / Florentine",
+    routePos: 10,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-24049-001.jpg",
+    desc: "波提切利晚期作品，受萨沃纳罗拉的宗教改革影响，告别了早期的神话世界，转向深沉的宗教虔诚——一位天才的内心转变。",
+    descEn: "Botticelli's late work, marked by Savonarola's reform: farewell to mythology, turn toward deep devotion — a genius transformed by faith and fear.",
+    audioText: "波提切利的《圣哲罗姆最后的圣餐》，约1495年，619号展厅。这是与《春》《维纳斯的诞生》截然不同的波提切利——不再有优雅的神话仙女，而是一位垂死老人最后的圣礼。萨沃纳罗拉的末世布道震撼了佛罗伦萨，波提切利据说亲手将自己的神话画投入'虚荣之火'。这幅作品中，圣哲罗姆骨瘦如柴，四周信徒神情肃穆——这是一位天才在信仰危机中的内心转变。",
+    audioTextEn: "Botticelli's Last Communion of Saint Jerome, c.1495, Gallery 619. This is a radically different Botticelli from the mythological masterpieces — no Graces, no Venus. Savonarola's apocalyptic preaching shook Florence; Botticelli reportedly threw his own mythological paintings into the 'Bonfire of the Vanities.' Here, the emaciated Jerome receives last rites. A genius transformed by faith and dread.",
+    tags: ["Florentine", "devotional", "late Botticelli", "Savonarola", "religious reform"]
+  },
+
+  "11.15": {
+    title: "Judith with the Head of Holofernes",
+    titleZh: "朱迪斯与霍洛芬尼斯的首级",
+    painter: "Lucas Cranach the Elder",
+    painterZh: "老卢卡斯·克拉纳赫",
+    dates: "c. 1530",
+    gal: "624",
+    period: "renaissance",
+    periodLabel: "Renaissance / Northern",
+    routePos: 11,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP280784.jpg",
+    desc: "克拉纳赫将圣经英雄朱迪斯画成德国宫廷贵妇——时髦的帽子、华丽的衣裙，她从容持剑，这是北方文艺复兴对女性力量最迷人的诠释。",
+    descEn: "Cranach paints the biblical heroine as a fashionable German court lady — elegant hat, sumptuous dress, sword held calmly. Northern Renaissance's most alluring vision of female power.",
+    audioText: "老克拉纳赫的《朱迪斯》，约1530年，624号展厅。克拉纳赫是马丁·路德的朋友和画师，德国宗教改革的视觉代言人。但他也擅长绘制性感的神话女性——这两者在他手中并不矛盾。这位朱迪斯有着时髦的红色宽檐帽，华丽的金色饰边礼服，手持利剑，表情平静如常。她的从容令人不安——这种优雅与暴力的并置，正是克拉纳赫独特的北方讽刺气质。",
+    audioTextEn: "Cranach's Judith, c.1530, Gallery 624. Cranach was Martin Luther's friend and court painter — visual spokesman for the German Reformation. Yet he also painted sensuous mythological women; these weren't contradictory for him. This Judith wears a fashionable red wide-brimmed hat and sumptuous gold-trimmed dress, sword held calmly. Her composure is unsettling — the juxtaposition of elegance and violence is Cranach's distinctly Northern irony.",
+    tags: ["Northern Renaissance", "biblical heroine", "German", "Reformation", "female power"]
+  },
+
+  "32.130.2": {
+    title: "Adoration of the Shepherds",
+    titleZh: "牧羊人朝拜",
+    painter: "Andrea Mantegna",
+    painterZh: "安德烈亚·曼泰尼亚",
+    dates: "c. 1450–1451",
+    gal: "619",
+    period: "renaissance",
+    periodLabel: "Renaissance / Italian",
+    routePos: 12,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP213831.jpg",
+    desc: "曼泰尼亚将古罗马雕刻的坚硬质感带入绘画——人物如石雕般棱角分明，风景如浮雕般精确，是意大利北方文艺复兴的考古学派杰作。",
+    descEn: "Mantegna imports Roman sculptural hardness into painting — figures carved as stone, landscape etched as relief. Northern Italian Renaissance's archaeological masterpiece.",
+    audioText: "曼泰尼亚的《牧羊人朝拜》，约1450年，619号展厅。曼泰尼亚是帕多瓦文艺复兴的核心人物，他痴迷于古罗马雕塑，将那种石刻的坚硬质感带入绘画。他的人物像浮雕一样棱角分明，衣褶像大理石一样僵直，背景的岩石像考古遗址。他与威尼斯的贝利尼是连襟，两人代表两种截然不同的文艺复兴气质：曼泰尼亚的坚硬与贝利尼的柔光。",
+    audioTextEn: "Mantegna's Adoration of the Shepherds, c.1450–51, Gallery 619. Mantegna was the central figure of Paduan Renaissance, obsessed with ancient Roman sculpture, importing its stony hardness into paint. His figures are carved-looking, drapery rigid as marble, rock formations like archaeological sites. He married Bellini's sister — two brothers-in-law representing opposite Renaissance temperaments: Mantegna's hardness versus Bellini's luminous softness.",
+    tags: ["Paduan", "classical antiquity", "sculptural", "archaeological", "Northern Italian"]
+  },
+
+  "11.118": {
+    title: "Meditation on the Passion",
+    titleZh: "对受难的冥想",
+    painter: "Vittore Carpaccio",
+    painterZh: "维托雷·卡尔帕乔",
+    dates: "c. 1490–1495",
+    gal: "621",
+    period: "renaissance",
+    periodLabel: "Renaissance / Venetian",
+    routePos: 13,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP296427.jpg",
+    desc: "卡尔帕乔将宗教冥想包裹在奇异的叙事细节中——一位圣人坐在废墟之间，动物相伴，将威尼斯街道的生活气息带入神圣主题。",
+    descEn: "Carpaccio wraps religious meditation in strange narrative detail — a saint amid ruins, animals as companions, Venetian street life breathed into sacred themes.",
+    audioText: "卡尔帕乔的《对受难的冥想》，约1490–95年，621号展厅。卡尔帕乔是威尼斯叙事画的大师，他的作品充满奇异的细节：废墟、动物、东方人物、远处的船帆。这幅画描绘圣哲罗姆和约伯沉浸于对基督受难的冥想，却置于令人惊叹的混合景观中——古典废墟、威尼斯风景与想象中的东方并置。这种叙事的繁复感，让他成为威尼斯绘画中最独特的声音。",
+    audioTextEn: "Carpaccio's Meditation on the Passion, c.1490–95, Gallery 621. Carpaccio was Venice's master of narrative painting, filling his scenes with strange details: ruins, animals, Eastern figures, distant sails. Saints Jerome and Job contemplate Christ's passion amid a stunning composite landscape — classical ruins, Venetian scenery, and imaginary Orient. This narrative richness makes Carpaccio Venice's most singular pictorial voice.",
+    tags: ["Venetian", "narrative", "composite landscape", "saints", "details"]
+  },
+
+  "49.7.9": {
+    title: "Madonna and Child with Two Angels",
+    titleZh: "圣母子与两天使",
+    painter: "Fra Filippo Lippi",
+    painterZh: "弗拉·菲利普·利皮",
+    dates: "c. 1455",
+    gal: "619",
+    period: "renaissance",
+    periodLabel: "Renaissance / Florentine",
+    routePos: 14,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-20746-001.jpg",
+    desc: "利皮将圣母画成可爱的佛罗伦萨少女，天使顽皮地回望观众——他突破了宗教图像的庄严距离，让神圣变得亲切而世俗。",
+    descEn: "Lippi paints the Madonna as a charming Florentine girl; an angel turns to meet our gaze cheekily — he shattered the solemn distance of religious icons, making the sacred intimate and human.",
+    audioText: "弗拉·菲利普·利皮的《圣母子与两天使》，约1455年，619号展厅。利皮是一位有着传奇个人故事的修士画家——他诱拐了修女卢克雷齐娅·布蒂并与她生下儿子菲利皮诺·利皮（后来也成为著名画家）。这幅画是他最著名的作品之一：圣母如邻家少女般甜美，左边天使俏皮地回望观众——这一瞬间打破了神圣与世俗的距离。他的学生波提切利继承了这种亲切感，并将其演变为神话的优雅。",
+    audioTextEn: "Fra Filippo Lippi's Madonna and Child with Two Angels, c.1455, Gallery 619. Lippi was a monk with a legendary personal story — he eloped with a nun, Lucrezia Buti, fathering Filippino Lippi (himself a celebrated painter). This painting is his masterpiece: the Madonna sweet as a Florentine neighbor, the left angel turning mischievously to meet our gaze — breaking the solemn distance of sacred icons. His student Botticelli inherited this intimacy and evolved it into mythological grace.",
+    tags: ["Florentine", "Madonna", "intimate", "humanized", "charming"]
+  },
+
+  "30.95.256": {
+    title: "Madonna and Child",
+    titleZh: "圣母与圣子（睡眠中的圣子）",
+    painter: "Giovanni Bellini",
+    painterZh: "乔瓦尼·贝利尼",
+    dates: "c. 1465",
+    gal: "621",
+    period: "renaissance",
+    periodLabel: "Renaissance / Venetian",
+    routePos: 15,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DT7219.jpg",
+    desc: "熟睡的圣婴预示着死亡与复活——贝利尼早期杰作，画面的宁静之下涌动着深沉的神学涵义。",
+    descEn: "The sleeping Christ Child prefigures death and resurrection — beneath Bellini's early serene surface runs deep theological current.",
+    audioText: "贝利尼的《圣母与圣子》，约1465年，621号展厅。画中圣婴沉睡，这在基督教图像中有特殊含义——睡眠象征死亡，预示着基督的牺牲与复活。贝利尼在这幅早期作品中已经展示了他标志性的光线处理：圣母的面容沐浴在柔和的威尼斯暮光中，表情兼有慈爱与忧伤。这种光线与情感的融合，将在他后期作品中发展为完整的威尼斯色彩传统。",
+    audioTextEn: "Bellini's Madonna and Child, c.1465, Gallery 621. The sleeping Christ Child carries theological weight — sleep symbolizes death, prefiguring Christ's sacrifice and resurrection. In this early work Bellini already shows his signature light: the Madonna bathed in soft Venetian glow, her expression tender and melancholy. This fusion of light and emotion would mature into the full Venetian color tradition.",
+    tags: ["Venetian", "Madonna", "sleeping child", "theological", "early Bellini"]
+  },
+
+  // ── BAROQUE (additional) ──────────────────────────────────────────────────
+  "14.40.618": {
+    title: "Self-Portrait",
+    titleZh: "自画像",
+    painter: "Rembrandt van Rijn",
+    painterZh: "伦勃朗·哈尔曼松·凡·莱因",
+    dates: "1660",
+    gal: "636",
+    period: "baroque",
+    periodLabel: "Baroque / Dutch",
+    routePos: 16,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-16323-001.jpg",
+    desc: "伦勃朗晚年自画像：破产后的尊严，眼中有沧桑也有从容——这是西方绘画史上最深刻的自我审视系列之一。",
+    descEn: "Rembrandt's late self-portrait: dignity after bankruptcy, eyes carrying both weathering and calm — one of Western art's most profound series of self-examinations.",
+    audioText: "这是伦勃朗1660年的自画像，展于636号展厅。伦勃朗一生创作了约100幅自画像，成为西方绘画史上最系统的自我记录。1660年是他破产后第三年，画中的伦勃朗没有悲苦——有的是一种经历了世俗失败之后的沉静。他的'伦勃朗光'——一侧照明，另一侧消融在暗影中——在这里达到了最纯粹的状态：不是技术炫耀，而是一盏用来照见灵魂的灯。",
+    audioTextEn: "Rembrandt's Self-Portrait, 1660, Gallery 636. Rembrandt made roughly a hundred self-portraits — Western art's most systematic self-documentation. This was painted three years after his bankruptcy. No self-pity: instead, a stillness born of worldly failure. His signature 'Rembrandt lighting' — one side illuminated, the other dissolving in shadow — here achieves its purest state: not technical display but a lamp lit to see the soul.",
+    tags: ["self-portrait", "Dutch Golden Age", "Rembrandt lighting", "introspection", "late work"]
+  },
+
+  "29.100.1": {
+    title: "Portrait of Herman Doomer",
+    titleZh: "赫尔曼·杜默肖像",
+    painter: "Rembrandt van Rijn",
+    painterZh: "伦勃朗·哈尔曼松·凡·莱因",
+    dates: "1640",
+    gal: "636",
+    period: "baroque",
+    periodLabel: "Baroque / Dutch",
+    routePos: 17,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP145921.jpg",
+    desc: "伦勃朗为老友兼木框匠赫尔曼·杜默所绘——光线从黑暗中雕刻出脸庞，这是荷兰黄金时代市民肖像的杰作。",
+    descEn: "Rembrandt paints his old friend the cabinetmaker: light carves a face from darkness — Dutch Golden Age bourgeois portraiture at its finest.",
+    audioText: "伦勃朗的《赫尔曼·杜默肖像》，1640年，636号展厅。杜默是阿姆斯特丹一位有名望的木框匠，伦勃朗的朋友。这幅画是伦勃朗最成熟时期的代表作之一。与贵族肖像不同，这里没有盔甲和勋章，只有一个中年工匠直视着我们——棕色皮肤、厚重双手、沉稳目光。伦勃朗赋予市民阶级和贵族同等的尊严，这在17世纪的欧洲是革命性的。",
+    audioTextEn: "Rembrandt's Portrait of Herman Doomer, 1640, Gallery 636. Doomer was a respected Amsterdam cabinetmaker and Rembrandt's friend. No armor or medals — just a middle-aged craftsman looking directly at us, brown skin, heavy hands, steady gaze. Rembrandt granted the bourgeoisie equal dignity to the aristocracy — a revolutionary act in 17th-century Europe.",
+    tags: ["Dutch Golden Age", "bourgeois portrait", "dignity", "craftsman", "masterwork"]
+  },
+
+  "26.101.9": {
+    title: "Hendrickje Stoffels",
+    titleZh: "亨德里克耶·斯托弗尔斯",
+    painter: "Rembrandt van Rijn",
+    painterZh: "伦勃朗·哈尔曼松·凡·莱因",
+    dates: "c. 1655–1660",
+    gal: "636",
+    period: "baroque",
+    periodLabel: "Baroque / Dutch",
+    routePos: 18,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP145920.jpg",
+    desc: "伦勃朗晚年的伴侣与模特——没有珠宝的华贵，只有爱人眼中温柔的凝视，是最私密的艺术自白。",
+    descEn: "Rembrandt's companion and muse in his late years — no jewels, no ornament, only the tender gaze of a beloved. His most intimate artistic confession.",
+    audioText: "伦勃朗的《亨德里克耶》，约1655–60年，636号展厅。亨德里克耶·斯托弗尔斯是伦勃朗破产后的伴侣，她管理他的事务，陪伴他度过最艰难的岁月。他画了她许多次。这幅肖像没有珠宝、没有装饰——只有一个中年女性温柔而直接地注视着画家（也注视着我们）。这不是委托肖像，而是一个男人对他所爱之人的私密记录。在伦勃朗的整个系列中，这是最具私人情感的一幅。",
+    audioTextEn: "Rembrandt's Hendrickje Stoffels, c.1655–60, Gallery 636. Hendrickje was Rembrandt's companion after his bankruptcy — she managed his affairs through his hardest years. He painted her many times. No jewels, no ornament here: just a middle-aged woman gazing tenderly and directly at the painter and at us. Not a commission but a private record of love. Among all Rembrandt's portraits, his most intimately personal.",
+    tags: ["Dutch Golden Age", "intimate portrait", "companion", "private", "late Rembrandt"]
+  },
+
+  "14.40.605": {
+    title: "Merrymakers at Shrovetide",
+    titleZh: "狂欢节喧闹者",
+    painter: "Frans Hals",
+    painterZh: "弗兰斯·哈尔斯",
+    dates: "c. 1616–1617",
+    gal: "637",
+    period: "baroque",
+    periodLabel: "Baroque / Dutch",
+    routePos: 19,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP145901.jpg",
+    desc: "哈尔斯的笔触快如闪电——他把活生生的欢笑、醉意和片刻的喧嚣固定在画布上，开创了西方绘画最大胆的即兴技法。",
+    descEn: "Hals's brushwork fast as lightning — he pins living laughter, drunken joy, a moment of carnival noise to canvas. The most audacious improvisational technique in Western painting.",
+    audioText: "弗兰斯·哈尔斯的《狂欢节喧闹者》，约1616年，637号展厅。哈尔斯是荷兰黄金时代最独特的天才——他的笔触极为大胆，几乎是速写，却充满生命力。在他之前，没有人敢把这么'未完成'的笔触展示给买家。这幅狂欢节场景中，人物大笑、举杯、扭头——每个动作都像被摄影机抓住的瞬间。他影响了马奈，马奈影响了印象派，哈尔斯的闪电笔触是通往现代绘画的秘密通道。",
+    audioTextEn: "Frans Hals, Merrymakers at Shrovetide, c.1616–17, Gallery 637. Hals was the Dutch Golden Age's most singular genius — his brushwork audaciously free, almost sketchy, yet vibrating with life. Before him, no one dared show buyers strokes this 'unfinished.' Figures laugh, raise cups, turn their heads — each gesture caught like a photograph. He influenced Manet; Manet influenced the Impressionists. Hals's lightning strokes are a secret passage to modern painting.",
+    tags: ["Dutch Golden Age", "genre", "carnival", "free brushwork", "precursor to modernism"]
+  },
+
+  "89.15.16": {
+    title: "James Stuart, Duke of Richmond and Lennox",
+    titleZh: "里士满与伦诺克斯公爵詹姆斯·斯图亚特",
+    painter: "Anthony van Dyck",
+    painterZh: "安东尼·凡·戴克",
+    dates: "c. 1633–1635",
+    gal: "635",
+    period: "baroque",
+    periodLabel: "Baroque / Flemish",
+    routePos: 20,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-25646-001.jpg",
+    desc: "凡·戴克发明了贵族肖像的永恒公式——飘逸的姿态、狗的陪伴、漫不经心的威严，塑造了整个欧洲宫廷对'骑士风度'的想象。",
+    descEn: "Van Dyck invented the eternal formula for aristocratic portraiture — languid pose, canine companion, casual magnificence — shaping all of Europe's idea of aristocratic grace.",
+    audioText: "凡·戴克的《里士满公爵肖像》，约1633–35年，635号展厅。凡·戴克是鲁本斯最优秀的学生，后成为英王查理一世的首席宫廷画师。他发明了欧洲贵族肖像的标准：高挑的身形、慵懒的姿态、纤细的手指、猎犬相伴——这种'骑士风度'的视觉公式被英国肖像画继承了两百年，直到雷诺兹和根兹博罗。公爵的银灰色礼服与深色背景形成优雅对比，凡·戴克对织物质感的描绘无人能及。",
+    audioTextEn: "Van Dyck's James Stuart, Duke of Richmond and Lennox, c.1633–35, Gallery 635. Van Dyck was Rubens's greatest student, later Charles I's chief court painter. He invented the European aristocratic portrait formula: tall elongated figure, languid pose, slender fingers, hunting dog companion — this 'cavalier grace' was inherited by English portraiture for two hundred years, through Reynolds and Gainsborough. The silver-gray costume against dark background; Van Dyck's fabric texture unmatched.",
+    tags: ["Flemish Baroque", "court portrait", "aristocratic", "cavalier", "fabric texture"]
+  },
+
+  "1981.238": {
+    title: "Helena Fourment",
+    titleZh: "海伦娜·福尔芒特",
+    painter: "Peter Paul Rubens",
+    painterZh: "彼得·保罗·鲁本斯",
+    dates: "c. 1630–1632",
+    gal: "628",
+    period: "baroque",
+    periodLabel: "Baroque / Flemish",
+    routePos: 21,
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Peter_Paul_Rubens_-_Het_pelsken_%281636-38%29.jpg/400px-Peter_Paul_Rubens_-_Het_pelsken_%281636-38%29.jpg",
+    desc: "鲁本斯晚年娶了十六岁的海伦娜，他为她画了无数肖像——这是巴洛克最私密的爱情宣言，也是他最轻盈的画作之一。",
+    descEn: "Rubens married sixteen-year-old Helena in his final decade and painted her obsessively — this is Baroque's most intimate love letter, his lightest, most luminous touch.",
+    audioText: "鲁本斯的《海伦娜·福尔芒特》，约1630–32年，628号展厅。鲁本斯晚年，53岁时娶了16岁的海伦娜，她成为他晚年最重要的模特。与他那些宏大的神话与宗教委托画不同，这些私人肖像展示了鲁本斯最轻柔、最透明的一面——笔触轻盈，色彩温暖，充满了爱人凝视爱人的私密光芒。这种对家庭温情的捕捉，是巴洛克壮阔叙事之外最人性的时刻。",
+    audioTextEn: "Rubens's Helena Fourment, c.1630–32, Gallery 628. At fifty-three Rubens married sixteen-year-old Helena; she became his most important model in his final decade. Unlike his grand mythological and religious commissions, these private portraits reveal Rubens at his most delicate and transparent — light brushwork, warm color, the intimate glow of a beloved observed. A profoundly human moment beside Baroque's grand narratives.",
+    tags: ["Flemish Baroque", "portrait", "private", "wife", "luminous", "intimate"]
+  },
+
+  "58.89": {
+    title: "Merry Company on a Terrace",
+    titleZh: "露台上的欢乐聚会",
+    painter: "Jan Steen",
+    painterZh: "扬·斯滕",
+    dates: "c. 1673–1675",
+    gal: "637",
+    period: "baroque",
+    periodLabel: "Baroque / Dutch",
+    routePos: 22,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP146455.jpg",
+    desc: "斯滕的道德寓言包裹在欢笑之中——欢乐背后是告诫，每个角落都藏着象征荒诞与时光流逝的细节。",
+    descEn: "Steen's moral allegory wrapped in laughter — behind the merriment lurks admonition; every corner hides symbols of folly and time's passage.",
+    audioText: "扬·斯滕的《露台上的欢乐聚会》，约1673年，637号展厅。斯滕是荷兰黄金时代风俗画大师，但他的欢乐场景都包含道德讽刺。画面中人们饮酒、歌唱、调情——但仔细看会发现消极的象征：一个孩子偷喝酒，老人忘形欢笑。荷兰谚语'扬·斯滕式的家庭'（Jan Steen huishouden）意指一团乱麻，他的作品就是对世俗享乐虚空的温和嘲讽。笑声中响着警钟。",
+    audioTextEn: "Jan Steen's Merry Company on a Terrace, c.1673–75, Gallery 637. Steen was the Dutch Golden Age's master of genre painting with moral commentary. The merry scene — drinking, singing, flirting — hides negative symbols: a child sneaking wine, an old man lost in pleasure. The Dutch phrase 'a Jan Steen household' (Jan Steen huishouden) means chaos; his work is gentle satire on the vanity of worldly pleasures. Bells of warning ringing within the laughter.",
+    tags: ["Dutch genre", "moral allegory", "festive", "satire", "symbolism"]
+  },
+
+  // ── ROCOCO (additional) ───────────────────────────────────────────────────
+  "59.9": {
+    title: "The Silver Tureen",
+    titleZh: "银质汤锅",
+    painter: "Jean-Baptiste-Siméon Chardin",
+    painterZh: "让-巴蒂斯特-西梅翁·夏尔丹",
+    dates: "c. 1728",
+    gal: "630",
+    period: "rococo",
+    periodLabel: "Rococo / French",
+    routePos: 25,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP356136.jpg",
+    desc: "夏尔丹是静物画的哲学家——他不画华丽，他画物质世界的沉默尊严：银锅反光、蔬菜质感、厨房的诗意。",
+    descEn: "Chardin is the philosopher of still life — not glamour but the silent dignity of things: a tureen's reflection, vegetables' texture, the poetry of the kitchen.",
+    audioText: "夏尔丹的《银质汤锅》，约1728年，展于630号展厅。夏尔丹是18世纪法国最具深度的画家。当他的同时代人沉迷于洛可可的风流宴饮时，他转向厨房和侍者室——银锅、陶壶、菜蔬、死禽。他的静物画不是展示财富，而是对物质世界给予沉默的尊重。狄德罗称他是'用色彩思考的哲学家'。从质感和光线上看，他的作品与中国宋代文人画有异曲同工之处：朴素中蕴藏深意。",
+    audioTextEn: "Chardin's The Silver Tureen, c.1728, Gallery 630. Chardin was the 18th century's most philosophically serious French painter. While contemporaries chased Rococo frivolity, he turned to kitchens and pantries — silver pots, earthenware, vegetables, dead game. His still lifes don't display wealth; they give silent respect to the material world. Diderot called him 'a philosopher who paints with color.' In their quiet weight, his works resonate with the spirit of Song dynasty literati painting.",
+    tags: ["French Rococo", "still life", "kitchen", "silver", "philosophical", "humble dignity"]
+  },
+
+  // ── NEOCLASSICAL (additional) ──────────────────────────────────────────────
+  "19.77.2": {
+    title: "Madame Joseph-Michel Lenoir (Marie-Charlotte Delay, 1768–1832)",
+    titleZh: "勒努瓦夫人肖像",
+    painter: "Jean-Auguste-Dominique Ingres",
+    painterZh: "让-奥古斯特-多米尼克·安格尔",
+    dates: "1815",
+    gal: "633",
+    period: "neoclassical",
+    periodLabel: "Neoclassicism / French",
+    routePos: 26,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DT1926.jpg",
+    desc: "安格尔的线条是新古典主义的信仰宣言——他拒绝笔触的痕迹，用完美轮廓将女性形体升华为理念的化身。",
+    descEn: "Ingres's line is neoclassicism's creed: he erases every trace of brushstroke, elevating the female figure through perfect contour into an embodiment of pure Idea.",
+    audioText: "安格尔的《勒努瓦夫人》，1815年，633号展厅。安格尔是大卫之后新古典主义最重要的大师，也是浪漫主义者最激烈的对手。他与德拉克洛瓦之间的'线与色'之争，是19世纪艺术界最著名的论战。安格尔崇拜拉斐尔，认为线条是一切美的基础——色彩只是装饰。这幅肖像中，夫人的面容轮廓完美如古典雕塑，衣褶精确如几何图形，几乎没有可见的笔触。这种对'无迹'的执念，正是他艺术的核心悖论。",
+    audioTextEn: "Ingres's Madame Lenoir, 1815, Gallery 633. Ingres was the greatest Neoclassical master after David, and Delacroix's fiercest opponent. Their 'line versus color' debate was the defining artistic polemic of the 19th century. Ingres worshipped Raphael, believed line was the foundation of beauty — color mere ornament. In this portrait, the sitter's face is perfect as classical sculpture, drapery precise as geometry, brushwork almost invisible. This obsession with the 'untraceable' is his art's central paradox.",
+    tags: ["Neoclassicism", "French", "portraiture", "line", "perfect contour", "anti-Romantic"]
+  },
+
+  // ── ROMANTICISM (additional) ──────────────────────────────────────────────
+  "03.30": {
+    title: "The Abduction of Rebecca",
+    titleZh: "劫持丽贝卡",
+    painter: "Eugène Delacroix",
+    painterZh: "欧仁·德拉克洛瓦",
+    dates: "1846",
+    gal: "600",
+    period: "romanticism",
+    periodLabel: "Romanticism / French",
+    routePos: 27,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP-14344-001.jpg",
+    desc: "德拉克洛瓦将色彩作为情感的直接载体——漩涡式构图、燃烧的红橙、惊恐的白衣少女，这是浪漫主义绘画最戏剧性的瞬间之一。",
+    descEn: "Delacroix uses color as direct emotional carrier — swirling composition, burning red-orange, terrified white-dressed girl — one of Romanticism's most dramatically charged moments.",
+    audioText: "德拉克洛瓦的《劫持丽贝卡》，1846年，600号展厅。德拉克洛瓦是19世纪浪漫主义的旗手，他与安格尔的论战贯穿了整个时代：线条对阵色彩，理性对阵激情，古典对阵浪漫。这幅画取材于司各特小说《艾凡赫》——丽贝卡被骑士从城堡劫走。但故事只是借口：真正的主角是颜色的风暴——马的棕红、烟的蓝灰、丽贝卡白裙的灼烧感。德拉克洛瓦证明了：色彩本身就能制造恐惧、激情和诗意。",
+    audioTextEn: "Delacroix's The Abduction of Rebecca, 1846, Gallery 600. Delacroix was Romanticism's standard-bearer, his debate with Ingres — line versus color, reason versus passion — defining the era. The subject is from Scott's Ivanhoe: Rebecca abducted by a knight. But the story is pretext; the true subject is a storm of color — horse's red-brown, smoke's blue-gray, Rebecca's blazing white dress. Delacroix proved that color itself can generate fear, passion, and poetry.",
+    tags: ["French Romanticism", "color", "drama", "literature", "Ivanhoe", "swirling composition"]
+  },
+
+  "1989.183": {
+    title: "Landscape with Cattle and Figures",
+    titleZh: "有牛群与人物的风景",
+    painter: "Théodore Géricault",
+    painterZh: "泰奥多尔·杰利柯",
+    dates: "c. 1818",
+    gal: "600",
+    period: "romanticism",
+    periodLabel: "Romanticism / French",
+    routePos: 28,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DT2138.jpg",
+    desc: "杰利柯的英国风景习作——他在画《梅杜萨之筏》前后游历英国，以自由奔放的笔触观察自然，预示了浪漫主义风景画的情感力量。",
+    descEn: "Géricault's English landscape study — painted around Raft of the Medusa, he traveled England observing nature with free brushwork, prefiguring Romantic landscape's emotional power.",
+    audioText: "杰利柯的《有牛群与人物的风景》，约1818年，600号展厅。杰利柯是浪漫主义的殉道者——他在1819年完成《梅杜萨之筏》后游历英国，仅33岁便因骑马事故离世。这幅英国风景画展示了他对自然的直觉感受：天空低沉，光线戏剧性，笔触自由。与他的大型历史画截然不同，这里有一种即兴的生命力。他的早逝让浪漫主义永远失去了一个最激进的声音。",
+    audioTextEn: "Géricault's Landscape with Cattle, c.1818, Gallery 600. Géricault was Romanticism's martyr — after completing The Raft of the Medusa (1819) he traveled England, dying from a riding accident at just thirty-three. This English landscape shows his intuitive response to nature: low sky, dramatic light, free brushwork. Entirely different from his monumental history paintings, it has an improvised vitality. His early death silenced Romanticism's most radical voice.",
+    tags: ["French Romanticism", "landscape", "English study", "free brushwork", "early death"]
+  },
+
+  // ── IMPRESSIONISM (additional) ────────────────────────────────────────────
+  "51.30.2": {
+    title: "Jalais Hill, Pontoise",
+    titleZh: "蓬图瓦兹的贾来山",
+    painter: "Camille Pissarro",
+    painterZh: "卡米耶·毕沙罗",
+    dates: "1867",
+    gal: "644",
+    period: "impressionism",
+    periodLabel: "Impressionism",
+    routePos: 29,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DT1859.jpg",
+    desc: "毕沙罗是印象派的'父亲'——他比所有人都温和、开放，是唯一参加了全部八届印象派展览的画家，也是塞尚和高更的老师。",
+    descEn: "Pissarro was Impressionism's 'father' — kinder and more open than all, the only artist in all eight exhibitions, and teacher to both Cézanne and Gauguin.",
+    audioText: "毕沙罗的《蓬图瓦兹的贾来山》，1867年，644号展厅。毕沙罗被称为'印象派的父亲'——他比莫奈、雷诺阿都年长，是整个运动精神上的稳定力量。他是唯一参加了全部八届印象派展览的画家，也是塞尚和高更的主要导师。这幅早期风景画展示了他对普通法国农村景色的持续热爱：没有旅游风景，只有耕作的土地、日常的天空。他的存在让印象主义保持了社会主义式的朴实精神。",
+    audioTextEn: "Pissarro's Jalais Hill, Pontoise, 1867, Gallery 644. Called the 'father of Impressionism,' Pissarro was older than Monet and Renoir, the movement's spiritual anchor. The only artist in all eight Impressionist exhibitions; Cézanne and Gauguin's most important teacher. This early landscape shows his enduring love for ordinary French rural scenery: not tourist views, just worked land and everyday sky. His presence kept Impressionism grounded in socialist simplicity.",
+    tags: ["Impressionism", "landscape", "rural", "Pissarro", "Pontoise", "mentor"]
+  },
+
+  "1992.103.2": {
+    title: "Young Woman with a Mirror",
+    titleZh: "照镜的年轻女性",
+    painter: "Berthe Morisot",
+    painterZh: "贝尔特·莫里索",
+    dates: "1876",
+    gal: "644",
+    period: "impressionism",
+    periodLabel: "Impressionism",
+    routePos: 30,
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Berthe_Morisot_-_Woman_at_Her_Toilette_%281875-80%29.jpg/400px-Berthe_Morisot_-_Woman_at_Her_Toilette_%281875-80%29.jpg",
+    desc: "莫里索是印象派唯一的核心女性成员——她用从内部看出的女性日常生活挑战了男性凝视，轻盈的笔触中蕴藏深刻的视角革命。",
+    descEn: "Morisot was Impressionism's sole core female member — she challenged the male gaze with women's daily life seen from inside, a quiet revolution within feather-light brushwork.",
+    audioText: "贝尔特·莫里索的《照镜的年轻女性》，1876年，644号展厅。莫里索是印象派中唯一的核心女性画家，马奈的妹妹般的存在——实际上她嫁给了马奈的弟弟。她描绘的都是女性的私密空间：梳妆台、花园、育儿室——这些被男性画家排除在外的日常。但她的视角完全不同：不是男性凝视下的女性客体，而是一个女人对同性内心世界的温柔记录。她的笔触轻盈如羽毛，却承载了19世纪最安静的视角革命。",
+    audioTextEn: "Berthe Morisot's Young Woman with a Mirror, 1876, Gallery 644. Morisot was Impressionism's sole core female painter — she married Manet's brother. She depicted women's intimate spaces: dressing tables, gardens, nurseries — scenes male painters ignored. But her viewpoint is entirely different: not women as objects of male gaze, but a woman's tender record of female inner life. Her feather-light brushwork carries the 19th century's quietest visual revolution.",
+    tags: ["Impressionism", "female gaze", "intimate space", "daily life", "revolution"]
+  },
+
+  "29.100.35": {
+    title: "Woman Having Her Hair Combed",
+    titleZh: "梳头的女人",
+    painter: "Edgar Degas",
+    painterZh: "埃德加·德加",
+    dates: "c. 1886–1888",
+    gal: "644",
+    period: "impressionism",
+    periodLabel: "Impressionism",
+    routePos: 31,
+    img: "https://images.metmuseum.org/CRDImages/ep/original/DP253480.jpg",
+    desc: "德加的私密观察：女性梳头时完全不知被看——这是印象派对'现代凝视'最诚实也最争议性的记录。",
+    descEn: "Degas's intimate observation: a woman having her hair combed, completely unaware of being watched — Impressionism's most honest and contested record of 'the modern gaze.'",
+    audioText: "德加的《梳头的女人》，约1886–88年，644号展厅。德加的女性形象始终充满争议——他不画展演的美，而是偷窥式的观察：浴后、梳妆、排练——都是女性以为没人看她们的时刻。这种'钥匙孔视角'让他的作品处于艺术与偷窥的边界。他在晚年几乎失明，改用粉彩：这幅画的橙红色发丝与蓝绿色背景是粉彩的色彩张力，与任何油彩都截然不同。粉彩的即时感让他在视力衰退后反而找到了最自由的表达方式。",
+    audioTextEn: "Degas's Woman Having Her Hair Combed, c.1886–88, Gallery 644. Degas's female subjects are perpetually contested — he doesn't paint women performing beauty but observes them in unguarded moments: after bathing, dressing, rehearsing. This 'keyhole viewpoint' places his work at the boundary of art and voyeurism. Going nearly blind in later life, he turned to pastel. The orange-red hair against blue-green — pastel's color tension, different from any oil. Deteriorating sight paradoxically gave him his freest medium.",
+    tags: ["Impressionism", "pastel", "intimate", "voyeurism", "female figure", "modern gaze"]
   }
 };
 
