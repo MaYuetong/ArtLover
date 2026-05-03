@@ -691,7 +691,7 @@ async function submitVisitorForm(e) {
         <div class="vcr-code" id="vcr-code-text">${password}</div>
         <p class="vcr-hint">${currentLang === 'zh' ? '下次访问时使用此码直接登录' : 'Use this code on your next visit to log in directly'}</p>
         <div class="vcr-actions">
-          <button class="vcr-copy-btn" onclick="navigator.clipboard?.writeText('${password}').then(()=>this.textContent='已复制 ✓').catch(()=>{})">${currentLang === 'zh' ? '复制' : 'Copy'}</button>
+          <button class="vcr-copy-btn" onclick="navigator.clipboard?.writeText('${password}').then(()=>this.textContent='${currentLang === 'zh' ? '已复制' : 'Copied'}').catch(()=>{})">${currentLang === 'zh' ? '复制' : 'Copy'}</button>
           <button class="vcr-enter-btn" onclick="startAppAfterReg()">${currentLang === 'zh' ? '进入导览' : 'Enter Tour'}</button>
         </div>
       </div>`;

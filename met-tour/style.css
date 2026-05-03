@@ -575,14 +575,14 @@ body.role-admin    { --role-color: var(--kuwazome); --role-light: var(--taikoh);
   white-space: nowrap; min-height: 34px; display: flex; align-items: center;
   transition: all 0.25s var(--ease);
 }
-.mobile-period-chip.active { background: var(--gold); color: var(--umber); border-color: var(--gold); }
+.mobile-period-chip.active { background: var(--met-red); color: #fff; border-color: var(--met-red); }
 
 /* ════════════════════════════════════════════════════════════════
    ACC OVERLAY
 ════════════════════════════════════════════════════════════════ */
 .acc-overlay {
   position: fixed; inset: 0; z-index: 800;
-  background: rgba(74,55,40,0.85); backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.78); backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center;
   padding: 20px; animation: fadeIn 0.2s var(--ease);
 }
@@ -881,8 +881,8 @@ body.role-visitor .work-card-body { padding-bottom: 14px; }
 .audio-controls button:hover { background: var(--gold); color: var(--umber); border-color: var(--gold); transform: scale(1.08); }
 .audio-rate { display: flex; align-items: center; gap: 6px; }
 .audio-rate label { font-size: 0.72rem; color: var(--secondary2); font-family: var(--sans); }
-.audio-rate input[type=range] { width: 70px; accent-color: var(--gold); }
-#rate-val { font-size: 0.72rem; color: var(--gold); min-width: 30px; font-family: var(--sans); }
+.audio-rate input[type=range] { width: 70px; accent-color: var(--met-red); }
+#rate-val { font-size: 0.72rem; color: var(--met-red); min-width: 30px; font-family: var(--sans); }
 .audio-close { background: none; color: var(--secondary2); font-size: 1rem; padding: 4px; transition: color 0.2s; }
 .audio-close:hover { color: var(--umber); }
 .voice-settings { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -893,8 +893,8 @@ body.role-visitor .work-card-body { padding-bottom: 14px; }
   font-family: var(--sans); font-size: 0.75rem; color: var(--secondary);
   transition: all 0.25s var(--ease);
 }
-.voice-btn:hover { border-color: var(--gold); color: var(--umber); }
-.voice-btn.active { background: var(--gold); color: var(--umber); border-color: var(--gold); }
+.voice-btn:hover { border-color: var(--met-red); color: var(--umber); }
+.voice-btn.active { background: var(--met-red); color: #fff; border-color: var(--met-red); }
 .voice-status { font-family: var(--sans); font-size: 0.68rem; color: var(--secondary2); font-style: italic; }
 
 /* ════════════════════════════════════════════════════════════════
@@ -1088,9 +1088,9 @@ body.role-visitor .work-card-body { padding-bottom: 14px; }
   .login-card:active        { transform: scale(0.98); }
   .btn-login:active         { opacity: 0.82; }
   .acc-btn:active           { opacity: 0.82; }
-  .audio-controls button:active { background: var(--gold); color: var(--umber); }
+  .audio-controls button:active { background: var(--met-red); color: #fff; }
   .period-header:active     { opacity: 0.9; }
-  .mobile-period-chip:active { background: var(--gold-dim); }
+  .mobile-period-chip:active { background: rgba(228,0,43,0.15); }
 }
 
 /* ── Print ─────────────────────────────────────────────────── */
@@ -2437,3 +2437,134 @@ body { background: #FFFFFF; }
 [data-theme="dark"] .vcr-code { background: rgba(228,0,43,0.15); }
 [data-theme="dark"] .vcr-copy-btn { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
 [data-theme="dark"] .vcr-copy-btn:hover { background: rgba(255,255,255,0.18); }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE OVERHAUL — Mobile / iPad / Tablet
+════════════════════════════════════════════════════════════════ */
+
+/* ── Back button on registration page ─────────────────────────── */
+.vreg-back-btn {
+  position: absolute; top: 14px; left: 16px;
+  background: none; border: none; cursor: pointer;
+  font-size: 0.78rem; font-family: var(--sans);
+  color: var(--secondary); padding: 6px 10px;
+  border-radius: var(--radius);
+  transition: color 0.15s, background 0.15s;
+  z-index: 2;
+}
+.vreg-back-btn:hover { color: var(--umber); background: rgba(0,0,0,0.05); }
+[data-theme="dark"] .vreg-back-btn { color: rgba(255,255,255,0.45); }
+[data-theme="dark"] .vreg-back-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
+/* ── Visitor log table — horizontal scroll on small screens ─── */
+.visitor-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.visitor-table { min-width: 600px; }
+
+/* ── Period intro block — stack on mobile ──────────────────── */
+@media (max-width: 600px) {
+  .period-intro-block { flex-direction: column; gap: 14px; align-items: flex-start; }
+  .period-intro-portrait { width: 72px; height: 88px; }
+  .period-intro-bio { font-size: 0.93rem; }
+  .period-intro-quote { margin-top: 8px; }
+}
+
+/* ── iPad / Tablet (768px – 1023px) ───────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Museum selector grid */
+  .museum-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px; }
+
+  /* Works grid: 3 columns */
+  .works-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  /* Login cards: 1 column stacked (3 tall cards) */
+  .login-cards { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+
+  /* Visitor reg */
+  .visitor-reg-card { max-width: 560px; }
+
+  /* Acc overlay */
+  .acc-card { max-width: 640px; }
+
+  /* Navbar — hide role badge, keep search */
+  .nav-role { display: none; }
+  .nav-search input { width: 160px; }
+
+  /* Notes panel */
+  .notes-panel { width: 340px; }
+
+  /* Feedback card */
+  .feedback-card { max-width: 500px; }
+}
+
+/* ── Mobile (≤640px) — supplemental ─────────────────────────── */
+@media (max-width: 640px) {
+  /* Navbar: hide theme toggle (saved to localStorage), compress search */
+  .nav-theme-btn { display: none; }
+  .nav-search { display: none; }
+
+  /* Restore search access via a floating search toggle if needed */
+  .btn-end-tour { font-size: 0.75rem; padding: 5px 9px; }
+  .btn-logout   { font-size: 0.75rem; padding: 5px 9px; }
+
+  /* Code reveal — full width friendly */
+  .vcr-code { font-size: 1.3rem; letter-spacing: 0.08em; padding: 0.5rem 1rem; }
+  .vcr-actions { flex-direction: column; width: 100%; }
+  .vcr-copy-btn, .vcr-enter-btn { width: 100%; text-align: center; padding: 0.65rem; }
+
+  /* Alt-login panel */
+  .vreg-alt-row { flex-direction: column; }
+  .vreg-alt-row input, .vreg-alt-row button { width: 100%; }
+
+  /* Visitor log stats */
+  .visitor-log-stats { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .visitor-charts-row { flex-direction: column; align-items: center; gap: 16px; }
+
+  /* Feedback overlay */
+  .feedback-overlay { align-items: flex-end; padding: 0; }
+  .feedback-card {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 90dvh; max-height: 90vh;
+    overflow-y: auto; width: 100%; max-width: 100%;
+    padding: 24px 18px 32px;
+  }
+  .feedback-title { font-size: 1.4rem; }
+  .rating-row { gap: 6px; }
+  .rating-btn { width: 40px; height: 40px; font-size: 0.9rem; }
+  .recommend-row { flex-direction: column; gap: 8px; }
+  .recommend-btn { width: 100%; }
+
+  /* Acc overlay lecturer panel */
+  .lec-bio-block { flex-direction: column; }
+  .lec-bio-portrait { width: 64px; height: 78px; }
+
+  /* Route map horizontal scroll container */
+  .route-map-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+  .route-svg { min-width: 480px; }
+
+  /* Museum selector */
+  .museum-grid { grid-template-columns: 1fr !important; }
+  .selector-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .selector-controls { align-self: flex-end; }
+
+  /* Works grid stays 2-col on 640, overridden to 1-col at 480 */
+}
+
+/* ── Very small (≤400px) ────────────────────────────────────── */
+@media (max-width: 400px) {
+  .vcr-code { font-size: 1.1rem; }
+  .visitor-reg-header h2 { font-size: 1.4rem; }
+  .vreg-alt-toggle { font-size: 0.75rem; }
+  .navbar-left { gap: 6px; }
+  .nav-logo { gap: 6px; }
+}
+
+/* ── iPhone notch / Dynamic Island safe areas ─────────────── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .feedback-card { padding-bottom: max(32px, calc(16px + env(safe-area-inset-bottom))); }
+  .visitor-reg-card { padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+  .vreg-alt-login { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+}
+
+/* ── Dark mode filter/mode tab residue → Met red ──────────── */
+[data-theme="dark"] .filter-tab.active { color: var(--met-red) !important; border-color: var(--met-red) !important; }
+[data-theme="dark"] .mode-tab.active    { color: var(--met-red) !important; }
