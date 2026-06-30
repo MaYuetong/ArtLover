@@ -30,21 +30,23 @@ function card(w, blurred){
 /* ---------- HERO + TIMELINE (home) ---------- */
 function viewHome(){
   const a=C.artist;
-  const hero=`<section class="hero2">
-    <div class="hero2-atmos" ${D.hero?`style="background-image:url('${D.hero}')"`:''} aria-hidden="true"></div>
-    <div class="hero2-wash" aria-hidden="true"></div>
-    <div class="hero2-left">
-      <div class="hero2-art">
-        ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5# · 奉家丽','Laughter and Forgetting No.5 · Feng Jiali')}">`:''}
-      </div>
-      <div class="hero2-cap2">${T('《笑忘录5#》 · 痰盂、油彩 · 2001','Laughter and Forgetting No.5 · enamel spittoon and oil · 2001')}</div>
-    </div>
-    <div class="hero2-text">
+  const hero=`<section class="hero3">
+    <div class="hero3-text">
       <div class="hero2-kick">${T('当代艺术家 · 女性主义','Contemporary artist · Feminism')}</div>
       <h1 class="hero2-name"><span>FENG</span><span class="outline">JIALI</span></h1>
       <div class="hero2-zh">奉家丽</div>
       <p class="hero2-tag">${T(a.tagline_zh,a.tagline_en)}</p>
       <div class="hero2-route"><span>Beijing</span><i></i><span>Guizhou</span><i></i><span>New York</span></div>
+    </div>
+    <div class="hero3-diptych">
+      <button class="hero3-panel" data-open="xiaowanglu" aria-label="${T('笑忘录 作品','Laughter and Forgetting, works')}">
+        ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5#','Laughter and Forgetting No.5')}">`:''}
+        <span class="hero3-cap">${T('《笑忘录5#》 · 痰盂、油彩 · 2001','Laughter and Forgetting No.5 · enamel spittoon & oil · 2001')}</span>
+      </button>
+      <button class="hero3-panel" data-nav-to="#studio" aria-label="${T('塞壬艺术工作室','Siren Art Studio')}">
+        ${D.sirenPhoto?`<img src="${D.sirenPhoto}" alt="${T('塞壬艺术工作室','Siren Art Studio')}">`:''}
+        <span class="hero3-cap">${T('塞壬艺术工作室 · 1998','Siren Art Studio · 1998')}</span>
+      </button>
     </div>
     <div class="scrollcue">${T('沿时间轴向下 · 三十年','Scroll the timeline · thirty years')}</div>
   </section>`;

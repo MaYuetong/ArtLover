@@ -21,5 +21,7 @@
 !/jiali/SKILL-archive.md
 !/jiali/LOOP-refinement.md
 !/jiali/INTAKE.md
+!/jiali/DEPLOY.md
+!/jiali/deploy.sh
 
 # Within the site, ignore nothing extra (all processed web assets are kept).
