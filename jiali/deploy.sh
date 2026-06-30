@@ -17,6 +17,8 @@ touch "$TMP/.nojekyll"
 
 cd "$TMP"
 git init -q
+git config http.postBuffer 1048576000   # 1GB; the site (~291MB) 400s on the 1MB default
+git config http.version HTTP/1.1          # avoid HTTP/2 sideband errors on big pushes
 git checkout -q -b "$BRANCH"
 git add -A
 git -c user.email="deploy@local" -c user.name="deploy" commit -q -m "Deploy $(date -u +%FT%TZ)"
