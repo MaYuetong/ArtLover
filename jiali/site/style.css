@@ -180,7 +180,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .card .cap{position:absolute;left:0;right:0;bottom:0;padding:.5rem .6rem;color:#fff;
   background:linear-gradient(0deg,rgba(0,0,0,.66),transparent);font-size:.72rem;opacity:0;transition:.3s;transform:translateY(6px)}
 .card:hover .cap{opacity:1;transform:none}
-.card.blurred img{filter:blur(7px) saturate(.85);transform:scale(1.05)}
+.card.blurred img{filter:blur(10px) saturate(.82);transform:scale(1.07)}
 .card.blurred::before{content:"";position:absolute;inset:0;background:rgba(15,15,18,.18);z-index:1}
 .blur-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:2;white-space:nowrap;
   background:rgba(12,12,14,.78);color:#fff;font-size:.7rem;letter-spacing:.08em;font-weight:700;
