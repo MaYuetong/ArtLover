@@ -33,23 +33,25 @@ function card(w, blurred){
 /* ---------- HERO + TIMELINE (home) ---------- */
 function viewHome(){
   const a=C.artist;
-  const hero=`<section class="hero4">
-    <button class="hero4-photo" data-nav-to="#studio" aria-label="${T('塞壬艺术工作室','Siren Art Studio')}">
-      ${D.sirenPhoto?`<img src="${D.sirenPhoto}" alt="${T('塞壬艺术工作室 合影 1998','Siren Art Studio, 1998')}">`:''}
-    </button>
-    <div class="hero4-scrim" aria-hidden="true"></div>
-    <span class="hero4-studio">${T('塞壬艺术工作室 · 1998','Siren Art Studio · 1998')} <em>↗</em></span>
-    <div class="hero4-text">
+  const hero=`<section class="hero5">
+    <div class="hero5-grid">
+      <button class="hero5-panel hp-left" data-open="xiaowanglu" aria-label="${T('笑忘录 作品','Laughter and Forgetting, works')}">
+        ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5#','Laughter and Forgetting No.5')}">`:''}
+        <span class="hero5-label">${T('《笑忘录5#》 · 2001','Laughter & Forgetting No.5 · 2001')} ↗</span>
+      </button>
+      <button class="hero5-panel hp-right" data-nav-to="#studio" aria-label="${T('塞壬艺术工作室','Siren Art Studio')}">
+        ${D.sirenPhoto?`<img src="${D.sirenPhoto}" alt="${T('塞壬艺术工作室 合影 1998','Siren Art Studio, 1998')}">`:''}
+        <span class="hero5-label hl-right">${T('塞壬艺术工作室 · 1998','Siren Art Studio · 1998')} ↗</span>
+      </button>
+    </div>
+    <div class="hero5-scrim" aria-hidden="true"></div>
+    <div class="hero5-text">
       <div class="hero2-kick">${T('当代艺术家 · 女性主义','Contemporary artist · Feminism')}</div>
       <h1 class="hero2-name"><span>FENG</span><span class="outline">JIALI</span></h1>
       <div class="hero2-zh">奉家丽</div>
       <p class="hero2-tag">${T(a.tagline_zh,a.tagline_en)}</p>
       <div class="hero2-route"><span>Beijing</span><i></i><span>Guizhou</span><i></i><span>New York</span></div>
     </div>
-    <button class="hero4-inset" data-open="xiaowanglu" aria-label="${T('笑忘录 作品','Laughter and Forgetting, works')}">
-      ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5#','Laughter and Forgetting No.5')}">`:''}
-      <span>${T('《笑忘录5#》 2001','Laughter & Forgetting No.5 · 2001')} ↗</span>
-    </button>
     <div class="scrollcue">${T('沿时间轴向下 · 三十年','Scroll the timeline · thirty years')}</div>
   </section>`;
 
