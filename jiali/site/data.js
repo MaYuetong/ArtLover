@@ -2895,5 +2895,6 @@ window.DATA = {
  "hero": "img/hero.jpg",
  "cursor": "img/cursor.png",
  "navicon": "img/navicon.png",
- "spittoon": "img/spittoon.png"
+ "spittoon": "img/spittoon.png",
+ "sirenPhoto": "img/siren-hero.jpg"
 };

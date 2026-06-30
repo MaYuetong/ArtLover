@@ -33,10 +33,11 @@ function viewHome(){
   const hero=`<section class="hero2">
     <div class="hero2-atmos" ${D.hero?`style="background-image:url('${D.hero}')"`:''} aria-hidden="true"></div>
     <div class="hero2-wash" aria-hidden="true"></div>
-    <div class="hero2-mark" aria-hidden="true">奉家丽</div>
-    <div class="hero2-art">
-      ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5# · 奉家丽','Laughter and Forgetting No.5 · Feng Jiali')}">`:''}
-      <span class="hero2-cap">${T('《笑忘录5#》 痰盂、油彩 2001','“Laughter and Forgetting No.5”, enamel spittoon and oil, 2001')}</span>
+    <div class="hero2-left">
+      <div class="hero2-art">
+        ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5# · 奉家丽','Laughter and Forgetting No.5 · Feng Jiali')}">`:''}
+      </div>
+      <div class="hero2-cap2">${T('《笑忘录5#》 · 痰盂、油彩 · 2001','Laughter and Forgetting No.5 · enamel spittoon and oil · 2001')}</div>
     </div>
     <div class="hero2-text">
       <div class="hero2-kick">${T('当代艺术家 · 女性主义','Contemporary artist · Feminism')}</div>
@@ -55,6 +56,8 @@ function viewHome(){
   const awards=C.cv.awards;
   let html='';
   D.series.forEach((s,i)=>{
+    const chap=(C.chapters||[]).find(c=>c.at===s.id);
+    if(chap) html+=chapterHeader(chap);
     const wsAll=worksOf(s.id);
     const isFeat=s.feature;
     const essay = essaysFor(s.id)[0];
@@ -89,6 +92,18 @@ function viewHome(){
     <aside id="nowbar" aria-hidden="true"><i></i><span id="nowlabel"></span></aside></div>`;
   document.body.style.setProperty('--now', D.series[0].accent);
   observeStations();
+}
+
+/* ---------- Timeline chapter header (MOMA-style narrative divider) ---------- */
+function chapterHeader(c){
+  return `<section class="chapter reveal" style="--st:${c.accent}">
+    <span class="chapter-no">${c.no}</span>
+    <div class="chapter-body">
+      <div class="chapter-meta">${c.years}</div>
+      <h2 class="chapter-title">${T(c.zh,c.en)}<span>${T(c.en,c.zh)}</span></h2>
+      <p class="chapter-intro">${T(c.intro_zh,c.intro_en)}</p>
+    </div>
+  </section>`;
 }
 
 /* ---------- Siren Studio: large timeline feature (1998) ---------- */
@@ -166,8 +181,7 @@ function viewWorks(filter){
 function viewProject(){
   const pairs=D.xianglaba||[];
   const intro=`<div class="gridhead reveal"><h2>${T('乡拉岜 · 艺术美学空间','Xianglaba · Aesthetic Space')}</h2>
-    <span class="sub" style="color:var(--muted)">2018 → 2025</span></div>
-    <p class="ba-intro reveal">${T('一个历时七年的乡村空间改造个人项目。拖动滑块，对比改造前后，把美学带回土地与日常。地名与说明文字陆续加入。','A seven-year personal project that reworks a rural space. Drag the slider to compare before and after. The idea is simple: bring aesthetics back to the land and to daily life. Place names and notes to follow.')}</p>`;
+    <span class="sub" style="color:var(--muted)">2018 → 2025</span></div>`;
   const ba=p=>`<div class="ba-stage" data-ba>
         <img class="ba-before" src="${p.before}" alt="${T('改造前','Before')} ${p.n}">
         <img class="ba-after" src="${p.after}" alt="${T('改造后','After')} ${p.n}">
@@ -184,9 +198,12 @@ function viewProject(){
     }
   }
   const map=`<div class="map-block reveal">
-    <div class="map-head"><h3>${T('在地图上','On the map')}</h3>
-      <p>${T('乡拉岜项目位于贵州。具体地名将陆续标注。','The Xianglaba project sits in Guizhou. Exact place names to be marked over time.')}</p></div>
-    <div id="gzmap" aria-label="${T('贵州地图','Map of Guizhou')}"></div></div>`;
+    <div id="gzmap" aria-label="${T('贵州地图','Map of Guizhou')}"></div>
+    <div class="map-side">
+      <span class="se-tag" style="--st:var(--pink)">${T('在地图上','On the map')}</span>
+      <p>${T('一个历时七年的乡村空间改造个人项目。她把美学带回土地与日常：拖动下方每组图的滑块，可对比改造前后。','A seven-year personal project that reworks a rural space. She brings aesthetics back to the land and to daily life. Drag the slider on each pair below to compare before and after.')}</p>
+      <p>${T('项目位于贵州。具体地名与说明文字将陆续标注。','The project sits in Guizhou. Exact place names and notes will be marked over time.')}</p>
+    </div></div>`;
   app.innerHTML=`<div class="view">${intro}${map}<div class="ba-flow">${grid}</div></div>`;
   initBA(); initMap(); observeReveal();
 }
@@ -245,13 +262,19 @@ function viewEssay(id){
 /* ---------- STUDIO 塞壬 ---------- */
 function viewStudio(){
   const posters=(D.posters||[]).filter(p=>p.tag==='siren');
-  app.innerHTML=`<div class="view"><div class="studio-hero reveal">
-    <div class="yr">1998</div>
-    <h1>${T('塞壬艺术工作室','Siren Art Studio')}</h1>
-    <p>${T('1998 年，奉家丽与同道女艺术家成立「塞壬」艺术工作室，以实践女性主义艺术为志业。塞壬之名取自海妖的歌声。那是女性的声音，召唤、质询、改变。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio, devoted to feminist art. The name comes from the song of the sirens. It is a female voice that summons, questions and changes things.')}</p>
-  </div>
-  <div class="poster-strip">${posters.map(p=>`<img loading="lazy" src="${p.web}" alt="Siren Studio poster">`).join('')}</div>
-  <p class="ba-intro reveal" style="margin-top:2rem">${T('「奉家丽属于实践女性主义艺术的塞壬艺术工作室。艳俗的形、色和特殊的选材，共同构成对当代女性生存状态的温和嘲讽。」水天中','“Feng Jiali belongs to the Siren Studio, which practises feminist art. Her gaudy forms and colours and her unusual choice of material together make a gentle satire on the condition of contemporary women.” Shui Tianzhong')}</p>
+  const hero=D.sirenPhoto||(posters.length?posters[posters.length-1].web:'');
+  const others=posters.filter(p=>p.web!==hero);
+  app.innerHTML=`<div class="view studio-view">
+    ${hero?`<figure class="studio-hero-img reveal"><img src="${hero}" alt="${T('塞壬艺术工作室合影','Siren Art Studio, the four founding artists')}">
+      <figcaption><b>${T('塞壬艺术工作室','Siren Art Studio')}</b> · 1998</figcaption></figure>`:''}
+    <div class="studio-head reveal">
+      <div class="studio-yr">1998</div>
+      <h1>${T('塞壬艺术工作室','Siren Art Studio')}</h1>
+      <p>${T('1998 年，奉家丽与同道女艺术家成立「塞壬」艺术工作室，以实践女性主义艺术为志业。塞壬之名取自海妖的歌声。那是女性的声音，召唤、质询、改变。她们一同展出绘画、影像、综合材料与行为，把女性的经验放回画面的中心。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio in Beijing, devoted to feminist art. The name comes from the song of the sirens, a female voice that summons, questions and changes things. Together they showed painting, video, mixed media and performance, and put women’s experience back at the centre of the picture.')}</p>
+      <p class="studio-quote">${T('「奉家丽属于实践女性主义艺术的塞壬艺术工作室。艳俗的形、色和特殊的选材，共同构成对当代女性生存状态的温和嘲讽。」水天中','“Feng Jiali belongs to the Siren Studio, which practises feminist art. Her gaudy forms and colours and her unusual choice of material together make a gentle satire on the condition of contemporary women.” Shui Tianzhong')}</p>
+    </div>
+    ${others.length?`<div class="sec-title">${T('工作室招贴与文献','Studio posters and documents')}</div>
+    <div class="grid studio-grid">${others.map(p=>`<figure class="card studio-card"><img loading="lazy" src="${p.web}" alt="Siren Studio poster"></figure>`).join('')}</div>`:''}
   </div>`;
   observeReveal();
 }

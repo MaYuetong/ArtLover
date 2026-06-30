@@ -13,6 +13,26 @@ window.CONTENT = {
     bio_en: "Feng Jiali was born in 1963 in Chongqing. She graduated from the Oil Painting Department of Sichuan Fine Arts Institute in 1990 with a Bachelor of Arts degree, and completed the 6th Advanced Oil Painting Program at the Central Academy of Fine Arts in 1993. In the late 1990s she joined Beijing's East Village artist community. Her work runs across painting, performance, installation and land art. For three decades she has kept asking the same questions: about women's experience, the body, how identity is made, and how people stand in relation to nature. In 1998 she founded the Siren Studio in Beijing. Her work has been shown in New York, Basel, Luxembourg, Germany, Prague, South Africa, Budapest, Cuba, Hong Kong, Macau and across China. Her honours include the Women Artists' Academic Award at the Century Women Art Exhibition (1998), a nomination at the 12th National Art Exhibition (2014), the Academic Award at the Women Artists Biennale (2015), and the Celia & Wally Gilbert Artist-in-Residence Fellowship (2025)."
   },
 
+  // Narrative chapters: her life in four turning points. Each opens before series `at`.
+  chapters: [
+    {at:"fenlian", no:"I", accent:"#D6336C", years:"1995 → 2010",
+      zh:"粉面与凝视", en:"Rouge and the Gaze",
+      intro_zh:"九十年代末，奉家丽是北京东村的一员。她画浓妆艳抹的女性面孔，戏仿宣传画里红润的双颊，又把女人画上旧牛仔、画上一只痰盂。在消费经济里，被解放出土地的女性身体成了新的商品。1998 年，她与同道女艺术家成立「塞壬艺术工作室」。",
+      intro_en:"In the late 1990s Feng Jiali is part of Beijing's East Village. She paints women's faces in heavy rouge, mocking the rosy cheeks of the propaganda poster, and paints women onto old denim and onto an enamel spittoon. In the consumption economy the female body, freed from the land, has become a new commodity. In 1998 she founds the Siren Studio with fellow women artists."},
+    {at:"fumei", no:"II", accent:"#3F7A4F", years:"2010 → 2019",
+      zh:"转向自然", en:"The Turn to Nature",
+      intro_zh:"工作室旁的水库被抽干了。或许是因为做了母亲，她的目光从女性的身体，移向自己与生灵万物的联结。她在石壁上拓印，用针线绣下野草与本草。这是一种「后女性主义」，要把被对象化的自然重新复魅。",
+      intro_en:"The reservoir beside her studio is drained. Perhaps it is motherhood, but her gaze moves from the female body toward her own bond with all living things. She takes rubbings off the rock and embroiders weeds and healing herbs. This is a post-feminism that sets out to give an objectified nature back its enchantment."},
+    {at:"shenfen", no:"III", accent:"#5F6366", years:"2017 → 2019",
+      zh:"废墟与记忆", en:"Ruins and Memory",
+      intro_zh:"她生于重庆沙坪坝，自幼在红卫兵墓园旁长大。中年之后，她回到那段被遮蔽的历史：高 2 米、长 19 米的《墓园》，以及随后的《石墟》。《身份》是送给女儿的成人礼物。哀悼，在这里被做成了实体。",
+      intro_en:"She was born in Shapingba, Chongqing, and grew up beside the Red Guard Cemetery. In middle age she returns to a buried history: The Cemetery, two metres high and nineteen long, and the Stone Ruins that follow. Identity is a coming-of-age gift for her daughter. Here, mourning is made into matter."},
+    {at:"cangsheng", no:"IV", accent:"#A21B22", years:"2020 → 2025",
+      zh:"苍生与浪迹", en:"Among the Living",
+      intro_zh:"疫情给每一张脸戴上了口罩。她画下口罩之下的苍生，在荔波的稻田里做大地艺术，在北京、贵州与纽约之间往来、扎根。2026 年，她走进冷泉港生命科学实验室，对微观生命形态的观察又为她打开了新的方向。",
+      intro_en:"The pandemic puts a mask on every face. She paints the living behind their masks, makes land art in the rice fields of Libo, and moves and re-roots between Beijing, Guizhou and New York. In 2026 a visit to the Cold Spring Harbor life-science laboratory, and its microscopic forms of life, opens yet another direction."}
+  ],
+
   // CV timeline. Solo shows + key milestones (the spine of the homepage).
   cv: {
     awards: [

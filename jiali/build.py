@@ -277,6 +277,10 @@ if make_cutout():
     DATA["spittoon"] = "img/spittoon.png"
 else:
     DATA["navicon"] = one(os.path.join(ROOT,"鼠标图像.jpg"), "navicon", 120)
+# Siren Studio group photo (the black-and-white circle of four) for the studio page hero
+sp_src = os.path.join(ROOT, "塞壬招贴图片/拼图-2.tif")
+DATA["sirenPhoto"] = (one(sp_src, "siren-hero", 1800) if os.path.exists(sp_src)
+                      else (posters[-1]["web"] if posters else None))
 
 with open(os.path.join(SITE, "data.js"), "w", encoding="utf-8") as fp:
     fp.write("window.DATA = ")
