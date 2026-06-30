@@ -1,0 +1,25 @@
+# OS / cruft
+.DS_Store
+**/.DS_Store
+
+# ---- Heavy / private source: never commit to the PUBLIC repo ----
+# Evan project (large archive, drone video, originals)
+/evan/
+/evan paintings20260624/
+
+# Private documents
+/Service_Agreement_Bilingual.pdf
+/Evan_邮件草稿_email-draft.md
+
+# ---- Jiali: keep ONLY the built website + build scripts + docs ----
+# Ignore all of jiali, then re-include the deliverable bits below.
+/jiali/*
+!/jiali/site/
+!/jiali/build.py
+!/jiali/README.md
+!/jiali/SKILL-design.md
+!/jiali/SKILL-archive.md
+!/jiali/LOOP-refinement.md
+!/jiali/INTAKE.md
+
+# Within the site, ignore nothing extra (all processed web assets are kept).
