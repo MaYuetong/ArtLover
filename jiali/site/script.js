@@ -22,32 +22,34 @@ function workCaption(w){
 }
 function card(w, blurred){
   const {title,bits} = workCaption(w);
+  const overlay = blurred
+    ? `<span class="blur-hint">✉ ${T('联系获得','Contact to view')}</span>`
+    : `<span class="cap"><b>${esc(title)}</b> ${bits?'· '+esc(bits):''}</span>`;
   return `<button class="card${blurred?' blurred':''}" data-work="${w.id}" style="--st:${seriesById(w.series).accent}">
     <img loading="lazy" decoding="async" src="${w.thumb}" alt="${esc(title)}" style="view-transition-name:vt-${w.id}">
-    <span class="cap"><b>${esc(title)}</b> ${bits?'· '+esc(bits):''}</span></button>`;
+    ${overlay}</button>`;
 }
 
 /* ---------- HERO + TIMELINE (home) ---------- */
 function viewHome(){
   const a=C.artist;
-  const hero=`<section class="hero3">
-    <div class="hero3-text">
+  const hero=`<section class="hero4">
+    <button class="hero4-photo" data-nav-to="#studio" aria-label="${T('塞壬艺术工作室','Siren Art Studio')}">
+      ${D.sirenPhoto?`<img src="${D.sirenPhoto}" alt="${T('塞壬艺术工作室 合影 1998','Siren Art Studio, 1998')}">`:''}
+    </button>
+    <div class="hero4-scrim" aria-hidden="true"></div>
+    <span class="hero4-studio">${T('塞壬艺术工作室 · 1998','Siren Art Studio · 1998')} <em>↗</em></span>
+    <div class="hero4-text">
       <div class="hero2-kick">${T('当代艺术家 · 女性主义','Contemporary artist · Feminism')}</div>
       <h1 class="hero2-name"><span>FENG</span><span class="outline">JIALI</span></h1>
       <div class="hero2-zh">奉家丽</div>
       <p class="hero2-tag">${T(a.tagline_zh,a.tagline_en)}</p>
       <div class="hero2-route"><span>Beijing</span><i></i><span>Guizhou</span><i></i><span>New York</span></div>
     </div>
-    <div class="hero3-diptych">
-      <button class="hero3-panel" data-open="xiaowanglu" aria-label="${T('笑忘录 作品','Laughter and Forgetting, works')}">
-        ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5#','Laughter and Forgetting No.5')}">`:''}
-        <span class="hero3-cap">${T('《笑忘录5#》 · 痰盂、油彩 · 2001','Laughter and Forgetting No.5 · enamel spittoon & oil · 2001')}</span>
-      </button>
-      <button class="hero3-panel" data-nav-to="#studio" aria-label="${T('塞壬艺术工作室','Siren Art Studio')}">
-        ${D.sirenPhoto?`<img src="${D.sirenPhoto}" alt="${T('塞壬艺术工作室','Siren Art Studio')}">`:''}
-        <span class="hero3-cap">${T('塞壬艺术工作室 · 1998','Siren Art Studio · 1998')}</span>
-      </button>
-    </div>
+    <button class="hero4-inset" data-open="xiaowanglu" aria-label="${T('笑忘录 作品','Laughter and Forgetting, works')}">
+      ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5#','Laughter and Forgetting No.5')}">`:''}
+      <span>${T('《笑忘录5#》 2001','Laughter & Forgetting No.5 · 2001')} ↗</span>
+    </button>
     <div class="scrollcue">${T('沿时间轴向下 · 三十年','Scroll the timeline · thirty years')}</div>
   </section>`;
 
@@ -182,7 +184,7 @@ function viewWorks(filter){
 /* ---------- PROJECT 乡拉岜 before/after ---------- */
 function viewProject(){
   const pairs=D.xianglaba||[];
-  const intro=`<div class="gridhead reveal"><h2>${T('乡拉岜 · 艺术美学空间','Xianglaba · Aesthetic Space')}</h2>
+  const intro=`<div class="gridhead reveal"><h2>${T('空间艺术 · 乡拉岜','Space Art · Xianglaba')}</h2>
     <span class="sub" style="color:var(--muted)">2018 → 2025</span></div>`;
   const ba=p=>`<div class="ba-stage" data-ba>
         <img class="ba-before" src="${p.before}" alt="${T('改造前','Before')} ${p.n}">
@@ -312,12 +314,53 @@ function viewAbout(){
   observeReveal();
 }
 
+/* ---------- CONTACT ---------- */
+let contactPrefill=null;
+function viewContact(){
+  const a=C.artist;
+  const pf=contactPrefill||{}; contactPrefill=null;
+  app.innerHTML=`<div class="view contact-view">
+    <div class="gridhead reveal"><h2>${T('联系','Contact')}</h2></div>
+    <div class="contact-info reveal">
+      <p class="contact-lead">${T('欢迎来信。收藏、展览、约稿，或希望观看摄影作品的原作，请直接邮件联系奉家丽。','For acquisition, exhibition, commissions, or to view the original photographs, please write to Feng Jiali directly.')}</p>
+      <ul class="contact-list">
+        <li><span>Email</span><a href="mailto:${a.email}">${a.email}</a></li>
+        <li><span>Instagram</span><a href="${a.instagram}" target="_blank" rel="noopener">@jialistudio ↗</a></li>
+        <li><span>WeChat</span><b>${a.wechat}</b></li>
+        <li><span>${T('工作生活','Based')}</span><b>${T('北京 · 贵州 · 纽约','Beijing · Guizhou · New York')}</b></li>
+      </ul>
+    </div>
+    <div class="sec-title">${T('给奉家丽留言','Write to Feng Jiali')}</div>
+    <form id="contactform" class="contact-form reveal">
+      <div class="cf-row">
+        <label>${T('称呼','Name')}<input name="name" required autocomplete="name"></label>
+        <label>${T('你的邮箱','Your email')}<input type="email" name="email" required autocomplete="email"></label>
+      </div>
+      <label>${T('主题','Subject')}<input name="subject" value="${esc(pf.subject||'')}"></label>
+      <label>${T('留言','Message')}<textarea name="message" rows="6" required></textarea></label>
+      <button type="submit">${T('发送邮件','Send email')} →</button>
+      <p class="contact-note">${T('点击后会打开你的邮件应用，把信件寄给 ','Opens your email app to send to ')}<a href="mailto:${a.email}">${a.email}</a>${T('；她会通过邮件回复你。','. She will reply by email.')}</p>
+      <p id="contactmsg" class="submsg"></p>
+    </form>
+  </div>`;
+  const f=document.getElementById('contactform');
+  f.addEventListener('submit',e=>{
+    e.preventDefault();
+    const fd=new FormData(f);
+    const subj=(fd.get('subject')||'').trim()||T('网站留言','Message from the website');
+    const body=`${T('称呼','Name')}: ${fd.get('name')}\n${T('邮箱','Email')}: ${fd.get('email')}\n\n${fd.get('message')}`;
+    location.href=`mailto:${a.email}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+    document.getElementById('contactmsg').textContent=T('正在打开你的邮件应用…','Opening your email app…');
+  });
+  observeReveal();
+}
+
 /* ---------- LIGHTBOX ---------- */
 let lbList=[], lbIdx=0;
 function openWork(id){
   const w=D.works.find(x=>x.id===id); if(!w)return;
   const s=seriesById(w.series);
-  if(s.blurred){ location.href=`mailto:${C.artist.email}?subject=${encodeURIComponent('Viewing request: '+s.en)}`; return; }
+  if(s.blurred){ contactPrefill={subject:(lang==='zh'?'摄影作品观看请求':'Request to view a photograph')+': '+T(s.zh,s.en)}; go('contact'); return; }
   lbList=allOf(w.series); lbIdx=lbList.findIndex(x=>x.id===id);
   showLB();
 }
@@ -350,6 +393,7 @@ function render(){
   else if(base==='essay')viewEssay(arg);
   else if(base==='studio')viewStudio();
   else if(base==='about')viewAbout();
+  else if(base==='contact')viewContact();
   else viewHome();
   // active nav
   document.querySelectorAll('#mainnav a').forEach(a=>{

@@ -95,19 +95,36 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .scrollcue::before{content:"";width:46px;height:1px;background:var(--pink);animation:cuePulse 2.2s ease-in-out infinite}
 @keyframes cuePulse{0%,100%{width:20px;opacity:.4}50%{width:60px;opacity:1}}
 
-/* ===== Hero (simple diptych: 笑忘录5# | Siren b&w) ===== */
-.hero3{padding:clamp(1.4rem,4vw,3rem) 0 clamp(2rem,5vw,3.5rem)}
-.hero3-text{margin-bottom:clamp(1.6rem,4vw,2.8rem)}
-.hero3-diptych{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.hero3-panel{position:relative;overflow:hidden;background:#0b0b0b;border:0;padding:0;display:block;cursor:pointer}
-.hero3-panel img{width:100%;height:clamp(380px,56vh,640px);object-fit:cover;display:block;
-  transition:transform .9s cubic-bezier(.16,1,.3,1)}
-.hero3-panel:hover img{transform:scale(1.045)}
-.hero3-cap{position:absolute;left:0;bottom:0;background:#000;color:#fff;font-size:.64rem;
-  letter-spacing:.1em;text-transform:uppercase;padding:.42rem .7rem;max-width:100%}
-.hero3-panel::after{content:"↗";position:absolute;top:.7rem;right:.9rem;color:#fff;font-size:1.1rem;
-  opacity:0;transform:translateY(4px);transition:.3s;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-.hero3-panel:hover::after{opacity:1;transform:none}
+/* ===== Hero: full-bleed Siren photo with the title overlaid ===== */
+.hero4{position:relative;height:min(88vh,900px);min-height:520px;margin:0 0 1px;overflow:hidden;background:#0b0b0b;isolation:isolate}
+.hero4-photo{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;margin:0;background:#0b0b0b;cursor:pointer;display:block}
+.hero4-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block;
+  transform:scale(1.02);animation:heroZoom 18s ease-out both}
+.hero4-photo:hover img{transform:scale(1.05);transition:transform 1.3s cubic-bezier(.16,1,.3,1)}
+.hero4-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(8,8,10,.80),rgba(8,8,10,.32) 40%,rgba(8,8,10,.05) 66%,transparent 80%),
+             linear-gradient(0deg,rgba(8,8,10,.66),rgba(8,8,10,.06) 36%,transparent 56%)}
+.hero4-text{position:absolute;left:clamp(1.2rem,5vw,4.6rem);bottom:clamp(2.2rem,7vw,5.5rem);z-index:3;
+  pointer-events:none;max-width:min(92%,42ch);animation:heroIn 1.1s cubic-bezier(.16,1,.3,1) both}
+.hero4 .hero2-kick{color:var(--pink)}
+.hero4 .hero2-name span{color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.45)}
+.hero4 .hero2-name span.outline{color:transparent;-webkit-text-stroke:2.4px var(--pink);background:none}
+.hero4 .hero2-zh{color:#fff}
+.hero4 .hero2-tag{color:rgba(255,255,255,.9)}
+.hero4 .hero2-route{color:#fff}
+.hero4 .hero2-route span:last-child{color:var(--pink)}
+.hero4-studio{position:absolute;left:clamp(1.2rem,5vw,4.6rem);top:clamp(1.2rem,4vw,2.2rem);z-index:3;pointer-events:none;
+  color:#fff;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.hero4-studio em{font-style:normal;color:var(--pink)}
+.hero4-inset{position:absolute;right:clamp(1rem,3vw,2.4rem);bottom:clamp(1.6rem,4vw,2.6rem);z-index:4;
+  width:clamp(116px,15vw,196px);border:0;padding:0;cursor:pointer;background:#000;overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,.55);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.hero4-inset:hover{transform:translateY(-5px)}
+.hero4-inset img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.hero4-inset span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);
+  color:#fff;font-size:.55rem;letter-spacing:.05em;text-transform:uppercase;padding:.9rem .5rem .42rem;font-weight:600}
+.hero4 .scrollcue{position:absolute;left:50%;transform:translateX(-50%);bottom:.9rem;z-index:3;color:rgba(255,255,255,.72)}
+.hero4 .scrollcue::before{background:var(--pink)}
 
 /* active-series color rail + label */
 #nowbar{position:fixed;left:0;top:0;bottom:0;width:4px;background:var(--now);z-index:150;
@@ -163,8 +180,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .card .cap{position:absolute;left:0;right:0;bottom:0;padding:.5rem .6rem;color:#fff;
   background:linear-gradient(0deg,rgba(0,0,0,.66),transparent);font-size:.72rem;opacity:0;transition:.3s;transform:translateY(6px)}
 .card:hover .cap{opacity:1;transform:none}
-.card.blurred img{filter:blur(16px) saturate(.7);transform:scale(1.1)}
-.card.blurred::after{content:"✉";position:absolute;inset:0;display:grid;place-items:center;font-size:1.5rem;color:#fff;background:rgba(20,20,20,.32)}
+.card.blurred img{filter:blur(7px) saturate(.85);transform:scale(1.05)}
+.card.blurred::before{content:"";position:absolute;inset:0;background:rgba(15,15,18,.18);z-index:1}
+.blur-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:2;white-space:nowrap;
+  background:rgba(12,12,14,.78);color:#fff;font-size:.7rem;letter-spacing:.08em;font-weight:700;
+  padding:.36rem .7rem;border-radius:2rem;backdrop-filter:blur(4px);transition:background .25s}
+.card.blurred:hover .blur-hint{background:var(--pink)}
 
 .gridhead{padding-top:.5rem;margin-bottom:2.2rem;display:flex;flex-wrap:wrap;align-items:baseline;gap:1.2rem}
 .gridhead h2{font-family:var(--serif);font-weight:800;font-size:clamp(2rem,5.5vw,3.6rem);letter-spacing:-.01em}
@@ -344,9 +365,32 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   letter-spacing:.06em;border-radius:5px;padding:.32rem .6rem;box-shadow:0 4px 16px rgba(0,0,0,.28)}
 .gz-tip::before{display:none!important}
 
+/* ===== Contact ===== */
+.contact-view{max-width:880px}
+.contact-lead{font-size:clamp(1.1rem,1.7vw,1.4rem);line-height:1.7;color:#2c2a25;max-width:60ch;margin-bottom:2rem}
+.contact-list{list-style:none;display:grid;gap:.1rem;max-width:560px}
+.contact-list li{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:baseline;
+  padding:.85rem 0;border-bottom:1px solid var(--line);font-size:1.02rem}
+.contact-list span{color:var(--muted);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.contact-list a:hover{color:var(--pink)}
+.contact-form{max-width:640px;display:grid;gap:1rem}
+.contact-form .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.contact-form label{display:grid;gap:.4rem;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.contact-form input,.contact-form textarea{font-family:inherit;font-size:1rem;color:var(--ink);font-weight:400;
+  letter-spacing:normal;text-transform:none;background:var(--paper2);border:1px solid var(--line);border-radius:.4rem;padding:.8rem 1rem}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--pink);background:#fff}
+.contact-form textarea{resize:vertical;min-height:130px}
+.contact-form button{justify-self:start;background:var(--ink);color:var(--paper);font-weight:700;letter-spacing:.04em;
+  border-radius:2rem;padding:.85rem 1.8rem;font-size:.95rem;transition:background .25s}
+.contact-form button:hover{background:var(--pink)}
+.contact-note{font-size:.85rem;color:var(--muted);letter-spacing:normal;text-transform:none;font-weight:400}
+.contact-note a{color:var(--pink);text-decoration:underline}
+
 /* ===== Responsive ===== */
 @media (max-width:860px){
   .ba-row{grid-template-columns:1fr}
+  .contact-form .cf-row{grid-template-columns:1fr}
+  .contact-list li{grid-template-columns:96px 1fr}
   .hero2{grid-template-columns:1fr;min-height:auto;gap:1.6rem}
   .hero2-art{max-width:440px;order:-1}
   .about-grid{grid-template-columns:1fr}.about-portrait{max-width:340px}
@@ -373,9 +417,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .chapter-title{font-size:clamp(1.7rem,7vw,2.4rem)}
   .chapter-intro,.map-side p{font-size:1.02rem;line-height:1.7}
   .studio-head h1{font-size:clamp(2rem,11vw,3rem)}
-  .hero3-diptych{gap:3px}
-  .hero3-panel img{height:clamp(240px,40vh,360px)}
-  .hero3-cap{font-size:.54rem;letter-spacing:.05em;padding:.32rem .5rem}
+  .hero4{height:min(76vh,640px);min-height:430px}
+  .hero4-text{left:1.1rem;bottom:1.4rem;max-width:88%}
+  .hero4 .hero2-name{font-size:clamp(2.6rem,17vw,4.2rem)}
+  .hero4 .hero2-zh{font-size:1.5rem}
+  .hero4 .hero2-tag{font-size:.98rem}
+  .hero4-inset{width:88px;right:.9rem;bottom:1rem}
+  .hero4-studio{left:1.1rem;top:.9rem;font-size:.58rem}
+  .hero4 .scrollcue{display:none}
   .gridhead{flex-direction:column;gap:.3rem}
   .station{padding-left:1.5rem}
   .station::before{left:.25rem}.station::after{left:calc(.25rem - 9px);width:16px;height:16px}
