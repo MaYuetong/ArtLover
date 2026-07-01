@@ -25,5 +25,6 @@
 !/jiali/VAULT.md
 !/jiali/deploy.sh
 !/jiali/publish.sh
+!/jiali/_edited/
 
 # Within the site, ignore nothing extra (all processed web assets are kept).

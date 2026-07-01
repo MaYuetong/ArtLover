@@ -128,11 +128,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero5 .hero2-route span:last-child{color:var(--pink)}
 .hero5 .scrollcue{position:absolute;left:50%;transform:translateX(-50%);bottom:.9rem;z-index:3;color:rgba(255,255,255,.7)}
 .hero5 .scrollcue::before{background:var(--pink)}
-/* single full-bleed cover (item 1: 晓霞装1#) */
+/* single full-bleed cinematic cover (晓霞装1#): fills the whole screen, edge to edge */
+.hero-solo{height:calc(100vh - 58px);min-height:480px;max-height:100vh;margin:0}
 .hero-solo .hero5-photo{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;margin:0;background:#0a0a0c;cursor:pointer;display:block}
-.hero-solo .hero5-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block;transform:scale(1.02);animation:heroZoom 22s ease-out both}
-.hero-solo .hero5-photo:hover img{transform:scale(1.05);transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
-.hero-solo .hero5-label{left:clamp(1rem,3vw,1.9rem);right:auto}
+.hero-solo .hero5-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 44%;display:block;transform:scale(1.03);animation:heroZoom 26s ease-out both}
+.hero-solo .hero5-photo:hover img{transform:scale(1.06);transition:transform 1.5s cubic-bezier(.16,1,.3,1)}
+.hero-solo .hero5-label{left:clamp(1rem,3vw,2rem);right:auto;top:clamp(1rem,3vw,1.8rem)}
+/* stronger scrim so the title is crisp and clear over the busy artwork */
+.hero-solo .hero5-scrim{background:
+  linear-gradient(0deg,rgba(6,6,9,.94),rgba(6,6,9,.5) 28%,rgba(6,6,9,.14) 52%,rgba(6,6,9,.05) 70%,transparent 84%),
+  radial-gradient(100% 60% at 50% 88%,rgba(6,6,9,.6),transparent 72%)}
+.hero-solo .hero5-text{bottom:clamp(2.6rem,7vw,6rem)}
+.hero-solo .hero2-name{font-size:clamp(3.4rem,11vw,9rem)}
+/* dot separators in place of the removed arrows */
+.hero-solo .hero2-route i{display:none}
+.hero-solo .hero2-route span:not(:last-child)::after{content:"·";margin-left:.9rem;opacity:.55;font-weight:700}
 
 /* active-series color rail + label */
 #nowbar{position:fixed;left:0;top:0;bottom:0;width:4px;background:var(--now);z-index:150;
@@ -448,6 +458,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .chapter-intro,.map-side p{font-size:1.02rem;line-height:1.7}
   .studio-head h1{font-size:clamp(2rem,11vw,3rem)}
   .hero5{height:auto;min-height:0}
+  .hero-solo{height:calc(100vh - 56px);min-height:440px;max-height:none}   /* keep full-bleed cover on phones */
+  .hero-solo .hero2-name{font-size:clamp(3rem,17vw,4.6rem)}
   .hero5-grid{position:static;grid-template-columns:1fr;grid-auto-rows:46vh}
   .hero5-grid::before{display:none}
   .hero5-scrim{background:linear-gradient(0deg,rgba(6,6,9,.92),rgba(6,6,9,.4) 30%,transparent 52%)}

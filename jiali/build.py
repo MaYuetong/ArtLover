@@ -43,6 +43,10 @@ def emit(src, base, web=1600, thumb=720, saturation=None, rotate=0):
             sips(src, webp, web); sips(src, thp, thumb)
     return ("img/" + base + ".jpg", "img/" + base + "_t.jpg")
 
+# item 13: use a pre-edited copy (flag stars blurred out) in place of the original
+SRC_OVERRIDE = {
+  "星旗 布面油彩 1997 Star Flag  Oil on canvas  130x103cm.JPEG": "_edited/starflag_noflag.jpg",
+}
 def numkey(fn):
     """Natural sort key from the first #-number (or any number) in a filename."""
     m = re.search(r"(\d+)#", fn) or re.search(r"(\d+)", fn)
@@ -226,7 +230,8 @@ for s in SERIES:
     for f in chosen:
         wid += 1
         base = f"{s['id']}-{wid:03d}"
-        web, th = emit(os.path.join(d, f), base, saturation=sat, rotate=rot)
+        src_path = os.path.join(ROOT, SRC_OVERRIDE[f]) if f in SRC_OVERRIDE else os.path.join(d, f)
+        web, th = emit(src_path, base, saturation=sat, rotate=rot)
         meta = parse_meta(f)
         if not meta.get("dims") and s.get("dims"): meta["dims"] = s["dims"]   # series size fallback (item 7)
         works.append(dict(id=base, web=web, thumb=th, role="work", **meta))

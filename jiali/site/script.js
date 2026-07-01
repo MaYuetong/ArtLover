@@ -41,16 +41,15 @@ function viewHome(){
     <button class="hero5-photo" data-open="xiaoxia" aria-label="${T('曉霞裝 作品','Dawn-Cloud Dress, works')}">
       ${D.hero?`<img src="${D.hero}" alt="${T('曉霞裝1#','Dawn-Cloud Dress No.1')}">`:''}
     </button>
-    <span class="hero5-label">${T('《曉霞裝1#》 · 綜合材料 · 2001','Dawn-Cloud Dress No.1 · mixed media · 2001')} ↗</span>
+    <span class="hero5-label">${T('《曉霞裝1#》 · 綜合材料 · 2001','Dawn-Cloud Dress No.1 · mixed media · 2001')}</span>
     <div class="hero5-scrim" aria-hidden="true"></div>
     <div class="hero5-text">
       <div class="hero2-kick">${T('當代藝術家 · 女性主義','Contemporary artist · Feminism')}</div>
       <h1 class="hero2-name"><span>FENG</span><span class="outline">JIALI</span></h1>
       <div class="hero2-zh">奉家麗</div>
       <p class="hero2-tag">${T(a.tagline_zh,a.tagline_en)}</p>
-      <div class="hero2-route"><span>Beijing</span><i></i><span>Guizhou</span><i></i><span>New York</span></div>
+      <div class="hero2-route"><span>Beijing</span><span>Guizhou</span><span>New York</span></div>
     </div>
-    <div class="scrollcue">${T('沿時間軸向下 · 三十年','Scroll the timeline · thirty years')}</div>
   </section>`;
 
   const head=`<div class="tl-head reveal"><h2>${T('時間軸','Timeline')}</h2>
@@ -97,7 +96,7 @@ function viewHome(){
     <div class="st-year">${fn.years}</div>
     <h2 class="st-title" style="cursor:default">${T(fn.zh,fn.en)}</h2>
     <p class="st-desc">${T(fn.zh2,fn.en2)}</p></article>`:'';
-  app.innerHTML=`<div class="view view-home">${hero}${head}<div class="timeline">${html}${future}</div>
+  app.innerHTML=`${hero}<div class="view view-home">${head}<div class="timeline">${html}${future}</div>
     <aside id="nowbar" aria-hidden="true"><i></i><span id="nowlabel"></span></aside></div>`;
   document.body.style.setProperty('--now', D.series[0].accent);
   observeStations();
