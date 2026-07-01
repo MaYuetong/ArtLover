@@ -14,9 +14,13 @@ const allOf  = id => D.works.filter(w=>w.series===id);
 const essaysFor = id => (window.CONTENT.essays||[]).filter(e=>e.series===id && e.id!=='muyuan-letter');
 const esc = s => (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+const ROLE_ZH={detail:'局部',site:'展覽現場',studio:'工作照',kerchief:'手帕',shixu:'石墟',bts:'花絮'};
+const ROLE_EN={detail:'detail',site:'installation',studio:'in the studio',kerchief:'kerchief',shixu:'Stone Ruins',bts:'behind the scenes'};
 function workCaption(w){
   const s = seriesById(w.series);
-  const title = lang==='zh' ? (w.title_zh||s.zh) : (w.title_en||w.title_zh||s.en);
+  let title = lang==='zh' ? (w.title_zh||s.zh) : (w.title_en||w.title_zh||s.en);
+  if(!/[一-鿿A-Za-z]{2,}/.test(title||'')) title = T(s.zh,s.en);   // generic filename -> series name
+  if(w.role && ROLE_ZH[w.role]) title += ' · ' + T(ROLE_ZH[w.role], ROLE_EN[w.role]);
   const bits = [w.medium && lang==='zh'?w.medium:'', w.dims, w.year].filter(Boolean).join(' · ');
   return {title, bits};
 }
@@ -138,7 +142,9 @@ function essayReadBlock(e, imgs){
   body.forEach((p,i)=>{
     html+=`<p>${esc(p)}</p>`;
     if(imgs && imgs[im] && (i===0||i===2||i===4)){
-      html+=`<button class="se-fig" data-work="${imgs[im].id}"><img loading="lazy" src="${imgs[im].web}" alt=""></button>`; im++;
+      const w=imgs[im]; const {title,bits}=workCaption(w);
+      html+=`<figure class="se-fig-wrap"><button class="se-fig" data-work="${w.id}"><img loading="lazy" src="${w.web}" alt="${esc(title)}"></button>
+        <figcaption class="se-fig-cap"><b>${esc(title)}</b>${bits?' · '+esc(bits):''}</figcaption></figure>`; im++;
     }
   });
   html+=`</div></section>`;
@@ -155,12 +161,11 @@ function viewWorks(filter){
   const head=`<div class="gridhead" ${fs?`style="border-color:${fs.accent}"`:''}><h2>${fs?T(fs.zh,fs.en):T('全部作品','All Works')}</h2>
     <span class="sub" style="color:var(--muted)">${fs?yrs(fs.years)+' · ':''}${list.length} ${T('件','works')}</span></div>`;
   const intro = fs ? `<p class="works-intro" style="--st:${fs.accent}">${T(sd.zh||fs.desc_zh,sd.en||fs.desc_en)}</p>` : '';
-  // 自然復魅: a large exhibition-site photo with the source text over its shadow, then the works
-  let feature='', gridList=list;
+  // 自然復魅: a large exhibition-site photo with the source text over its shadow
+  let feature='', heroId=null;
   if(filter==='fumei'){
     const hero=list.find(w=>w.role==='site');
-    if(hero){
-      gridList=list.filter(w=>w.id!==hero.id);
+    if(hero){ heroId=hero.id;
       const zh="野生草木、花卉草蟲、中藥本草盡被收拾囊中，畫室幾乎變成植物標本陳列室。這一「述行」，旨在復魅自然本真，斷然擯除那種將自然對象化的因襲。";
       const en="The stone walls may look dead. For Feng they are very much alive. The crevices teem with life: insects, lizards, plants, many of them with folk and medicinal use. Each one turns up in her work.";
       const by=T("島子《以自然復魅重構風景詩學》","Christopher Pelley, “Post-Feminism”, 2019");
@@ -170,16 +175,25 @@ function viewWorks(filter){
         <div class="fumei-label">${T('展覽現場','Installation view')}</div>`;
     }
   }
-  // series that have essays: read the article and view the works together
+  // series with essays: read the article and view the works together
+  const workImgs = fs ? list.filter(w=>w.role==='work') : list;
   let essayHtml='';
   if(fs){
     const essays=essaysFor(filter);
-    const workImgs=list.filter(w=>w.role==='work');
     essayHtml=essays.map((e,k)=>essayReadBlock(e, workImgs.slice(k*2))).join('');
   }
-  const worksHead = (fs && essayHtml) ? `<div class="sec-title" style="color:var(--st);--st:${fs.accent}">${T('全部作品','All works')}</div>` : '';
-  const grid=`<div class="grid" data-kind="${fs?fs.kind:''}">${gridList.map(w=>card(w,seriesById(w.series).blurred)).join('')}</div>`;
-  app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${worksHead}${grid}</div>`;
+  const worksHead = (fs && (essayHtml||feature)) ? `<div class="sec-title" style="color:var(--st);--st:${fs.accent}">${T('全部作品','All works')}</div>` : '';
+  const grid=`<div class="grid" data-kind="${fs?fs.kind:''}">${workImgs.map(w=>card(w,seriesById(w.series).blurred)).join('')}</div>`;
+  // labeled blocks for the other roles: 局部 / 展覽現場 / 工作照 / 手帕 / 石墟 / 花絮 (item 7,8)
+  const roleLabel={detail:['局部','Details'],site:['展覽現場','Installation views'],studio:['工作照','In the studio'],kerchief:['手帕','Kerchiefs'],shixu:['石墟','Stone Ruins'],bts:['花絮','Behind the scenes']};
+  let sections='';
+  if(fs) ['detail','site','studio','kerchief','shixu','bts'].forEach(r=>{
+    const imgs=list.filter(w=>w.role===r && w.id!==heroId);
+    if(imgs.length){ const L=roleLabel[r];
+      sections+=`<div class="sec-title" style="color:var(--st);--st:${fs.accent}">${T(L[0],L[1])}</div>
+        <div class="grid" data-kind="${fs.kind}">${imgs.map(w=>card(w,fs.blurred)).join('')}</div>`; }
+  });
+  app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${worksHead}${grid}${sections}</div>`;
 }
 
 /* ---------- PROJECT 鄉拉岜 before/after ---------- */
