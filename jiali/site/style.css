@@ -360,6 +360,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .map-block{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,4vw,3rem);align-items:stretch;margin:0 0 clamp(2.6rem,6vw,4.5rem)}
 .map-side{display:flex;flex-direction:column;justify-content:center}
 .map-side p{color:#2c2a25;font-size:clamp(1.02rem,1.5vw,1.25rem);line-height:1.78;margin-bottom:1.1rem;max-width:46ch}
+.map-loc{color:var(--muted)!important;font-size:.9rem!important;letter-spacing:.02em;border-left:2px solid var(--pink);padding-left:.8rem}
+/* project background (自然复魅 + 干栏式) */
+.proj-bg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.6rem,4vw,3.4rem);margin:clamp(2rem,5vw,3.5rem) 0 clamp(1rem,3vw,2rem)}
+.proj-col h3{font-family:var(--serif);font-weight:800;font-size:clamp(1.3rem,2.4vw,1.8rem);margin-bottom:.7rem}
+.proj-col p{color:#2c2a25;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.8;max-width:56ch}
 #gzmap{height:clamp(340px,52vh,560px);width:100%;background:#eef0f1;z-index:1}
 .gz-pin span{display:block;width:16px;height:16px;border-radius:50%;background:var(--pink);
   box-shadow:0 0 0 4px rgba(224,33,138,.22),0 0 0 9px rgba(224,33,138,.10)}
@@ -394,6 +399,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .ba-row{grid-template-columns:1fr}
   .contact-form .cf-row{grid-template-columns:1fr}
   .contact-list li{grid-template-columns:96px 1fr}
+  .proj-bg{grid-template-columns:1fr;gap:1.6rem}
   .hero2{grid-template-columns:1fr;min-height:auto;gap:1.6rem}
   .hero2-art{max-width:440px;order:-1}
   .about-grid{grid-template-columns:1fr}.about-portrait{max-width:340px}

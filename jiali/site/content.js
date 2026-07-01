@@ -13,6 +13,23 @@ window.CONTENT = {
     bio_en: "Feng Jiali was born in 1963 in Chongqing. She graduated from the Oil Painting Department of Sichuan Fine Arts Institute in 1990 with a Bachelor of Arts degree, and completed the 6th Advanced Oil Painting Program at the Central Academy of Fine Arts in 1993. In the late 1990s she joined Beijing's East Village artist community. Her work runs across painting, performance, installation and land art. For three decades she has kept asking the same questions: about women's experience, the body, how identity is made, and how people stand in relation to nature. In 1998 she founded the Siren Studio in Beijing. Her work has been shown in New York, Basel, Luxembourg, Germany, Prague, South Africa, Budapest, Cuba, Hong Kong, Macau and across China. Her honours include the Women Artists' Academic Award at the Century Women Art Exhibition (1998), a nomination at the 12th National Art Exhibition (2014), the Academic Award at the Women Artists Biennale (2015), and the Celia & Wally Gilbert Artist-in-Residence Fellowship (2025)."
   },
 
+  // Contact form config. Set web3formsKey to your Web3Forms access key to enable
+  // real email delivery; cc keeps Feng Jiali copied on every message.
+  contact: { web3formsKey: "", cc: "jialistudio2963@gmail.com" },
+
+  // Xianglaba / Space Art project text (from the 自然复魅·洪江 document).
+  project: {
+    years: "2017 → 2026",
+    location_zh: "贵州省黔南布依族苗族自治州 · 荔波县朝阳镇洪江村上拉岜组",
+    location_en: "Shang-Laba, Hongjiang Village, Chaoyang, Libo County, Qiannan, Guizhou",
+    reenchant_zh: "「自然复魅」一词出自社会学家马克斯·韦伯。相对于「祛魅」，复魅是要唤回工业社会为经济价值而牺牲掉的自然价值与审美魅力，张扬野性的生命力与诗意的栖居，消解以人类为中心的人与自然的二元对立，转向一种深层生态的整体伦理。",
+    reenchant_en: "The term re-enchantment comes from the sociologist Max Weber. Against disenchantment, re-enchantment calls back the value and the beauty of nature that industrial society sacrificed for economic gain. It affirms a wild vitality and a poetic way of dwelling, and undoes the human-centred split between people and nature, turning toward a deep-ecological ethics of the whole.",
+    space_zh: "2017 至 2026 年，奉家丽在贵州荔波洪江村买下五栋濒临拆除的干栏式老屋，一栋栋修复、重建。项目沿着洪江传统文化的「衣」与「住」两条线索展开：老屋以传统土木手法结合现代空间，成为集创作、研究、展示于一体的艺术空间；蓝靛染织的手艺被转化成艺术作品，向外发表与传播。随着艺术家进驻，村民重拾文化自信、回归乡村，地缘文化慢慢复魅、复活。",
+    space_en: "From 2017 to 2026, in Hongjiang village, Libo, Guizhou, Feng Jiali bought five stilt houses that were about to be demolished, and restored them one by one. The project follows two threads of Hongjiang's tradition, clothing and dwelling: the old houses join earth-and-timber methods with modern space to become a place for making, research and exhibition, while the indigo dyeing and weaving is turned into art and carried outward. As artists moved in, the villagers found a new confidence and came home, and the local culture slowly came back to life.",
+    ganlan_zh: "干栏式房屋以竹木为材，上下两层：下层圈养牲畜、堆放杂物，上层住人；以竖立的木桩架空基座，主要为了防潮。它流行于广西、云南东南、贵州西南与越南北部这些多雨潮湿的地区。",
+    ganlan_en: "A stilt house is built of bamboo and timber in two storeys: animals and storage below, people above, the floor raised on wooden posts to keep out the damp. It is found across the rainy regions of Guangxi, south-east Yunnan, south-west Guizhou and northern Vietnam."
+  },
+
   // Narrative chapters: her life in four turning points. Each opens before series `at`.
   chapters: [
     {at:"fenlian", no:"I", accent:"#D6336C", years:"1995 → 2010",

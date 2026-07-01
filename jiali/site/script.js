@@ -186,8 +186,9 @@ function viewWorks(filter){
 /* ---------- PROJECT 乡拉岜 before/after ---------- */
 function viewProject(){
   const pairs=D.xianglaba||[];
+  const P=C.project||{};
   const intro=`<div class="gridhead reveal"><h2>${T('空间艺术 · 乡拉岜','Space Art · Xianglaba')}</h2>
-    <span class="sub" style="color:var(--muted)">2018 → 2025</span></div>`;
+    <span class="sub" style="color:var(--muted)">${P.years||'2017 → 2026'}</span></div>`;
   const ba=p=>`<div class="ba-stage" data-ba>
         <img class="ba-before" src="${p.before}" alt="${T('改造前','Before')} ${p.n}">
         <img class="ba-after" src="${p.after}" alt="${T('改造后','After')} ${p.n}">
@@ -204,13 +205,18 @@ function viewProject(){
     }
   }
   const map=`<div class="map-block reveal">
-    <div id="gzmap" aria-label="${T('贵州地图','Map of Guizhou')}"></div>
+    <div id="gzmap" aria-label="${T('荔波洪江村地图','Map of Hongjiang, Libo')}"></div>
     <div class="map-side">
-      <span class="se-tag" style="--st:var(--pink)">${T('在地图上','On the map')}</span>
-      <p>${T('一个历时七年的乡村空间改造个人项目。她把美学带回土地与日常：拖动下方每组图的滑块，可对比改造前后。','A seven-year personal project that reworks a rural space. She brings aesthetics back to the land and to daily life. Drag the slider on each pair below to compare before and after.')}</p>
-      <p>${T('项目位于贵州。具体地名与说明文字将陆续标注。','The project sits in Guizhou. Exact place names and notes will be marked over time.')}</p>
+      <span class="se-tag" style="--st:var(--pink)">${T('乡拉岜艺术美学空间','Xianglaba Art Aesthetic Space')}</span>
+      <p>${T(P.space_zh,P.space_en)}</p>
+      <p class="map-loc">${T(P.location_zh,P.location_en)}</p>
     </div></div>`;
-  app.innerHTML=`<div class="view">${intro}${map}<div class="ba-flow">${grid}</div></div>`;
+  const bg=`<div class="proj-bg reveal">
+    <div class="proj-col"><h3>${T('什么是「自然复魅」','On re-enchantment')}</h3><p>${T(P.reenchant_zh,P.reenchant_en)}</p></div>
+    <div class="proj-col"><h3>${T('干栏式老屋','The stilt houses')}</h3><p>${T(P.ganlan_zh,P.ganlan_en)}</p></div>
+  </div>`;
+  const compare=`<div class="sec-title">${T('改造前后 · 拖动滑块对比','Before & after · drag the slider')}</div>`;
+  app.innerHTML=`<div class="view">${intro}${map}${bg}${compare}<div class="ba-flow">${grid}</div></div>`;
   initBA(); initMap(); observeReveal();
 }
 function initBA(){
@@ -231,12 +237,13 @@ let _map;
 function initMap(){
   const el=document.getElementById('gzmap'); if(!el||!window.L)return;
   if(_map){_map.remove();_map=null;}
-  _map=L.map(el,{scrollWheelZoom:false,attributionControl:false}).setView([26.6,106.9],7);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{maxZoom:12,minZoom:5}).addTo(_map);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',{maxZoom:12,minZoom:5}).addTo(_map);
+  const site=[25.46,107.78]; // Hongjiang village, Chaoyang, Libo county, Guizhou (approx.)
+  _map=L.map(el,{scrollWheelZoom:false,attributionControl:false}).setView(site,10);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{maxZoom:14,minZoom:5}).addTo(_map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',{maxZoom:14,minZoom:5}).addTo(_map);
   const pin=L.divIcon({className:'gz-pin',html:'<span></span>',iconSize:[18,18],iconAnchor:[9,9]});
-  L.marker([26.6,106.9],{icon:pin}).addTo(_map)
-    .bindTooltip(T('乡拉岜 · 贵州','Xianglaba · Guizhou'),{permanent:true,direction:'right',className:'gz-tip',offset:[10,0]});
+  L.marker(site,{icon:pin}).addTo(_map)
+    .bindTooltip(T('乡拉岜 · 洪江村，荔波','Xianglaba · Hongjiang, Libo'),{permanent:true,direction:'right',className:'gz-tip',offset:[10,0]});
   setTimeout(()=>_map&&_map.invalidateSize(),200);
 }
 
@@ -321,6 +328,7 @@ let contactPrefill=null;
 function viewContact(){
   const a=C.artist;
   const pf=contactPrefill||{}; contactPrefill=null;
+  const cfg=C.contact||{};
   app.innerHTML=`<div class="view contact-view">
     <div class="gridhead reveal"><h2>${T('联系','Contact')}</h2></div>
     <div class="contact-info reveal">
@@ -340,19 +348,36 @@ function viewContact(){
       </div>
       <label>${T('主题','Subject')}<input name="subject" value="${esc(pf.subject||'')}"></label>
       <label>${T('留言','Message')}<textarea name="message" rows="6" required></textarea></label>
-      <button type="submit">${T('发送邮件','Send email')} →</button>
-      <p class="contact-note">${T('点击后会打开你的邮件应用，把信件寄给 ','Opens your email app to send to ')}<a href="mailto:${a.email}">${a.email}</a>${T('；她会通过邮件回复你。','. She will reply by email.')}</p>
+      <input type="checkbox" name="botcheck" tabindex="-1" style="position:absolute;left:-9999px" aria-hidden="true">
+      <button type="submit">${T('发送','Send')} →</button>
+      <p class="contact-note">${T('留言会通过邮件发送给奉家丽','Your message is emailed to Feng Jiali')}${cfg.cc?T('，并抄送 ',' (cc ')+cfg.cc+(lang==='zh'?'':')'):''}${T('。她会通过邮件回复你。','. She will reply by email.')}</p>
       <p id="contactmsg" class="submsg"></p>
     </form>
   </div>`;
   const f=document.getElementById('contactform');
-  f.addEventListener('submit',e=>{
+  const msg=t=>{document.getElementById('contactmsg').textContent=t;};
+  f.addEventListener('submit',async e=>{
     e.preventDefault();
     const fd=new FormData(f);
-    const subj=(fd.get('subject')||'').trim()||T('网站留言','Message from the website');
-    const body=`${T('称呼','Name')}: ${fd.get('name')}\n${T('邮箱','Email')}: ${fd.get('email')}\n\n${fd.get('message')}`;
-    location.href=`mailto:${a.email}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
-    document.getElementById('contactmsg').textContent=T('正在打开你的邮件应用…','Opening your email app…');
+    if(fd.get('botcheck')) return; // honeypot
+    const subj=(fd.get('subject')||'').trim()||T('网站留言 · fengjiali76.com','Message via fengjiali76.com');
+    if(cfg.web3formsKey){
+      msg(T('正在发送…','Sending…'));
+      try{
+        const payload={access_key:cfg.web3formsKey, from_name:'fengjiali76.com', subject:subj,
+          name:fd.get('name'), email:fd.get('email'), message:fd.get('message'), replyto:fd.get('email')};
+        if(cfg.cc) payload.cc=cfg.cc;
+        const r=await fetch('https://api.web3forms.com/submit',{method:'POST',
+          headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
+        const j=await r.json();
+        if(j.success){ f.reset(); msg(T('已发送，谢谢！奉家丽会尽快回复你。','Sent, thank you. Feng Jiali will reply soon.')); }
+        else msg(T('发送失败，请直接邮件联系 ','Could not send. Please email ')+a.email);
+      }catch(err){ msg(T('发送失败，请直接邮件联系 ','Could not send. Please email ')+a.email); }
+    } else {
+      const body=`${T('称呼','Name')}: ${fd.get('name')}\n${T('邮箱','Email')}: ${fd.get('email')}\n\n${fd.get('message')}`;
+      location.href=`mailto:${a.email}?cc=${encodeURIComponent(cfg.cc||'')}&subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+      msg(T('正在打开你的邮件应用…','Opening your email app…'));
+    }
   });
   observeReveal();
 }
