@@ -23,5 +23,6 @@
 !/jiali/INTAKE.md
 !/jiali/DEPLOY.md
 !/jiali/deploy.sh
+!/jiali/publish.sh
 
 # Within the site, ignore nothing extra (all processed web assets are kept).
