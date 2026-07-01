@@ -128,6 +128,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero5 .hero2-route span:last-child{color:var(--pink)}
 .hero5 .scrollcue{position:absolute;left:50%;transform:translateX(-50%);bottom:.9rem;z-index:3;color:rgba(255,255,255,.7)}
 .hero5 .scrollcue::before{background:var(--pink)}
+/* single full-bleed cover (item 1: 晓霞装1#) */
+.hero-solo .hero5-photo{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;margin:0;background:#0a0a0c;cursor:pointer;display:block}
+.hero-solo .hero5-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block;transform:scale(1.02);animation:heroZoom 22s ease-out both}
+.hero-solo .hero5-photo:hover img{transform:scale(1.05);transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
+.hero-solo .hero5-label{left:clamp(1rem,3vw,1.9rem);right:auto}
 
 /* active-series color rail + label */
 #nowbar{position:fixed;left:0;top:0;bottom:0;width:4px;background:var(--now);z-index:150;
@@ -310,15 +315,28 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .st-actions{display:flex;flex-wrap:wrap;gap:.5rem 2.2rem;align-items:baseline;margin-top:1.1rem}
 
 /* ===== Timeline chapters (narrative color blocks, MOMA-style) ===== */
+/* solid opaque colour block per era (items 3 + 20) */
 .chapter{position:relative;display:grid;grid-template-columns:auto 1fr;gap:clamp(1rem,3vw,2.4rem);align-items:start;
-  margin:clamp(3rem,8vw,7rem) 0 clamp(2rem,5vw,3.5rem);padding:clamp(1.6rem,4vw,3rem) clamp(1.3rem,4vw,3rem);
-  border-left:5px solid var(--st);
-  background:linear-gradient(106deg,color-mix(in srgb,var(--st) 15%,transparent),color-mix(in srgb,var(--st) 4%,transparent) 62%,transparent)}
-.chapter-no{font-family:var(--serif);font-weight:800;font-size:clamp(2.6rem,7vw,5.6rem);color:var(--st);line-height:.78;opacity:.92}
-.chapter-meta{font-weight:800;letter-spacing:.16em;color:var(--st);font-size:.85rem;margin-bottom:.4rem}
-.chapter-title{font-family:var(--serif);font-weight:800;font-size:clamp(1.9rem,5vw,3.4rem);line-height:1.02;letter-spacing:-.01em}
-.chapter-title span{display:block;font-family:var(--sans);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:.5rem}
-.chapter-intro{margin-top:1.1rem;max-width:62ch;font-size:clamp(1.02rem,1.4vw,1.22rem);line-height:1.78;color:#2c2a25}
+  margin:clamp(3rem,8vw,7rem) 0 clamp(2rem,5vw,3.5rem);padding:clamp(1.8rem,4vw,3.2rem) clamp(1.4rem,4vw,3rem);
+  background:var(--st);color:#fff}
+.chapter-no{font-family:var(--serif);font-weight:800;font-size:clamp(2.6rem,7vw,5.6rem);color:#fff;line-height:.78;opacity:.92}
+.chapter-meta{font-weight:800;letter-spacing:.16em;color:rgba(255,255,255,.85);font-size:.85rem;margin-bottom:.4rem}
+.chapter-title{font-family:var(--serif);font-weight:800;font-size:clamp(1.9rem,5vw,3.4rem);line-height:1.02;letter-spacing:-.01em;color:#fff}
+.chapter-title span{display:block;font-family:var(--sans);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);font-weight:700;margin-top:.5rem}
+.chapter-intro{margin-top:1.1rem;max-width:62ch;font-size:clamp(1.02rem,1.4vw,1.22rem);line-height:1.78;color:rgba(255,255,255,.94)}
+.future-note{opacity:.85}
+.future-note .st-title{color:var(--muted)}
+/* Siren manifesto (item 17) */
+.manifesto{max-width:760px}
+.mf-lede{font-family:var(--serif);font-weight:700;font-style:italic;font-size:clamp(1.4rem,3vw,2.2rem);line-height:1.3;color:var(--ink);margin-bottom:1.4rem}
+.mf-body{font-size:clamp(1.05rem,1.5vw,1.25rem);line-height:1.85;color:#2c2a25;margin-bottom:1.4rem}
+.mf-aims{margin:0;padding-left:1.3rem;display:grid;gap:.6rem}
+.mf-aims li{font-size:1.02rem;line-height:1.6;color:#2c2a25}
+.mf-aims li::marker{color:var(--pink);font-weight:800}
+/* residency + Ctrip (item 10) */
+.map-residency{color:#2c2a25!important;font-weight:600}
+.map-ctrip{display:inline-block;color:var(--pink);font-weight:700;border-bottom:2px solid var(--pink);padding-bottom:.15rem;font-size:.95rem}
+.map-ctrip:hover{opacity:.7}
 
 /* ===== Article + works, read together ===== */
 .series-essay{max-width:760px;margin:clamp(2.6rem,6vw,5rem) 0;padding-top:2.2rem;position:relative}
@@ -453,6 +471,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .press-grid,.cv-cols{gap:1.4rem}
   .map-block{grid-template-columns:1fr;gap:1.2rem}
   #gzmap{height:48vh;order:-1}
+  .ba-wide .ba-stage,.ba-stage{aspect-ratio:3/2}  /* all comparisons same size on phones (item 10) */
   .siren-strip img{height:200px}
   .hero2-cap2{font-size:.62rem}
   .st-show{font-size:.66rem}

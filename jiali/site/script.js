@@ -11,7 +11,7 @@ const yrs = s => (s||'').replace(/\s*[–—-]\s*/g,' → ');  // dash-free year
 const seriesById = id => D.series.find(s=>s.id===id);
 const worksOf = id => D.works.filter(w=>w.series===id && w.role==='work');
 const allOf  = id => D.works.filter(w=>w.series===id);
-const essaysFor = id => (window.CONTENT.essays||[]).filter(e=>e.series===id);
+const essaysFor = id => (window.CONTENT.essays||[]).filter(e=>e.series===id && e.id!=='muyuan-letter');
 const esc = s => (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function workCaption(w){
@@ -23,7 +23,7 @@ function workCaption(w){
 function card(w, blurred){
   const {title,bits} = workCaption(w);
   const overlay = blurred
-    ? `<span class="blur-hint">✉ ${T('联系获得','Contact to view')}</span>`
+    ? `<span class="blur-hint">✉ ${T('聯繫獲得','Contact to view')}</span>`
     : `<span class="cap"><b>${esc(title)}</b> ${bits?'· '+esc(bits):''}</span>`;
   return `<button class="card${blurred?' blurred':''}" data-work="${w.id}" style="--st:${seriesById(w.series).accent}">
     <img loading="lazy" decoding="async" src="${w.thumb}" alt="${esc(title)}" style="view-transition-name:vt-${w.id}">
@@ -33,30 +33,24 @@ function card(w, blurred){
 /* ---------- HERO + TIMELINE (home) ---------- */
 function viewHome(){
   const a=C.artist;
-  const hero=`<section class="hero5">
-    <div class="hero5-grid">
-      <button class="hero5-panel hp-left" data-open="xiaowanglu" aria-label="${T('笑忘录 作品','Laughter and Forgetting, works')}">
-        ${D.hero?`<img src="${D.hero}" alt="${T('笑忘录5#','Laughter and Forgetting No.5')}">`:''}
-        <span class="hero5-label">${T('《笑忘录5#》 · 2001','Laughter & Forgetting No.5 · 2001')} ↗</span>
-      </button>
-      <button class="hero5-panel hp-right" data-nav-to="#studio" aria-label="${T('塞壬艺术工作室','Siren Art Studio')}">
-        ${D.sirenPhoto?`<img src="${D.sirenPhoto}" alt="${T('塞壬艺术工作室 合影 1998','Siren Art Studio, 1998')}">`:''}
-        <span class="hero5-label hl-right">${T('塞壬艺术工作室 · 1998','Siren Art Studio · 1998')} ↗</span>
-      </button>
-    </div>
+  const hero=`<section class="hero5 hero-solo">
+    <button class="hero5-photo" data-open="xiaoxia" aria-label="${T('曉霞裝 作品','Dawn-Cloud Dress, works')}">
+      ${D.hero?`<img src="${D.hero}" alt="${T('曉霞裝1#','Dawn-Cloud Dress No.1')}">`:''}
+    </button>
+    <span class="hero5-label">${T('《曉霞裝1#》 · 綜合材料 · 2001','Dawn-Cloud Dress No.1 · mixed media · 2001')} ↗</span>
     <div class="hero5-scrim" aria-hidden="true"></div>
     <div class="hero5-text">
-      <div class="hero2-kick">${T('当代艺术家 · 女性主义','Contemporary artist · Feminism')}</div>
+      <div class="hero2-kick">${T('當代藝術家 · 女性主義','Contemporary artist · Feminism')}</div>
       <h1 class="hero2-name"><span>FENG</span><span class="outline">JIALI</span></h1>
-      <div class="hero2-zh">奉家丽</div>
+      <div class="hero2-zh">奉家麗</div>
       <p class="hero2-tag">${T(a.tagline_zh,a.tagline_en)}</p>
       <div class="hero2-route"><span>Beijing</span><i></i><span>Guizhou</span><i></i><span>New York</span></div>
     </div>
-    <div class="scrollcue">${T('沿时间轴向下 · 三十年','Scroll the timeline · thirty years')}</div>
+    <div class="scrollcue">${T('沿時間軸向下 · 三十年','Scroll the timeline · thirty years')}</div>
   </section>`;
 
-  const head=`<div class="tl-head reveal"><h2>${T('时间轴','Timeline')}</h2>
-    <span class="sub">${T('1994 → 2025 · 油画与综合媒材','1994 → 2025 · painting & mixed media')}</span></div>`;
+  const head=`<div class="tl-head reveal"><h2>${T('時間軸','Timeline')}</h2>
+    <span class="sub">${T('1994 → 2025 · 油畫與綜合媒材','1994 → 2025 · painting & mixed media')}</span></div>`;
 
   // interleave series stations with award markers anchored to the right era
   const awards=C.cv.awards;
@@ -76,7 +70,7 @@ function viewHome(){
     html+=`<article class="station ${isFeat?'st-feature':''} ${variant}" style="--st:${s.accent}" data-series="${s.id}">
       <div class="st-year">${yrs(s.years)}</div>
       <h2 class="st-title" data-open="${s.id}">${T(s.zh,s.en)}
-        ${s.feature?`<span class="st-kind">${T('重点','Featured')}</span>`:''}
+        ${s.feature?`<span class="st-kind">${T('重點','Featured')}</span>`:''}
         <span class="en">${T(s.en,s.zh)}</span></h2>
       ${(s.show_zh||s.show_en)?`<div class="st-show">${T(s.show_zh,s.show_en)}</div>`:''}
       <p class="st-desc">${T(sd.zh||s.desc_zh,sd.en||s.desc_en)}</p>
@@ -84,17 +78,22 @@ function viewHome(){
       <div class="st-strip" data-kind="${s.kind}">${strip.map(w=>card(w,s.blurred)).join('')}</div>
       <div class="st-actions">
         <a class="st-more" data-open="${s.id}">${T('查看全部 '+allOf(s.id).length+' 件','View all '+allOf(s.id).length)} →</a>
-        ${essay?`<a class="st-essay" data-open="${s.id}">${T('文章与作品同看','Read with the works')} · ${T(essay.title_zh,essay.title_en)}</a>`:''}
+        ${essay?`<a class="st-essay" data-open="${s.id}">${T('文章與作品同看','Read with the works')} · ${T(essay.title_zh,essay.title_en)}</a>`:''}
       </div>
     </article>`;
     // drop award markers anchored to this era's series
     awards.filter(a=>a.after===s.id).forEach(aw=>{
       html+=`<div class="cv-mark"><b>${aw.y}</b><span>★ ${T(aw.zh,aw.en)}</span></div>`;});
-    // big Siren Studio feature, founded 1998 (right after 粉脸谱系)
+    // big Siren Studio feature, founded 1998 (right after 粉臉譜系)
     if(s.id==='fenlian') html+=studioStation();
   });
 
-  app.innerHTML=`<div class="view view-home">${hero}${head}<div class="timeline">${html}</div>
+  const fn=C.futureNote;
+  const future = fn?`<article class="station future-note" style="--st:var(--muted)">
+    <div class="st-year">${fn.years}</div>
+    <h2 class="st-title" style="cursor:default">${T(fn.zh,fn.en)}</h2>
+    <p class="st-desc">${T(fn.zh2,fn.en2)}</p></article>`:'';
+  app.innerHTML=`<div class="view view-home">${hero}${head}<div class="timeline">${html}${future}</div>
     <aside id="nowbar" aria-hidden="true"><i></i><span id="nowlabel"></span></aside></div>`;
   document.body.style.setProperty('--now', D.series[0].accent);
   observeStations();
@@ -118,12 +117,12 @@ function studioStation(){
   const strip=posters.length?`<div class="siren-strip">${posters.map(p=>`<img loading="lazy" src="${p.web}" alt="Siren Studio poster">`).join('')}</div>`:'';
   return `<article class="station siren-feat" style="--st:var(--pink)" data-series="studio">
     <div class="st-year">1998</div>
-    <h2 class="st-title" data-nav-to="#studio">${T('塞壬艺术工作室','Siren Art Studio')}
+    <h2 class="st-title" data-nav-to="#studio">${T('塞壬藝術工作室','Siren Art Studio')}
       <span class="st-kind">${T('工作室','Studio')}</span>
-      <span class="en">${T('Siren Art Studio','塞壬艺术工作室')}</span></h2>
-    <p class="st-desc siren-lede">${T('1998 年，奉家丽与同道女艺术家在北京成立「塞壬」艺术工作室，以实践女性主义艺术为志业。塞壬之名取自海妖的歌声。那是女性的声音，召唤、质询、改变。这一年，她也在中国美术馆的《世纪·女性》展上获女性艺术学社奖。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio in Beijing, devoted to feminist art. The name comes from the song of the sirens, a female voice that summons, questions and changes things. That same year she won the Women Artists’ Academic Award at the Century Women exhibition, National Art Museum of China.')}</p>
+      <span class="en">${T('Siren Art Studio','塞壬藝術工作室')}</span></h2>
+    <p class="st-desc siren-lede">${T('1998 年，奉家麗與同道女藝術家在北京成立「塞壬」藝術工作室，以實踐女性主義藝術爲志業。塞壬之名取自海妖的歌聲。那是女性的聲音，召喚、質詢、改變。這一年，她也在中國美術館的《世紀·女性》展上獲女性藝術學社獎。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio in Beijing, devoted to feminist art. The name comes from the song of the sirens, a female voice that summons, questions and changes things. That same year she won the Women Artists’ Academic Award at the Century Women exhibition, National Art Museum of China.')}</p>
     ${strip}
-    <a class="st-more" data-nav-to="#studio">${T('进入工作室','Enter the studio')} →</a>
+    <a class="st-more" data-nav-to="#studio">${T('進入工作室','Enter the studio')} →</a>
   </article>`;
 }
 
@@ -156,19 +155,19 @@ function viewWorks(filter){
   const head=`<div class="gridhead" ${fs?`style="border-color:${fs.accent}"`:''}><h2>${fs?T(fs.zh,fs.en):T('全部作品','All Works')}</h2>
     <span class="sub" style="color:var(--muted)">${fs?yrs(fs.years)+' · ':''}${list.length} ${T('件','works')}</span></div>`;
   const intro = fs ? `<p class="works-intro" style="--st:${fs.accent}">${T(sd.zh||fs.desc_zh,sd.en||fs.desc_en)}</p>` : '';
-  // 自然复魅: a large exhibition-site photo with the source text over its shadow, then the works
+  // 自然復魅: a large exhibition-site photo with the source text over its shadow, then the works
   let feature='', gridList=list;
   if(filter==='fumei'){
     const hero=list.find(w=>w.role==='site');
     if(hero){
       gridList=list.filter(w=>w.id!==hero.id);
-      const zh="野生草木、花卉草虫、中药本草尽被收拾囊中，画室几乎变成植物标本陈列室。这一「述行」，旨在复魅自然本真，断然摈除那种将自然对象化的因袭。";
+      const zh="野生草木、花卉草蟲、中藥本草盡被收拾囊中，畫室幾乎變成植物標本陳列室。這一「述行」，旨在復魅自然本真，斷然擯除那種將自然對象化的因襲。";
       const en="The stone walls may look dead. For Feng they are very much alive. The crevices teem with life: insects, lizards, plants, many of them with folk and medicinal use. Each one turns up in her work.";
-      const by=T("岛子《以自然复魅重构风景诗学》","Christopher Pelley, “Post-Feminism”, 2019");
+      const by=T("島子《以自然復魅重構風景詩學》","Christopher Pelley, “Post-Feminism”, 2019");
       feature=`<figure class="fumei-hero reveal" style="--st:${fs.accent}">
-        <img src="${hero.web}" alt="${T('自然复魅 展览现场','Re-enchantment of Nature, installation view')}">
+        <img src="${hero.web}" alt="${T('自然復魅 展覽現場','Re-enchantment of Nature, installation view')}">
         <figcaption><p>${T(zh,en)}</p><cite>${by}</cite></figcaption></figure>
-        <div class="fumei-label">${T('展览现场','Installation view')}</div>`;
+        <div class="fumei-label">${T('展覽現場','Installation view')}</div>`;
     }
   }
   // series that have essays: read the article and view the works together
@@ -183,17 +182,17 @@ function viewWorks(filter){
   app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${worksHead}${grid}</div>`;
 }
 
-/* ---------- PROJECT 乡拉岜 before/after ---------- */
+/* ---------- PROJECT 鄉拉岜 before/after ---------- */
 function viewProject(){
   const pairs=D.xianglaba||[];
   const P=C.project||{};
-  const intro=`<div class="gridhead reveal"><h2>${T('空间艺术 · 乡拉岜','Space Art · Xianglaba')}</h2>
+  const intro=`<div class="gridhead reveal"><h2>${T('空間藝術 · 鄉拉岜','Space Art · Xianglaba')}</h2>
     <span class="sub" style="color:var(--muted)">${P.years||'2017 → 2026'}</span></div>`;
   const ba=p=>`<div class="ba-stage" data-ba>
         <img class="ba-before" src="${p.before}" alt="${T('改造前','Before')} ${p.n}">
-        <img class="ba-after" src="${p.after}" alt="${T('改造后','After')} ${p.n}">
+        <img class="ba-after" src="${p.after}" alt="${T('改造後','After')} ${p.n}">
         <div class="ba-divider"></div></div>
-      <div class="ba-tags"><span>${T('改造前','Before')}</span><span>№ ${p.n}</span><span>${T('改造后','After')}</span></div>`;
+      <div class="ba-tags"><span>${T('改造前','Before')}</span><span>№ ${p.n}</span><span>${T('改造後','After')}</span></div>`;
   // rhythm: every 5th pair runs full-width (large), the rest in a flowing grid
   let grid='', i=0;
   while(i<pairs.length){
@@ -205,17 +204,19 @@ function viewProject(){
     }
   }
   const map=`<div class="map-block reveal">
-    <div id="gzmap" aria-label="${T('荔波洪江村地图','Map of Hongjiang, Libo')}"></div>
+    <div id="gzmap" aria-label="${T('荔波洪江村地圖','Map of Hongjiang, Libo')}"></div>
     <div class="map-side">
-      <span class="se-tag" style="--st:var(--pink)">${T('乡拉岜艺术美学空间','Xianglaba Art Aesthetic Space')}</span>
+      <span class="se-tag" style="--st:var(--pink)">${T('鄉拉岜藝術美學空間','Xianglaba Art Aesthetic Space')}</span>
       <p>${T(P.space_zh,P.space_en)}</p>
       <p class="map-loc">${T(P.location_zh,P.location_en)}</p>
+      <p class="map-residency">${T(P.residency_zh,P.residency_en)}</p>
+      <a class="map-ctrip" href="${P.ctrip}" target="_blank" rel="noopener">${T(P.ctrip_label_zh,P.ctrip_label_en)}</a>
     </div></div>`;
   const bg=`<div class="proj-bg reveal">
-    <div class="proj-col"><h3>${T('什么是「自然复魅」','On re-enchantment')}</h3><p>${T(P.reenchant_zh,P.reenchant_en)}</p></div>
-    <div class="proj-col"><h3>${T('干栏式老屋','The stilt houses')}</h3><p>${T(P.ganlan_zh,P.ganlan_en)}</p></div>
+    <div class="proj-col"><h3>${T('什麼是「自然復魅」','On re-enchantment')}</h3><p>${T(P.reenchant_zh,P.reenchant_en)}</p></div>
+    <div class="proj-col"><h3>${T('幹欄式老屋','The stilt houses')}</h3><p>${T(P.ganlan_zh,P.ganlan_en)}</p></div>
   </div>`;
-  const compare=`<div class="sec-title">${T('改造前后 · 拖动滑块对比','Before & after · drag the slider')}</div>`;
+  const compare=`<div class="sec-title">${T('改造前後 · 拖動滑塊對比','Before & after · drag the slider')}</div>`;
   app.innerHTML=`<div class="view">${intro}${map}${bg}${compare}<div class="ba-flow">${grid}</div></div>`;
   initBA(); initMap(); observeReveal();
 }
@@ -243,7 +244,7 @@ function initMap(){
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',{maxZoom:14,minZoom:5}).addTo(_map);
   const pin=L.divIcon({className:'gz-pin',html:'<span></span>',iconSize:[18,18],iconAnchor:[9,9]});
   L.marker(site,{icon:pin}).addTo(_map)
-    .bindTooltip(T('乡拉岜 · 洪江村，荔波','Xianglaba · Hongjiang, Libo'),{permanent:true,direction:'right',className:'gz-tip',offset:[10,0]});
+    .bindTooltip(T('鄉拉岜 · 洪江村，荔波','Xianglaba · Hongjiang, Libo'),{permanent:true,direction:'right',className:'gz-tip',offset:[10,0]});
   setTimeout(()=>_map&&_map.invalidateSize(),200);
 }
 
@@ -255,7 +256,7 @@ function viewWords(){
     <div><h3>${T(e.title_zh,e.title_en)}<span class="em">${T(e.title_en,e.title_zh)}</span></h3>
     <div class="mt">${T(e.meta_zh,e.meta_en)}</div></div></article>`).join('');
   app.innerHTML=`<div class="view"><div class="gridhead reveal"><h2>${T('文章','Words')}</h2>
-    <span class="sub" style="color:var(--muted)">${T('自述 · 评论 · 文献','statements · criticism · documents')}</span></div>
+    <span class="sub" style="color:var(--muted)">${T('自述 · 評論 · 文獻','statements · criticism · documents')}</span></div>
     <div class="words-list">${list}</div></div>`;
   observeReveal();
 }
@@ -274,20 +275,27 @@ function viewEssay(id){
 
 /* ---------- STUDIO 塞壬 ---------- */
 function viewStudio(){
+  const M=C.manifesto||{};
   const posters=(D.posters||[]).filter(p=>p.tag==='siren');
   const hero=D.sirenPhoto||(posters.length?posters[posters.length-1].web:'');
   const others=posters.filter(p=>p.web!==hero);
   app.innerHTML=`<div class="view studio-view">
-    ${hero?`<figure class="studio-hero-img reveal"><img src="${hero}" alt="${T('塞壬艺术工作室合影','Siren Art Studio, the four founding artists')}">
-      <figcaption><b>${T('塞壬艺术工作室','Siren Art Studio')}</b> · 1998</figcaption></figure>`:''}
+    ${hero?`<figure class="studio-hero-img reveal"><img src="${hero}" alt="${T('塞壬藝術工作室合影','Siren Art Studio, the four founding artists')}">
+      <figcaption><b>${T('塞壬藝術工作室','Siren Art Studio')}</b> · 1998</figcaption></figure>`:''}
     <div class="studio-head reveal">
       <div class="studio-yr">1998</div>
-      <h1>${T('塞壬艺术工作室','Siren Art Studio')}</h1>
-      <p>${T('1998 年，奉家丽与同道女艺术家成立「塞壬」艺术工作室，以实践女性主义艺术为志业。塞壬之名取自海妖的歌声。那是女性的声音，召唤、质询、改变。她们一同展出绘画、影像、综合材料与行为，把女性的经验放回画面的中心。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio in Beijing, devoted to feminist art. The name comes from the song of the sirens, a female voice that summons, questions and changes things. Together they showed painting, video, mixed media and performance, and put women’s experience back at the centre of the picture.')}</p>
-      <p class="studio-quote">${T('「奉家丽属于实践女性主义艺术的塞壬艺术工作室。艳俗的形、色和特殊的选材，共同构成对当代女性生存状态的温和嘲讽。」水天中','“Feng Jiali belongs to the Siren Studio, which practises feminist art. Her gaudy forms and colours and her unusual choice of material together make a gentle satire on the condition of contemporary women.” Shui Tianzhong')}</p>
+      <h1>${T('塞壬藝術工作室','Siren Art Studio')}</h1>
+      <p>${T('1998 年，奉家麗與同道女藝術家成立「塞壬」藝術工作室，以實踐女性主義藝術爲志業。塞壬之名取自海妖的歌聲。那是女性的聲音，召喚、質詢、改變。她們一同展出繪畫、影像、綜合材料與行爲，把女性的經驗放回畫面的中心。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio in Beijing, devoted to feminist art. The name comes from the song of the sirens, a female voice that summons, questions and changes things. Together they showed painting, video, mixed media and performance, and put women’s experience back at the centre of the picture.')}</p>
+      <p class="studio-quote">${T('「奉家麗屬於實踐女性主義藝術的塞壬藝術工作室。豔俗的形、色和特殊的選材，共同構成對當代女性生存狀態的溫和嘲諷。」水天中','“Feng Jiali belongs to the Siren Studio, which practises feminist art. Her gaudy forms and colours and her unusual choice of material together make a gentle satire on the condition of contemporary women.” Shui Tianzhong')}</p>
     </div>
-    ${others.length?`<div class="sec-title">${T('工作室招贴与文献','Studio posters and documents')}</div>
-    <div class="grid studio-grid">${others.map(p=>`<figure class="card studio-card"><img loading="lazy" src="${p.web}" alt="Siren Studio poster"></figure>`).join('')}</div>`:''}
+    ${M.zh?`<div class="sec-title">${T('宣言','Manifesto')}</div>
+    <div class="manifesto reveal">
+      <p class="mf-lede">${T(M.zh_lede,M.en_lede)}</p>
+      <p class="mf-body">${T(M.zh,M.en)}</p>
+      <ol class="mf-aims">${(lang==='zh'?M.aims_zh:M.aims_en).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+    </div>`:''}
+    ${others.length?`<div class="sec-title">${T('工作室招貼與文獻','Studio posters and documents')}</div>
+    <div class="grid studio-grid">${others.map(p=>`<a class="card studio-card" href="${p.web}" target="_blank" rel="noopener"><img loading="lazy" src="${p.web}" alt="Siren Studio poster"></a>`).join('')}</div>`:''}
   </div>`;
   observeReveal();
 }
@@ -302,22 +310,22 @@ function viewAbout(){
   const posters=(D.posters||[]).filter(p=>p.tag==='exhibition').slice(0,12);
   app.innerHTML=`<div class="view">
     <div class="about-grid">
-      <div class="about-portrait reveal">${D.portrait?`<img src="${D.portrait}" alt="${T('奉家丽','Feng Jiali')}">`:''}
+      <div class="about-portrait reveal">${D.portrait?`<img src="${D.portrait}" alt="${T('奉家麗','Feng Jiali')}">`:''}
         <div class="pmeta">${T(a.born_zh,a.born_en)}<br>${T(a.based_zh,a.based_en)}<br>
         <a href="mailto:${a.email}">${a.email}</a></div>
       </div>
-      <div class="about-bio reveal"><h2>${T('关于','About')}</h2>
+      <div class="about-bio reveal"><h2>${T('關於','About')}</h2>
         <p>${T(a.bio_zh,a.bio_en)}</p></div>
     </div>
-    <div class="sec-title">${T('评论','Press')}</div>
+    <div class="sec-title">${T('評論','Press')}</div>
     <div class="press-grid">${press}</div>
-    <div class="sec-title">${T('展览招贴','Exhibition Posters')}</div>
-    <div class="poster-strip">${posters.map(p=>`<img loading="lazy" src="${p.web}" alt="exhibition poster">`).join('')}</div>
-    <div class="sec-title">${T('简历','Curriculum Vitae')}</div>
+    <div class="sec-title">${T('展覽招貼','Exhibition Posters')}</div>
+    <div class="poster-strip">${posters.map(p=>`<a href="${p.web}" target="_blank" rel="noopener"><img loading="lazy" src="${p.web}" alt="exhibition poster"></a>`).join('')}</div>
+    <div class="sec-title">${T('簡歷','Curriculum Vitae')}</div>
     <div class="cv-cols">
-      <div><h4 style="margin-bottom:1rem;font-family:var(--serif)">${T('个展','Solo Exhibitions')}</h4><div class="cv-list">${solo}</div></div>
-      <div><h4 style="margin-bottom:1rem;font-family:var(--serif)">${T('获奖','Awards')}</h4><div class="cv-list">${aw}</div>
-        <h4 style="margin:1.8rem 0 1rem;font-family:var(--serif)">${T('联展（精选）','Group Exhibitions (Selected)')}</h4><div class="cv-list">${grp}</div></div>
+      <div><h4 style="margin-bottom:1rem;font-family:var(--serif)">${T('個展','Solo Exhibitions')}</h4><div class="cv-list">${solo}</div></div>
+      <div><h4 style="margin-bottom:1rem;font-family:var(--serif)">${T('獲獎','Awards')}</h4><div class="cv-list">${aw}</div>
+        <h4 style="margin:1.8rem 0 1rem;font-family:var(--serif)">${T('聯展（精選）','Group Exhibitions (Selected)')}</h4><div class="cv-list">${grp}</div></div>
     </div>
   </div>`;
   observeReveal();
@@ -330,27 +338,27 @@ function viewContact(){
   const pf=contactPrefill||{}; contactPrefill=null;
   const cfg=C.contact||{};
   app.innerHTML=`<div class="view contact-view">
-    <div class="gridhead reveal"><h2>${T('联系','Contact')}</h2></div>
+    <div class="gridhead reveal"><h2>${T('聯繫','Contact')}</h2></div>
     <div class="contact-info reveal">
-      <p class="contact-lead">${T('欢迎来信。收藏、展览、约稿，或希望观看摄影作品的原作，请直接邮件联系奉家丽。','For acquisition, exhibition, commissions, or to view the original photographs, please write to Feng Jiali directly.')}</p>
+      <p class="contact-lead">${T('歡迎來信。收藏、展覽、約稿，或希望觀看攝影作品的原作，請直接郵件聯繫奉家麗。','For acquisition, exhibition, commissions, or to view the original photographs, please write to Feng Jiali directly.')}</p>
       <ul class="contact-list">
         <li><span>Email</span><a href="mailto:${a.email}">${a.email}</a></li>
         <li><span>Instagram</span><a href="${a.instagram}" target="_blank" rel="noopener">@jialistudio ↗</a></li>
         <li><span>WeChat</span><b>${a.wechat}</b></li>
-        <li><span>${T('工作生活','Based')}</span><b>${T('北京 · 贵州 · 纽约','Beijing · Guizhou · New York')}</b></li>
+        <li><span>${T('工作生活','Based')}</span><b>${T('北京 · 貴州 · 紐約','Beijing · Guizhou · New York')}</b></li>
       </ul>
     </div>
-    <div class="sec-title">${T('给奉家丽留言','Write to Feng Jiali')}</div>
+    <div class="sec-title">${T('給奉家麗留言','Write to Feng Jiali')}</div>
     <form id="contactform" class="contact-form reveal">
       <div class="cf-row">
-        <label>${T('称呼','Name')}<input name="name" required autocomplete="name"></label>
-        <label>${T('你的邮箱','Your email')}<input type="email" name="email" required autocomplete="email"></label>
+        <label>${T('稱呼','Name')}<input name="name" required autocomplete="name"></label>
+        <label>${T('你的郵箱','Your email')}<input type="email" name="email" required autocomplete="email"></label>
       </div>
-      <label>${T('主题','Subject')}<input name="subject" value="${esc(pf.subject||'')}"></label>
+      <label>${T('主題','Subject')}<input name="subject" value="${esc(pf.subject||'')}"></label>
       <label>${T('留言','Message')}<textarea name="message" rows="6" required></textarea></label>
       <input type="checkbox" name="botcheck" tabindex="-1" style="position:absolute;left:-9999px" aria-hidden="true">
-      <button type="submit">${T('发送','Send')} →</button>
-      <p class="contact-note">${T('留言会通过邮件发送给奉家丽，她会尽快回复你。','Your message is emailed to Feng Jiali, who will reply to you soon.')}</p>
+      <button type="submit">${T('發送','Send')} →</button>
+      <p class="contact-note">${T('留言會通過郵件發送給奉家麗，她會盡快回復你。','Your message is emailed to Feng Jiali, who will reply to you soon.')}${cfg.qq?T('　如未能聯繫上，也可發送 QQ 郵箱 ','　If you cannot reach her, you may also write to her QQ email ')+cfg.qq+'。':''}</p>
       <p id="contactmsg" class="submsg"></p>
     </form>
   </div>`;
@@ -360,9 +368,9 @@ function viewContact(){
     e.preventDefault();
     const fd=new FormData(f);
     if(fd.get('botcheck')) return; // honeypot
-    const subj=(fd.get('subject')||'').trim()||T('网站留言 · fengjiali76.com','Message via fengjiali76.com');
+    const subj=(fd.get('subject')||'').trim()||T('網站留言 · fengjiali76.com','Message via fengjiali76.com');
     if(cfg.web3formsKey){
-      msg(T('正在发送…','Sending…'));
+      msg(T('正在發送…','Sending…'));
       try{
         const payload={access_key:cfg.web3formsKey, from_name:'fengjiali76.com', subject:subj,
           name:fd.get('name'), email:fd.get('email'), message:fd.get('message'), replyto:fd.get('email')};
@@ -370,13 +378,13 @@ function viewContact(){
         const r=await fetch('https://api.web3forms.com/submit',{method:'POST',
           headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)});
         const j=await r.json();
-        if(j.success){ f.reset(); msg(T('已发送，谢谢！奉家丽会尽快回复你。','Sent, thank you. Feng Jiali will reply soon.')); }
-        else msg(T('发送失败，请直接邮件联系 ','Could not send. Please email ')+a.email);
-      }catch(err){ msg(T('发送失败，请直接邮件联系 ','Could not send. Please email ')+a.email); }
+        if(j.success){ f.reset(); msg(T('已發送，謝謝！奉家麗會盡快回復你。','Sent, thank you. Feng Jiali will reply soon.')); }
+        else msg(T('發送失敗，請直接郵件聯繫 ','Could not send. Please email ')+a.email);
+      }catch(err){ msg(T('發送失敗，請直接郵件聯繫 ','Could not send. Please email ')+a.email); }
     } else {
-      const body=`${T('称呼','Name')}: ${fd.get('name')}\n${T('邮箱','Email')}: ${fd.get('email')}\n\n${fd.get('message')}`;
+      const body=`${T('稱呼','Name')}: ${fd.get('name')}\n${T('郵箱','Email')}: ${fd.get('email')}\n\n${fd.get('message')}`;
       location.href=`mailto:${a.email}?cc=${encodeURIComponent(cfg.cc||'')}&subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
-      msg(T('正在打开你的邮件应用…','Opening your email app…'));
+      msg(T('正在打開你的郵件應用…','Opening your email app…'));
     }
   });
   observeReveal();
@@ -387,7 +395,7 @@ let lbList=[], lbIdx=0;
 function openWork(id){
   const w=D.works.find(x=>x.id===id); if(!w)return;
   const s=seriesById(w.series);
-  if(s.blurred){ contactPrefill={subject:(lang==='zh'?'摄影作品观看请求':'Request to view a photograph')+': '+T(s.zh,s.en)}; go('contact'); return; }
+  if(s.blurred){ contactPrefill={subject:(lang==='zh'?'攝影作品觀看請求':'Request to view a photograph')+': '+T(s.zh,s.en)}; go('contact'); return; }
   lbList=allOf(w.series); lbIdx=lbList.findIndex(x=>x.id===id);
   showLB();
 }
@@ -490,7 +498,7 @@ document.getElementById('subform').addEventListener('submit',e=>{
   const email=e.target.querySelector('input').value;
   const subs=JSON.parse(localStorage.getItem('fj-subs')||'[]'); subs.push({email,at:Date.now()});
   localStorage.setItem('fj-subs',JSON.stringify(subs));
-  document.getElementById('submsg').textContent=T('已订阅，谢谢！','Subscribed — thank you!');
+  document.getElementById('submsg').textContent=T('已訂閱，謝謝！','Subscribed — thank you!');
   e.target.reset();
 });
 

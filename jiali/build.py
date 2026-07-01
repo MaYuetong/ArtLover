@@ -18,14 +18,35 @@ def sips(src, dst, maxdim, q=72):
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 SKIP_EXISTING = os.environ.get("REBUILD") != "1"
-def emit(src, base, web=1600, thumb=720):
-    """Create web + thumb jpg. Skips if already present (set REBUILD=1 to force)."""
+def _pil_process(src, dst, maxdim, saturation=None, rotate=0):
+    """PIL path: resize + optional saturation boost + optional rotation, save jpg."""
+    from PIL import Image, ImageEnhance
+    im = Image.open(src).convert("RGB")
+    if rotate: im = im.rotate(rotate, expand=True)
+    im.thumbnail((maxdim, maxdim), Image.LANCZOS)
+    if saturation and saturation != 1.0:
+        im = ImageEnhance.Color(im).enhance(saturation)
+    im.save(dst, "JPEG", quality=82)
+
+def emit(src, base, web=1600, thumb=720, saturation=None, rotate=0):
+    """Create web + thumb jpg. Skips if present (REBUILD=1 forces). saturation/rotate use PIL."""
     webp = os.path.join(IMG, base + ".jpg")
     thp  = os.path.join(IMG, base + "_t.jpg")
     if not (SKIP_EXISTING and os.path.exists(webp) and os.path.exists(thp)):
-        sips(src, webp, web)
-        sips(src, thp, thumb)
+        if saturation or rotate:
+            try:
+                _pil_process(src, webp, web, saturation, rotate)
+                _pil_process(src, thp, thumb, saturation, rotate)
+            except Exception as e:
+                print("  PIL failed, sips fallback:", e); sips(src, webp, web); sips(src, thp, thumb)
+        else:
+            sips(src, webp, web); sips(src, thp, thumb)
     return ("img/" + base + ".jpg", "img/" + base + "_t.jpg")
+
+def numkey(fn):
+    """Natural sort key from the first #-number (or any number) in a filename."""
+    m = re.search(r"(\d+)#", fn) or re.search(r"(\d+)", fn)
+    return (int(m.group(1)) if m else 9999, fn)
 
 SPITTOON_SRC = "作品全集/其它作品/综合材料作品/笑忘录2002/笑忘录5#，综合材料，20x25cm,2001年.tif"
 def make_cutout():
@@ -90,11 +111,12 @@ def files_in(rel, exts=IMG_EXT):
 
 # ---- Series curation config (chronological timeline) ----
 SERIES = [
-  dict(id="fenlian", zh="粉脸谱系", en="Rouge Masks", years="1995–1999", accent="#D6336C",
-       dir="作品全集/油画/a粉脸谱系1995-1998", kind="painting", n=12,
+  dict(id="fenlian", zh="粉脸谱系", en="Rouge Masks", years="1995–1999", accent="#E0187A",
+       dir="作品全集/油画/a粉脸谱系1995-1998", kind="painting", n=14,
+       sat=1.22, tail=["女浴室","浴室","竹枝词"],
        desc_zh="艳俗浓妆的女性面孔，戏仿宣传画式的红润双颊。以艳俗的形与色，温和嘲讽消费时代女性的客体化处境，是奉家丽女性主义绘画的起点。",
        desc_en="Women's faces in lurid rouge, parodying the rosy cheeks of propaganda posters. Through garish form and colour, a gentle satire of women objectified in the age of consumption — the starting point of Feng's feminist painting."),
-  dict(id="shougong", zh="手工上彩时代的女性肖像", en="The Hand-Coloured Era", years="2005", accent="#B5793A",
+  dict(id="shougong", zh="手工上彩时代的女性肖像", en="The Hand-Coloured Era", years="2005", accent="#E8802B",
        dir="作品全集/油画/手工上彩时代的女性肖像2005/小图", kind="painting", n=10,
        desc_zh="追忆手工上彩照相馆时代的女性形象，泛黄底色上的脂粉与目光，打捞一个被遗忘时代的温度。",
        desc_en="Portraits recalling the era of hand-tinted studio photography — powder and gaze on yellowed grounds, salvaging the warmth of a forgotten time."),
@@ -122,13 +144,13 @@ SERIES = [
                    ("作品全集/油画/墓园资料，布面油画，奉家丽，2017-2018/旷野展/展览现场“墓园”","site",6)],
        desc_zh="高2米、长19米的巨幅油画，重构重庆沙坪坝红卫兵墓园。艺术家自幼在墓园旁长大，历两年揭开一段被遮蔽的历史——这不是关于政治立场，而是关于生命：青春如何被时代的浪潮吞没。完成后她大病一场。",
        desc_en="A monumental oil painting, 2 m high and 19 m long, reconstructing the Red Guard Cemetery in Shapingba, Chongqing. Raised beside the cemetery, the artist spent two years unveiling a buried history — not about political positions but about life itself: how youth was swept away by the currents of an era. She fell gravely ill after completing it."),
-  dict(id="shixu", zh="石墟", en="Stone Ruins", years="2019", accent="#766753",
-       dir="作品全集/油画/石墟油画局部2019/石墟（油画5张）", kind="painting", n=6,
-       desc_zh="墓园之后的延伸。凝重、晦暗、浑厚的石墟，以废墟美学见证：依附于意识形态的「人化自然」终归废墟，唯有审美的破坏性创造力可与之对决。",
-       desc_en="An extension of The Cemetery. Heavy, dim, massive stone ruins bearing witness through an aesthetics of ruin — the 'humanised nature' once bound to ideology returns to rubble, to be met only by the destructive-creative force of art."),
-  dict(id="fumei", zh="自然复魅", en="Re-enchantment of Nature", years="2010–2019", accent="#3F7A4F", feature=True,
+  dict(id="fumei", zh="自然复魅", en="Re-enchantment of Nature", years="2010–2019", accent="#2E8B57", feature=True,
        dir="作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全", kind="mixed", n=10,
-       extra_dirs=[("作品全集/其它作品/综合材料作品/2010-2019自然复魅/展览现场精选图片","site",14)],
+       must=["山水长卷，2000x76cm,综合媒材，2000x70cm,2017-2018年,奉家丽.jpg",
+             "山水对蒿，综合媒材，233x74cm,2016年,奉家丽.jpg"],
+       extra_dirs=[("作品全集/其它作品/综合材料作品/2010-2019自然复魅/手帕","kerchief",10),
+                   ("作品全集/其它作品/综合材料作品/2010-2019自然复魅/展览现场精选图片","site",14),
+                   ("作品全集/油画/石墟油画局部2019/石墟（油画5张）","shixu",6)],
        desc_zh="在拓印长卷上以针线作画，野草、本草、花虫尽入其中。从女性主义走向后女性主义与生态关怀——以「破坏性创造力」复魅自然本真。展览现场尤为精彩，务必亲见。",
        desc_en="Painting with needle and thread on long scrolls of rubbed muslin — wild grasses, medicinal herbs, insects and flowers. A move from feminism toward post-feminism and ecological care, re-enchanting the truth of nature. The installation in situ is its fullest form."),
   dict(id="cangsheng", zh="苍生", en="Sentient Beings", years="2020", accent="#A21B22",
@@ -148,14 +170,15 @@ SERIES = [
        dir="作品全集/其它作品/浪迹，综合媒材，2024年，奉家丽", n=8,
        desc_zh="2024 年纽约个展（角声艺术中心、法拉盛公共图书馆）。综合媒材的漂泊之书，记录一个艺术家跨越北京、贵州与纽约的迁徙与扎根。",
        desc_en="A 2024 solo exhibition in New York (KJ Art Center & Flushing Public Library). A mixed-media book of wandering, charting an artist's migration and re-rooting across Beijing, Guizhou and New York."),
-  dict(id="xiaoxia", zh="晓霞装", en="Dawn-Cloud Dress", years="2001–2008", accent="#3F4E86", kind="mixed",
-       dir="作品全集/其它作品/综合材料作品/晓霞装2001-2008", n=10,
+  dict(id="xiaoxia", zh="晓霞装", en="Dawn-Cloud Dress", years="2000–2008", accent="#D6187A", kind="mixed",
+       dir="作品全集/其它作品/综合材料作品/晓霞装2001-2008", n=12,
        desc_zh="", desc_en="Rouged women on second-hand denim, after the ancient tale of Dawn-Cloud makeup."),
   dict(id="xiaowanglu", zh="笑忘录", en="Laughter and Forgetting", years="2000–2003", accent="#E0218A", kind="mixed",
        dir="作品全集/其它作品/综合材料作品/笑忘录2002", n=4,
        desc_zh="", desc_en="A woman's face painted on an enamel spittoon."),
-  dict(id="kouzhao", zh="口罩呤", en="Mask Chant", years="2020", accent="#5E7488", kind="mixed",
-       dir="作品全集/其它作品/综合材料作品/口罩呤2022", n=10,
+  dict(id="kouzhao", zh="口罩呤", en="Mask Chant", years="2020", accent="#C0212B", kind="mixed",
+       dir="作品全集/其它作品/综合材料作品/口罩呤2022", n=12,
+       extra_dirs=[("工作照/奉家丽近照","bts",4)],
        desc_zh="", desc_en="Painted masks. The mask as a sign of life, politics and history."),
   dict(id="xiaoyouhua", zh="近作小油画", en="Recent Small Oils", years="2021–2025", accent="#C24E3A", kind="painting",
        dir="作品全集/油画/2021-2025年小油画/选上的", n=12,
@@ -187,27 +210,33 @@ DATA = {"series": [], "works": []}
 wid = 0
 for s in SERIES:
     fs, d = files_in(s["dir"])
+    sat = s.get("sat"); rot = s.get("rot", 0)
     if "pick" in s:
         chosen = [f for f in s["pick"] if os.path.exists(os.path.join(d, f))]
     else:
-        chosen = fs[: s.get("n", 8)]
+        ranked = sorted(fs, key=numkey)                    # natural number order (item 6)
+        must = [m for m in s.get("must", []) if m in fs]
+        rest = [f for f in ranked if f not in must]
+        tail = []                                          # push groups to the end, in key order (14,15)
+        for key in s.get("tail", []):
+            tail += [f for f in rest if key in f and f not in tail]
+        head = [f for f in rest if f not in tail]
+        chosen = (must + head)[: s.get("n", 8)] + tail
     works = []
     for f in chosen:
         wid += 1
         base = f"{s['id']}-{wid:03d}"
-        web, th = emit(os.path.join(d, f), base)
-        meta = parse_meta(f)
-        works.append(dict(id=base, web=web, thumb=th, role="work", **meta))
-    # extra dirs (details / studio / site / exhibition)
+        web, th = emit(os.path.join(d, f), base, saturation=sat, rotate=rot)
+        works.append(dict(id=base, web=web, thumb=th, role="work", **parse_meta(f)))
+    # extra dirs (details / studio / site / exhibition), natural-sorted
     for ed in s.get("extra_dirs", []):
         edir, role, en = ed
         efs, ad = files_in(edir)
-        for f in efs[:en]:
+        for f in sorted(efs, key=numkey)[:en]:
             wid += 1
             base = f"{s['id']}-{wid:03d}"
             web, th = emit(os.path.join(ad, f), base)
-            meta = parse_meta(f)
-            works.append(dict(id=base, web=web, thumb=th, role=role or "work", **meta))
+            works.append(dict(id=base, web=web, thumb=th, role=role or "work", **parse_meta(f)))
     sh = SHOWS.get(s["id"])
     DATA["series"].append({k: s[k] for k in ("id","zh","en","years","accent","desc_zh","desc_en","kind")} |
                           {"feature": s.get("feature", False),
@@ -268,8 +297,9 @@ def one(src, base, dim):
         return "img/" + base + ".jpg"
     return None
 DATA["portrait"] = one(os.path.join(ROOT, "工作照/奉家丽近照/2222222.tif"), "portrait", 1000)
-# Homepage hero: 笑忘录5# (full image, painted spittoon on magenta silk)
-DATA["hero"] = one(os.path.join(ROOT, SPITTOON_SRC), "hero", 2000)
+# Homepage hero: 晓霞妆1# (full-bleed cover). item 1
+_hero_src = os.path.join(ROOT, "作品全集/其它作品/综合材料作品/晓霞装2001-2008/晓霞妆1#，综合材料，45x50cm,2001.jpg")
+DATA["hero"] = one(_hero_src, "hero", 2200) if os.path.exists(_hero_src) else one(os.path.join(ROOT, SPITTOON_SRC), "hero", 2000)
 # Cursor + nav/favicon: the spittoon cut out of 笑忘录5# (background removed)
 if make_cutout():
     DATA["cursor"] = "img/cursor.png"
@@ -277,10 +307,16 @@ if make_cutout():
     DATA["spittoon"] = "img/spittoon.png"
 else:
     DATA["navicon"] = one(os.path.join(ROOT,"鼠标图像.jpg"), "navicon", 120)
-# Siren Studio group photo (the black-and-white circle of four) for the studio page hero
+# Siren Studio group photo (b&w circle of four), rotated 180° per item 16
 sp_src = os.path.join(ROOT, "塞壬招贴图片/拼图-2.tif")
-DATA["sirenPhoto"] = (one(sp_src, "siren-hero", 1800) if os.path.exists(sp_src)
-                      else (posters[-1]["web"] if posters else None))
+if os.path.exists(sp_src):
+    try:
+        _pil_process(sp_src, os.path.join(IMG, "siren-hero.jpg"), 1800, rotate=180)
+        DATA["sirenPhoto"] = "img/siren-hero.jpg"
+    except Exception as e:
+        print("  siren rotate failed:", e); DATA["sirenPhoto"] = one(sp_src, "siren-hero", 1800)
+else:
+    DATA["sirenPhoto"] = posters[-1]["web"] if posters else None
 
 with open(os.path.join(SITE, "data.js"), "w", encoding="utf-8") as fp:
     fp.write("window.DATA = ")
@@ -288,3 +324,12 @@ with open(os.path.join(SITE, "data.js"), "w", encoding="utf-8") as fp:
     fp.write(";\n")
 print(f"\nTOTAL works: {len(DATA['works'])}  series: {len(DATA['series'])}")
 print("data.js written ->", os.path.join(SITE, "data.js"))
+# item 11: convert all Chinese in data.js to Traditional (keys/English pass through)
+try:
+    from opencc import OpenCC; _cc = OpenCC("s2t")
+    _p = os.path.join(SITE, "data.js")
+    _txt = open(_p, encoding="utf-8").read()          # read FIRST (avoid truncation)
+    open(_p, "w", encoding="utf-8").write(_cc.convert(_txt))
+    print("data.js -> Traditional Chinese")
+except Exception as e:
+    print("opencc skip (data.js stays Simplified):", e)
