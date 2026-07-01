@@ -1454,7 +1454,7 @@ window.DATA = {
    "title_zh": "1----1",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1466,7 +1466,7 @@ window.DATA = {
    "title_zh": "1",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1478,7 +1478,7 @@ window.DATA = {
    "title_zh": "2",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1490,7 +1490,7 @@ window.DATA = {
    "title_zh": "3",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1502,7 +1502,7 @@ window.DATA = {
    "title_zh": "4",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1514,7 +1514,7 @@ window.DATA = {
    "title_zh": "5",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1526,7 +1526,7 @@ window.DATA = {
    "title_zh": "6",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1538,7 +1538,7 @@ window.DATA = {
    "title_zh": "7",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1550,7 +1550,7 @@ window.DATA = {
    "title_zh": "8",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1562,7 +1562,7 @@ window.DATA = {
    "title_zh": "9",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {
@@ -1574,7 +1574,7 @@ window.DATA = {
    "title_zh": "10",
    "title_en": "",
    "year": null,
-   "dims": null,
+   "dims": "200×1900cm",
    "medium": ""
   },
   {

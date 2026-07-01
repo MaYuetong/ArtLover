@@ -137,7 +137,7 @@ SERIES = [
        dir="作品全集/其它作品/综合材料作品/身份2017/身份ok", kind="mixed", n=6,
        desc_zh="送给女儿歌诗的成人礼物。蝉蜕之变，身份的脱壳与重生，以综合材料书写女性生命的过渡仪式。",
        desc_en="A coming-of-age gift for her daughter Geshi. The cicada's moult — identity shed and reborn — a rite of passage written in mixed media."),
-  dict(id="muyuan", zh="墓园", en="The Cemetery", years="2017–2018", accent="#5F6366", feature=True,
+  dict(id="muyuan", zh="墓园", en="The Cemetery", years="2017–2018", accent="#5F6366", feature=True, dims="200×1900cm",
        dir="作品全集/油画/墓园资料，布面油画，奉家丽，2017-2018/墓园大油画/jpg小文件浏览用 - 复件/jpg小文件浏览用", kind="painting", n=11,
        extra_dirs=[("作品全集/油画/墓园资料，布面油画，奉家丽，2017-2018/墓园大油画/局部","detail",8),
                    ("作品全集/油画/墓园资料，布面油画，奉家丽，2017-2018/工作场景","studio",6),
@@ -227,7 +227,9 @@ for s in SERIES:
         wid += 1
         base = f"{s['id']}-{wid:03d}"
         web, th = emit(os.path.join(d, f), base, saturation=sat, rotate=rot)
-        works.append(dict(id=base, web=web, thumb=th, role="work", **parse_meta(f)))
+        meta = parse_meta(f)
+        if not meta.get("dims") and s.get("dims"): meta["dims"] = s["dims"]   # series size fallback (item 7)
+        works.append(dict(id=base, web=web, thumb=th, role="work", **meta))
     # extra dirs (details / studio / site / exhibition), natural-sorted
     for ed in s.get("extra_dirs", []):
         edir, role, en = ed
