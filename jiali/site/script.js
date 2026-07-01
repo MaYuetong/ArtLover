@@ -350,7 +350,7 @@ function viewContact(){
       <label>${T('留言','Message')}<textarea name="message" rows="6" required></textarea></label>
       <input type="checkbox" name="botcheck" tabindex="-1" style="position:absolute;left:-9999px" aria-hidden="true">
       <button type="submit">${T('发送','Send')} →</button>
-      <p class="contact-note">${T('留言会通过邮件发送给奉家丽','Your message is emailed to Feng Jiali')}${cfg.cc?T('，并抄送 ',' (cc ')+cfg.cc+(lang==='zh'?'':')'):''}${T('。她会通过邮件回复你。','. She will reply by email.')}</p>
+      <p class="contact-note">${T('留言会通过邮件发送给奉家丽，她会尽快回复你。','Your message is emailed to Feng Jiali, who will reply to you soon.')}</p>
       <p id="contactmsg" class="submsg"></p>
     </form>
   </div>`;

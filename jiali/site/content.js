@@ -15,7 +15,7 @@ window.CONTENT = {
 
   // Contact form config. Set web3formsKey to your Web3Forms access key to enable
   // real email delivery; cc keeps Feng Jiali copied on every message.
-  contact: { web3formsKey: "", cc: "jialistudio2963@gmail.com" },
+  contact: { web3formsKey: "", cc: "jialistudio2963@gmail.com, artwithyuti@gmail.com" },
 
   // Xianglaba / Space Art project text (from the 自然复魅·洪江 document).
   project: {
