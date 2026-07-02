@@ -52,6 +52,16 @@ def numkey(fn):
     m = re.search(r"(\d+)#", fn) or re.search(r"(\d+)", fn)
     return (int(m.group(1)) if m else 9999, fn)
 
+def cn(n):
+    """Chinese numeral for 1..30 (enough for a series)."""
+    d = "一二三四五六七八九"
+    if n < 10: return d[n-1]
+    if n == 10: return "十"
+    if n < 20: return "十" + d[n-11]
+    if n == 20: return "二十"
+    if n < 30: return "二十" + d[n-21]
+    return str(n)
+
 SPITTOON_SRC = "作品全集/其它作品/综合材料作品/笑忘录2002/笑忘录5#，综合材料，20x25cm,2001年.tif"
 def make_cutout():
     """Cut the painted spittoon out of 笑忘录5# (remove magenta silk background).
@@ -172,6 +182,7 @@ SERIES = [
        desc_en="'Homage to the Rice' — a paddy-field installation in Libo — and 'Christina's Church', Easter land art on Long Island. Returning the work to soil and season, a homage to the humblest growth."),
   dict(id="langji", zh="浪迹", en="Wandering", years="2024", accent="#2C7A7B", kind="mixed",
        dir="作品全集/其它作品/浪迹，综合媒材，2024年，奉家丽", n=8,
+       rename_zh="浪迹节选", rename_en="Wandering",
        desc_zh="2024 年纽约个展（角声艺术中心、法拉盛公共图书馆）。综合媒材的漂泊之书，记录一个艺术家跨越北京、贵州与纽约的迁徙与扎根。",
        desc_en="A 2024 solo exhibition in New York (KJ Art Center & Flushing Public Library). A mixed-media book of wandering, charting an artist's migration and re-rooting across Beijing, Guizhou and New York."),
   dict(id="xiaoxia", zh="晓霞装", en="Dawn-Cloud Dress", years="2000–2008", accent="#D6187A", kind="mixed",
@@ -236,13 +247,16 @@ for s in SERIES:
         head = [f for f in rest if f not in tail]
         chosen = (must + head)[: s.get("n", 8)] + tail
     works = []
-    for f in chosen:
+    for idx, f in enumerate(chosen):
         wid += 1
         base = f"{s['id']}-{wid:03d}"
         src_path = os.path.join(ROOT, SRC_OVERRIDE[f]) if f in SRC_OVERRIDE else os.path.join(d, f)
         web, th = emit(src_path, base, saturation=sat, rotate=rot)
         meta = parse_meta(f)
         if not meta.get("dims") and s.get("dims"): meta["dims"] = s["dims"]   # series size fallback (item 7)
+        if s.get("rename_zh"):                                                # series-wide naming (e.g. 浪迹节选N)
+            meta["title_zh"] = s["rename_zh"] + cn(idx+1)
+            meta["title_en"] = s.get("rename_en", "")
         works.append(dict(id=base, web=web, thumb=th, role="work", **meta))
     # extra dirs (details / studio / site / exhibition), natural-sorted
     for ed in s.get("extra_dirs", []):
