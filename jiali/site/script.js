@@ -117,7 +117,7 @@ function chapterHeader(c){
 /* ---------- Siren Studio: large timeline feature (1998) ---------- */
 function studioStation(){
   const posters=(D.posters||[]).filter(p=>p.tag==='siren');
-  const strip=posters.length?`<div class="siren-strip">${posters.map(p=>`<img loading="lazy" src="${p.web}" alt="Siren Studio poster">`).join('')}</div>`:'';
+  const strip=posters.length?`<div class="siren-strip">${posters.map(p=>`<button class="pbtn" data-img="${p.web}" aria-label="${T('塞壬工作室照片','Siren Studio photo')}"><img loading="lazy" src="${p.web}" alt="Siren Studio poster"></button>`).join('')}</div>`:'';
   return `<article class="station siren-feat" style="--st:var(--pink)" data-series="studio">
     <div class="st-year">1998</div>
     <h2 class="st-title" data-nav-to="#studio">${T('塞壬藝術工作室','Siren Art Studio')}
@@ -181,18 +181,17 @@ function viewWorks(filter){
     const essays=essaysFor(filter);
     essayHtml=essays.map((e,k)=>essayReadBlock(e, workImgs.slice(k*2))).join('');
   }
-  const worksHead = (fs && (essayHtml||feature)) ? `<div class="sec-title" style="color:var(--st);--st:${fs.accent}">${T('全部作品','All works')}</div>` : '';
-  const grid=`<div class="grid" data-kind="${fs?fs.kind:''}">${workImgs.map(w=>card(w,seriesById(w.series).blurred)).join('')}</div>`;
-  // labeled blocks for the other roles: 局部 / 展覽現場 / 工作照 / 手帕 / 石墟 / 花絮 (item 7,8)
+  // labeled blocks: 局部 / 展覽現場 / 工作照 / 手帕 / 石墟 / 花絮 (item 7,8)
   const roleLabel={detail:['局部','Details'],site:['展覽現場','Installation views'],studio:['工作照','In the studio'],kerchief:['手帕','Kerchiefs'],shixu:['石墟','Stone Ruins'],bts:['花絮','Behind the scenes']};
-  let sections='';
-  if(fs) ['detail','site','studio','kerchief','shixu','bts'].forEach(r=>{
-    const imgs=list.filter(w=>w.role===r && w.id!==heroId);
-    if(imgs.length){ const L=roleLabel[r];
-      sections+=`<div class="sec-title" style="color:var(--st);--st:${fs.accent}">${T(L[0],L[1])}</div>
-        <div class="grid" data-kind="${fs.kind}">${imgs.map(w=>card(w,fs.blurred)).join('')}</div>`; }
-  });
-  app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${worksHead}${grid}${sections}</div>`;
+  const acc = fs?fs.accent:'var(--pink)';
+  const secTitle=(zh,en)=>`<div class="sec-title" style="color:${acc};--st:${acc}">${T(zh,en)}</div>`;
+  const gridOf=imgs=>`<div class="grid" data-kind="${fs?fs.kind:''}">${imgs.map(w=>card(w,fs?fs.blurred:seriesById(w.series).blurred)).join('')}</div>`;
+  const roleBlock=r=>{const imgs=list.filter(w=>w.role===r && w.id!==heroId); const L=roleLabel[r]; return imgs.length?secTitle(L[0],L[1])+gridOf(imgs):'';};
+  const worksBlock=(fs&&(essayHtml||feature)?secTitle('全部作品','All works'):'')+gridOf(workImgs);
+  // block order: 墓园 wants 局部 → 展览现场 → 工作照 → 全部作品(last); others show works first
+  let order = filter==='muyuan' ? ['detail','site','studio','work'] : ['work','detail','site','studio','kerchief','shixu','bts'];
+  const bodyBlocks = order.map(k=> k==='work'?worksBlock:roleBlock(k)).join('');
+  app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${bodyBlocks}</div>`;
 }
 
 /* ---------- PROJECT 鄉拉岜 before/after ---------- */
@@ -308,7 +307,7 @@ function viewStudio(){
       <ol class="mf-aims">${(lang==='zh'?M.aims_zh:M.aims_en).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
     </div>`:''}
     ${others.length?`<div class="sec-title">${T('工作室招貼與文獻','Studio posters and documents')}</div>
-    <div class="grid studio-grid">${others.map(p=>`<a class="card studio-card" href="${p.web}" target="_blank" rel="noopener"><img loading="lazy" src="${p.web}" alt="Siren Studio poster"></a>`).join('')}</div>`:''}
+    <div class="grid studio-grid">${others.map(p=>`<button class="card studio-card" data-img="${p.web}"><img loading="lazy" src="${p.web}" alt="Siren Studio poster"></button>`).join('')}</div>`:''}
   </div>`;
   observeReveal();
 }
@@ -333,7 +332,7 @@ function viewAbout(){
     <div class="sec-title">${T('評論','Press')}</div>
     <div class="press-grid">${press}</div>
     <div class="sec-title">${T('展覽招貼','Exhibition Posters')}</div>
-    <div class="poster-strip">${posters.map(p=>`<a href="${p.web}" target="_blank" rel="noopener"><img loading="lazy" src="${p.web}" alt="exhibition poster"></a>`).join('')}</div>
+    <div class="poster-strip">${posters.map(p=>`<button class="pbtn" data-img="${p.web}" aria-label="${T('展覽招貼','exhibition poster')}"><img loading="lazy" src="${p.web}" alt="exhibition poster"></button>`).join('')}</div>
     <div class="sec-title">${T('簡歷','Curriculum Vitae')}</div>
     <div class="cv-cols">
       <div><h4 style="margin-bottom:1rem;font-family:var(--serif)">${T('個展','Solo Exhibitions')}</h4><div class="cv-list">${solo}</div></div>
@@ -419,9 +418,22 @@ function showLB(){
   const run=()=>{img.src=w.web;img.alt=title;
     document.getElementById('lb-cap').innerHTML=`<b>${esc(title)}</b><span class="en">${esc(lang==='zh'?(w.title_en||''):(w.title_zh||''))}</span> ${bits?'<br>'+esc(bits):''}`;};
   lb.hidden=false;
+  document.getElementById('lb-prev').style.display=lbList.length>1?'':'none';
+  document.getElementById('lb-next').style.display=lbList.length>1?'':'none';
   if(document.startViewTransition && img.src) document.startViewTransition(run); else run();
 }
-function lbNav(d){lbIdx=(lbIdx+d+lbList.length)%lbList.length;showLB();}
+// single-image lightbox (posters / studio photos): opens on this page, close with ✕
+function openImg(src, cap){
+  lbList=[];
+  const lb=document.getElementById('lightbox');
+  const img=document.getElementById('lb-img');
+  document.getElementById('lb-prev').style.display='none';
+  document.getElementById('lb-next').style.display='none';
+  const run=()=>{img.src=src;img.alt=cap||'';document.getElementById('lb-cap').innerHTML=cap?`<b>${esc(cap)}</b>`:'';};
+  lb.hidden=false;
+  if(document.startViewTransition && img.src) document.startViewTransition(run); else run();
+}
+function lbNav(d){if(lbList.length<2)return;lbIdx=(lbIdx+d+lbList.length)%lbList.length;showLB();}
 document.getElementById('lb-close').onclick=()=>document.getElementById('lightbox').hidden=true;
 document.getElementById('lb-prev').onclick=()=>lbNav(-1);
 document.getElementById('lb-next').onclick=()=>lbNav(1);
@@ -459,6 +471,7 @@ document.addEventListener('click',e=>{
   const nt=e.target.closest('[data-nav-to]'); if(nt){location.hash=nt.dataset.navTo;return;}
   const open=e.target.closest('[data-open]'); if(open){go('works/'+open.dataset.open);return;}
   const es=e.target.closest('[data-essay]'); if(es){go('essay/'+es.dataset.essay);return;}
+  const im=e.target.closest('[data-img]'); if(im){openImg(im.dataset.img, im.dataset.cap||'');return;}
   const wk=e.target.closest('[data-work]'); if(wk){openWork(wk.dataset.work);return;}
   const ch=e.target.closest('[data-filter]'); if(ch){go(ch.dataset.filter?'works/'+ch.dataset.filter:'works');return;}
 });

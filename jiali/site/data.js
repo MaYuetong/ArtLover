@@ -3167,11 +3167,6 @@ window.DATA = {
    "tag": "siren"
   },
   {
-   "web": "img/poster-siren-04.jpg",
-   "thumb": "img/poster-siren-04_t.jpg",
-   "tag": "siren"
-  },
-  {
    "web": "img/poster-exhibition-00.jpg",
    "thumb": "img/poster-exhibition-00_t.jpg",
    "tag": "exhibition"

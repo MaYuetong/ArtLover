@@ -312,10 +312,13 @@ print(f"  乡拉岜 pairs: {len(pairs)}")
 
 # ---- Posters (招贴) ----
 posters = []
+POSTER_SKIP = {"我与崔岫闻.jpg"}      # 两人带墨镜合影 — remove per user request
+POSTER_ROTATE = {"拼图-2.tif": 180}   # b&w group photo: right-side up everywhere it appears
 for pdir, tag in [("塞壬招贴图片","siren"), ("展览招贴","exhibition")]:
     fs, d = files_in(pdir)
+    fs = [f for f in fs if f not in POSTER_SKIP]
     for i, f in enumerate(fs[:18]):
-        web, th = emit(os.path.join(d, f), f"poster-{tag}-{i:02d}", 1200, 600)
+        web, th = emit(os.path.join(d, f), f"poster-{tag}-{i:02d}", 1200, 600, rotate=POSTER_ROTATE.get(f, 0))
         posters.append(dict(web=web, thumb=th, tag=tag))
 DATA["posters"] = posters
 print(f"  posters: {len(posters)}")

@@ -263,6 +263,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .cv-row b{color:var(--muted);font-weight:800;letter-spacing:.04em}
 .poster-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:.7rem;overflow-x:auto;padding-bottom:.7rem}
 .poster-strip img{height:260px;width:auto;object-fit:cover}
+.pbtn{display:contents;cursor:pointer}
+.pbtn img{cursor:pointer}
 
 /* ===== Studio ===== */
 .studio-view{max-width:1120px}
