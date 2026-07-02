@@ -63,7 +63,7 @@ window.CONTENT = {
       intro_en:"She was born in Shapingba, Chongqing, and grew up beside the Red Guard Cemetery. In middle age she returns to a buried history: The Cemetery, two metres high and nineteen long, and the Stone Ruins that follow. Identity is a coming-of-age gift for her daughter. Here, mourning is made into matter."},
     {at:"cangsheng", no:"IV", accent:"#C0212B", years:"2020 → 2023",
       zh:"蒼生與萬物", en:"Among All Beings",
-      intro_zh:"疫情給每一張臉戴上了口罩。她畫下口罩之下的蒼生，也把目光投向一切有生之物。在荔波的稻田裏，她把創作還給土地與季節——從人的面孔，到萬物的生長。",
+      intro_zh:"疫情給每一張臉戴上了口罩。她畫下口罩之下的蒼生，也把目光投向一切有生之物。在荔波的稻田裏，她把創作還給土地與季節：從人的面孔，到萬物的生長。",
       intro_en:"The pandemic puts a mask on every face. She paints the living behind their masks, and turns her gaze to every living thing. In the rice fields of Libo she gives the work back to soil and season, from the human face to the growth of all beings."},
     {at:"langji", no:"V", accent:"#1F7A8C", years:"2023 → 2025",
       zh:"浪跡", en:"Wandering",
