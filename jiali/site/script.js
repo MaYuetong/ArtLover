@@ -319,7 +319,7 @@ function viewAbout(){
   const solo=C.cv.solo.map(r=>`<div class="cv-row"><b>${r.y}</b><span>${T(r.zh,r.en)}</span></div>`).join('');
   const aw=C.cv.awards.map(r=>`<div class="cv-row"><b>${r.y}</b><span>${T(r.zh,r.en)}</span></div>`).join('');
   const grp=(C.cv.group||[]).map(r=>`<div class="cv-row"><b>${r.y}</b><span>${T(r.zh,r.en)}</span></div>`).join('');
-  const posters=(D.posters||[]).filter(p=>p.tag==='exhibition').slice(0,12);
+  const posters=(D.posters||[]).filter(p=>p.tag==='exhibition');
   app.innerHTML=`<div class="view">
     <div class="about-grid">
       <div class="about-portrait reveal">${D.portrait?`<img src="${D.portrait}" alt="${T('奉家麗','Feng Jiali')}">`:''}

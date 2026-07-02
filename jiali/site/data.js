@@ -4299,6 +4299,11 @@ window.DATA = {
  ],
  "posters": [
   {
+   "web": "img/poster-portrait.jpg",
+   "thumb": "img/poster-portrait_t.jpg",
+   "tag": "exhibition"
+  },
+  {
    "web": "img/poster-siren-00.jpg",
    "thumb": "img/poster-siren-00_t.jpg",
    "tag": "siren"
@@ -4406,6 +4411,16 @@ window.DATA = {
   {
    "web": "img/poster-exhibition-17.jpg",
    "thumb": "img/poster-exhibition-17_t.jpg",
+   "tag": "exhibition"
+  },
+  {
+   "web": "img/poster-exhibition-18.jpg",
+   "thumb": "img/poster-exhibition-18_t.jpg",
+   "tag": "exhibition"
+  },
+  {
+   "web": "img/poster-exhibition-19.jpg",
+   "thumb": "img/poster-exhibition-19_t.jpg",
    "tag": "exhibition"
   }
  ],

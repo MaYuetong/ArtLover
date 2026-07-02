@@ -322,14 +322,33 @@ print(f"  乡拉岜 pairs: {len(pairs)}")
 
 # ---- Posters (招贴) ----
 posters = []
-POSTER_SKIP = {"我与崔岫闻.jpg"}      # 两人带墨镜合影 — remove per user request
+POSTER_SKIP = {"我与崔岫闻.jpg",                 # 两人带墨镜合影
+               "035.jpg", "039.jpg",             # 杂志文章跨页(《精萃人物》访谈/材料小作品随感),非招贴
+               "奉家丽_页面_1.jpg",               # 杂志文章页,非招贴
+               "11121782580506_.pic_hd.jpg",     # CRUCE 中文版,只留西/英文版
+               "请柬.jpg", "艺术家7.jpg", "艺术家8.jpg", "未标题-3副本.jpg",  # 请柬/人物照/未命名
+               # 微信导出批(1178/1185-1200):重复版、自动生成(美图 App)图,非展览招贴
+               "11781782596798_.pic_hd.jpg", "11851782596817_.pic_hd.jpg",
+               "11861782596819_.pic_hd.jpg", "11871782596820_.pic_hd.jpg",
+               "11881782596822_.pic_hd.jpg", "11901782596825_.pic_hd.jpg",
+               "11911782596827_.pic_hd.jpg", "11931782596831_.pic_hd.jpg",
+               "11941782596832_.pic_hd.jpg", "11981782596843_.pic_hd.jpg",
+               "12001782596846_.pic_hd.jpg",
+               "微信图片_20180503231654.jpg",     # 手机地图截图,非招贴
+               # 向稻谷致敬 多版本,保留 1168 一版
+               "微信图片_20221010125016.jpg", "微信图片_202210101250161.jpg",
+               "微信图片_2022101012501612.jpg", "微信图片_20221010125252.jpg",
+               "自然复魅展览招贴.jpg"}            # 自然复魅招贴重复(留微信_20190612一版)
 POSTER_ROTATE = {"拼图-2.tif": 180}   # b&w group photo: right-side up everywhere it appears
 for pdir, tag in [("塞壬招贴图片","siren"), ("展览招贴","exhibition")]:
     fs, d = files_in(pdir)
     fs = [f for f in fs if f not in POSTER_SKIP]
-    for i, f in enumerate(fs[:18]):
+    for i, f in enumerate(fs[:60]):
         web, th = emit(os.path.join(d, f), f"poster-{tag}-{i:02d}", 1200, 600, rotate=POSTER_ROTATE.get(f, 0))
         posters.append(dict(web=web, thumb=th, tag=tag))
+# net-holding self-portrait (item: 用第三张截图 1111111111.jpg 替换文章)
+_np = emit(os.path.join(ROOT, "工作照/奉家丽近照/1111111111.jpg"), "poster-portrait", 1400, 700)
+posters.insert(0, dict(web=_np[0], thumb=_np[1], tag="exhibition"))
 DATA["posters"] = posters
 print(f"  posters: {len(posters)}")
 
