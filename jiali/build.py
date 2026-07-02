@@ -144,10 +144,11 @@ SERIES = [
              "《左》 布面油画 250×200cm 2007-8.jpg",
              "《右》，布面油画，2007-8，250x200cm，Right,Oil on Canvas,奉家丽.jpg",
              "《星.比黑更蓝》 布面油画 1000X260cm 2008.jpeg"],
+       extra_dirs=[("作品全集/油画/b闺秘2007-2008/奉家丽油画作品6张《胭脂》","",6)],
        desc_zh="少女、红领巾、鸟巢与折纸鹤。在蓝灰色调里，「时刻准备着」的集体记忆被重新凝视——青春、规训与隐秘的欲望。",
        desc_en="Young girls, red scarves, the Bird's Nest and paper cranes. In steel-blue tones the collective slogan 'Ready at all times' is re-gazed — youth, discipline and hidden desire."),
   dict(id="hubo", zh="琥珀", en="Amber", years="2011–2012", accent="#C5862A",
-       dir="作品全集/其它作品/综合材料作品/2011琥珀大图/大图36张_副本", kind="mixed", n=8,
+       dir="作品全集/其它作品/综合材料作品/2011琥珀大图/大图36张_副本", kind="mixed", n=99,
        desc_zh="综合材料的微观凝固，如琥珀封存时间。拓印、女红与植物标本交织，开启从绘画走向自然与手工的转折。",
        desc_en="Mixed-media micro-fossils, time sealed as in amber. Rubbing, needlework and botanical specimens interweave — the turn from painting toward nature and craft."),
   dict(id="shenfen", zh="身份", en="Identity", years="2017", accent="#3B3B7A",
@@ -165,7 +166,9 @@ SERIES = [
        dir="作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全", kind="mixed", n=10,
        must=["山水长卷，2000x76cm,综合媒材，2000x70cm,2017-2018年,奉家丽.jpg",
              "山水对蒿，综合媒材，233x74cm,2016年,奉家丽.jpg"],
-       extra_dirs=[("作品全集/其它作品/综合材料作品/2010-2019自然复魅/手帕","kerchief",10),
+       extra_dirs=[("作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全/草芥素问（8张）","site",8),
+                   ("作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全/绣纳五诀（5张）","site",5),
+                   ("作品全集/其它作品/综合材料作品/2010-2019自然复魅/手帕","kerchief",10),
                    ("作品全集/其它作品/综合材料作品/2010-2019自然复魅/展览现场精选图片","site",14),
                    ("作品全集/油画/石墟油画局部2019/石墟（油画5张）","shixu",6)],
        desc_zh="在拓印长卷上以针线作画，野草、本草、花虫尽入其中。从女性主义走向后女性主义与生态关怀——以「破坏性创造力」复魅自然本真。展览现场尤为精彩，务必亲见。",
@@ -233,6 +236,9 @@ SHOWS = {
  "langji":  ("个展 2024 ·《浪迹》角声艺术中心、法拉盛公共图书馆，纽约","Solo 2024 · Wandering, KJ Art Center & Flushing Public Library, New York"),
 }
 
+# correct dimension typos in source filenames (value = corrected dims)
+DIMS_FIX = {"晓霞妆5#，综合材料，805x70cm,2001.jpg2.jpg": "80×70cm"}
+
 DATA = {"series": [], "works": []}
 wid = 0
 for s in SERIES:
@@ -256,6 +262,7 @@ for s in SERIES:
         src_path = os.path.join(ROOT, SRC_OVERRIDE[f]) if f in SRC_OVERRIDE else os.path.join(d, f)
         web, th = emit(src_path, base, saturation=sat, rotate=rot)
         meta = parse_meta(f)
+        if f in DIMS_FIX: meta["dims"] = DIMS_FIX[f]                          # correct filename typos
         if not meta.get("dims") and s.get("dims"): meta["dims"] = s["dims"]   # series size fallback (item 7)
         if s.get("rename_zh"):                                                # series-wide naming (e.g. 浪迹节选N)
             meta["title_zh"] = s["rename_zh"] + cn(idx+1)
