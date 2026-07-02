@@ -11,20 +11,6 @@
 /Service_Agreement_Bilingual.pdf
 /Evan_邮件草稿_email-draft.md
 
-# ---- Jiali: keep ONLY the built website + build scripts + docs ----
-# Ignore all of jiali, then re-include the deliverable bits below.
-/jiali/*
-!/jiali/site/
-!/jiali/build.py
-!/jiali/README.md
-!/jiali/SKILL-design.md
-!/jiali/SKILL-archive.md
-!/jiali/LOOP-refinement.md
-!/jiali/INTAKE.md
-!/jiali/DEPLOY.md
-!/jiali/VAULT.md
-!/jiali/deploy.sh
-!/jiali/publish.sh
-!/jiali/_edited/
-
-# Within the site, ignore nothing extra (all processed web assets are kept).
+# ---- Jiali (Feng Jiali) moved OUT to its own repo: github.com/MaYuetong/fengjiali ----
+# No longer part of this monorepo. Ignore the local working folder if it reappears here.
+/jiali/
