@@ -19,10 +19,12 @@ window.CONTENT = {
 
   // Siren Studio manifesto (from the 塞壬藝術工作室 document). item 17
   manifesto: {
+    origin_zh: "塞壬藝術工作室（SAS）成立於 1998 年，是一個民間性質的女性藝術家小組。四位年齡相近、藝術面貌各異，卻共持女性主義精神的女藝術家，既是創始人，也是工作室的成員。",
+    origin_en: "The Siren Art Studio (SAS) was founded in 1998, a self organised group of women artists. Four women, close in age and very different in temperament, bound by a shared feminist spirit, were at once its founders and its members.",
     zh_lede: "沒有一隻船能駛過美麗的塞壬島，除非舵手傾聽我們美妙的歌聲。",
     en_lede: "No ship has ever passed the beautiful isle of the Sirens, unless its helmsman listened to our singing.",
-    zh: "塞壬是古希臘神話中的海妖，居住在塞壬島上，以歌聲召喚遠行的人。塞壬的神話原型，本是父權制「紅粉骷髏」式的女禍論——把女性想像成外美內惡，用以貶抑女性的智慧與女性藝術的魅力。我們要把它翻轉過來：塞壬的歌聲，是女性藝術燦爛的魅力和女性智慧的召喚。只有當世界更多地傾聽女性的聲音，讓人類更多地具備女性的秉賦與品格，纔有得救的可能。",
-    en: "In Greek myth the Sirens are sea creatures who live on their island and call travellers with song. The old myth is a patriarchal fable of the woman as beautiful outside and monstrous within, used to belittle women's intelligence and the power of women's art. We turn it over: the Sirens' song is the splendour of women's art and the summons of women's wisdom. Only when the world listens more to the voices of women, and takes on more of their gifts and character, is there hope of being saved.",
+    zh: "塞壬是古希臘神話中的海妖，居住在塞壬島上，以歌聲召喚遠行的人。這個神話原型，本是父權制「紅粉骷髏」式的女禍論：把女性想像成外美內惡，用來貶抑女性的智慧與女性藝術的魅力。我們要把它翻轉過來。奧德修斯所依傍的男性強權與殖民代碼，終將被解構；能拯救人類的是美。塞壬的歌聲，是女性藝術燦爛的魅力，也是女性智慧的召喚。只有當世界更多地傾聽女性的聲音，讓人類更多地具備女性的秉賦與品格，纔有得救的可能。",
+    en: "In Greek myth the Sirens are sea creatures who live on their island and call travellers with song. The old myth is a patriarchal fable of woman as beautiful without and monstrous within, used to belittle women's intelligence and the power of women's art. We turn it over. The male power and colonial codes that Odysseus leaned on are bound to come undone; what saves us is beauty. The Sirens' song is the splendour of women's art and the summons of women's wisdom. Only when the world listens more to the voices of women, and takes on more of their gifts and character, is there hope of being saved.",
     aims_zh: ["反對男權中心主義，秉持女性主義的藝術理想。","團結國際間的女性藝術工作者，共同開發女性文化資源。","提倡姐妹情誼，尊重成員的藝術個性差異，爲當代女性藝術輸入新的精神與經驗。"],
     aims_en: ["Against male-centrism; holding to a feminist ideal of art.","Uniting women artists across borders to develop women's cultural resources together.","Sisterhood, and respect for each member's individuality, bringing new spirit and experience to contemporary women's art."]
   },

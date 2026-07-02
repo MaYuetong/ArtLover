@@ -300,7 +300,9 @@ function viewStudio(){
       <p>${T('1998 年，奉家麗與同道女藝術家成立「塞壬」藝術工作室，以實踐女性主義藝術爲志業。塞壬之名取自海妖的歌聲。那是女性的聲音，召喚、質詢、改變。她們一同展出繪畫、影像、綜合材料與行爲，把女性的經驗放回畫面的中心。','In 1998 Feng Jiali and fellow women artists founded the Siren Studio in Beijing, devoted to feminist art. The name comes from the song of the sirens, a female voice that summons, questions and changes things. Together they showed painting, video, mixed media and performance, and put women’s experience back at the centre of the picture.')}</p>
       <p class="studio-quote">${T('「奉家麗屬於實踐女性主義藝術的塞壬藝術工作室。豔俗的形、色和特殊的選材，共同構成對當代女性生存狀態的溫和嘲諷。」水天中','“Feng Jiali belongs to the Siren Studio, which practises feminist art. Her gaudy forms and colours and her unusual choice of material together make a gentle satire on the condition of contemporary women.” Shui Tianzhong')}</p>
     </div>
-    ${M.zh?`<div class="sec-title">${T('宣言','Manifesto')}</div>
+    ${M.origin_zh?`<div class="sec-title">${T('緣起','Origin')}</div>
+    <div class="manifesto reveal"><p class="mf-body">${T(M.origin_zh,M.origin_en)}</p></div>`:''}
+    ${M.zh?`<div class="sec-title">${T('宣言與立場','Manifesto & Position')}</div>
     <div class="manifesto reveal">
       <p class="mf-lede">${T(M.zh_lede,M.en_lede)}</p>
       <p class="mf-body">${T(M.zh,M.en)}</p>
