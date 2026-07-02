@@ -104,6 +104,9 @@ def parse_meta(fn):
     dims = None
     m = DIM.search(name)
     if m: dims = f"{m.group(1)}×{m.group(2)}cm"
+    else:                                                  # round works: 直径/直徑 80CM
+        dm = re.search(r"直[径徑]\s*(\d+)\s*[cC][mM]", name)
+        if dm: dims = f"直徑{dm.group(1)}cm"
     yr = None
     ym = YEAR.search(name)
     if ym: yr = ym.group(0)

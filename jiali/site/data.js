@@ -410,7 +410,7 @@ window.DATA = {
    "title_zh": "竹枝詞6",
    "title_en": "",
    "year": "2001",
-   "dims": null,
+   "dims": "直徑80cm",
    "medium": "竹編油彩"
   },
   {
@@ -422,7 +422,7 @@ window.DATA = {
    "title_zh": "竹枝詞7",
    "title_en": "",
    "year": "2001",
-   "dims": null,
+   "dims": "直徑90cm",
    "medium": "竹編油彩"
   },
   {
