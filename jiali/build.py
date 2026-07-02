@@ -267,6 +267,13 @@ for s in SERIES:
     chosen += [f for f in s.get("add_works", [])                       # extra works from same dir (by name)
                if os.path.exists(os.path.join(d, f)) and f not in chosen]
     works = []
+    xj = [0]                                              # counter: 微信图片 files → 系列名_节选N (excerpt)
+    def wx(f, meta):
+        if f.startswith("微信图片"):
+            xj[0] += 1
+            meta["title_zh"] = f"{s['zh']}_节选{cn(xj[0])}"
+            meta["title_en"] = f"{s['en']} · excerpt {xj[0]}"
+        return meta
     for idx, f in enumerate(chosen):
         wid += 1
         base = f"{s['id']}-{wid:03d}"
@@ -278,6 +285,7 @@ for s in SERIES:
         if s.get("rename_zh"):                                                # series-wide naming (e.g. 浪迹节选N)
             meta["title_zh"] = s["rename_zh"] + cn(idx+1)
             meta["title_en"] = s.get("rename_en", "")
+        wx(f, meta)                                                          # 微信图片 → 系列名_节选N
         works.append(dict(id=base, web=web, thumb=th, role="work", **meta))
     # extra dirs (details / studio / site / exhibition), natural-sorted
     for ed in s.get("extra_dirs", []):
@@ -287,14 +295,14 @@ for s in SERIES:
             wid += 1
             base = f"{s['id']}-{wid:03d}"
             web, th = emit(os.path.join(ad, f), base)
-            works.append(dict(id=base, web=web, thumb=th, role=role or "work", **parse_meta(f)))
+            works.append(dict(id=base, web=web, thumb=th, role=role or "work", **wx(f, parse_meta(f))))
     # same-folder Behind-the-scenes: files matching bts_contains (minus the works already chosen)
     for f in sorted([x for x in fs if any(k in x for k in s.get("bts_contains", []))], key=numkey):
         if f in chosen: continue
         wid += 1
         base = f"{s['id']}-{wid:03d}"
         web, th = emit(os.path.join(d, f), base)
-        works.append(dict(id=base, web=web, thumb=th, role="bts", **parse_meta(f)))
+        works.append(dict(id=base, web=web, thumb=th, role="bts", **wx(f, parse_meta(f))))
     sh = SHOWS.get(s["id"])
     DATA["series"].append({k: s[k] for k in ("id","zh","en","years","accent","desc_zh","desc_en","kind")} |
                           {"feature": s.get("feature", False),
