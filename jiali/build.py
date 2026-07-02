@@ -134,12 +134,13 @@ SERIES = [
        desc_zh="艳俗浓妆的女性面孔，戏仿宣传画式的红润双颊。以艳俗的形与色，温和嘲讽消费时代女性的客体化处境，是奉家丽女性主义绘画的起点。",
        desc_en="Women's faces in lurid rouge, parodying the rosy cheeks of propaganda posters. Through garish form and colour, a gentle satire of women objectified in the age of consumption — the starting point of Feng's feminist painting."),
   dict(id="shougong", zh="手工上彩时代的女性肖像", en="The Hand-Coloured Era", years="2005", accent="#E8802B",
-       dir="作品全集/油画/手工上彩时代的女性肖像2005/小图", kind="painting", n=10,
+       dir="作品全集/油画/手工上彩时代的女性肖像2005/小图", kind="painting", n=18,
+       skip=["手工上彩工代的女性肖像8# ,2003,41x33cm,The Feminine Portait in Colorful Time #8,Oil on Canvas12.jpg"],
        desc_zh="追忆手工上彩照相馆时代的女性形象，泛黄底色上的脂粉与目光，打捞一个被遗忘时代的温度。",
        desc_en="Portraits recalling the era of hand-tinted studio photography — powder and gaze on yellowed grounds, salvaging the warmth of a forgotten time."),
   dict(id="guimi", zh="闺秘", en="Inner Chamber", years="2007–2010", accent="#2F6E8F",
-       dir="作品全集/油画/b闺秘2007-2008/小图,奉家丽新作06-10", kind="painting",
-       pick=["《上》，布面油画，2007-8，260x200cm，down,Oil on Canvas,奉家丽.jpg",
+       dir="作品全集/油画/b闺秘2007-2008/小图,奉家丽新作06-10", kind="painting", n=40,
+       must=["《上》，布面油画，2007-8，260x200cm，down,Oil on Canvas,奉家丽.jpg",
              "《下》，布面油画，2007-8，260x200cm，down,Oil on Canvas,奉家丽.jpg",
              "《左》 布面油画 250×200cm 2007-8.jpg",
              "《右》，布面油画，2007-8，250x200cm，Right,Oil on Canvas,奉家丽.jpg",
@@ -152,7 +153,7 @@ SERIES = [
        desc_zh="综合材料的微观凝固，如琥珀封存时间。拓印、女红与植物标本交织，开启从绘画走向自然与手工的转折。",
        desc_en="Mixed-media micro-fossils, time sealed as in amber. Rubbing, needlework and botanical specimens interweave — the turn from painting toward nature and craft."),
   dict(id="shenfen", zh="身份", en="Identity", years="2017", accent="#3B3B7A",
-       dir="作品全集/其它作品/综合材料作品/身份2017/身份ok", kind="mixed", n=6,
+       dir="作品全集/其它作品/综合材料作品/身份2017/身份ok", kind="mixed", n=18,
        desc_zh="送给女儿歌诗的成人礼物。蝉蜕之变，身份的脱壳与重生，以综合材料书写女性生命的过渡仪式。",
        desc_en="A coming-of-age gift for her daughter Geshi. The cicada's moult — identity shed and reborn — a rite of passage written in mixed media."),
   dict(id="muyuan", zh="墓园", en="The Cemetery", years="2017–2018", accent="#5F6366", feature=True, dims="200×1900cm",
@@ -163,7 +164,9 @@ SERIES = [
        desc_zh="高2米、长19米的巨幅油画，重构重庆沙坪坝红卫兵墓园。艺术家自幼在墓园旁长大，历两年揭开一段被遮蔽的历史——这不是关于政治立场，而是关于生命：青春如何被时代的浪潮吞没。完成后她大病一场。",
        desc_en="A monumental oil painting, 2 m high and 19 m long, reconstructing the Red Guard Cemetery in Shapingba, Chongqing. Raised beside the cemetery, the artist spent two years unveiling a buried history — not about political positions but about life itself: how youth was swept away by the currents of an era. She fell gravely ill after completing it."),
   dict(id="fumei", zh="自然复魅", en="Re-enchantment of Nature", years="2010–2019", accent="#2E8B57", feature=True,
-       dir="作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全", kind="mixed", n=10,
+       dir="作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全", kind="mixed", n=34,
+       skip=["三石狗尾草，综合媒材，233x72cm,2015年,奉家丽xiao.jpg",
+             "山水对蒿，综合媒材，233x74cm,2016年,奉家丽xiao.jpg"],
        must=["山水长卷，2000x76cm,综合媒材，2000x70cm,2017-2018年,奉家丽.jpg",
              "山水对蒿，综合媒材，233x74cm,2016年,奉家丽.jpg"],
        extra_dirs=[("作品全集/其它作品/综合材料作品/2010-2019自然复魅/自然复魅作品图片全/草芥素问（8张）","site",8),
@@ -174,7 +177,7 @@ SERIES = [
        desc_zh="在拓印长卷上以针线作画，野草、本草、花虫尽入其中。从女性主义走向后女性主义与生态关怀——以「破坏性创造力」复魅自然本真。展览现场尤为精彩，务必亲见。",
        desc_en="Painting with needle and thread on long scrolls of rubbed muslin — wild grasses, medicinal herbs, insects and flowers. A move from feminism toward post-feminism and ecological care, re-enchanting the truth of nature. The installation in situ is its fullest form."),
   dict(id="cangsheng", zh="苍生", en="Sentient Beings", years="2020", accent="#A21B22",
-       dir="作品全集/油画/2020年《苍生》小油画", kind="painting", n=14,
+       dir="作品全集/油画/2020年《苍生》小油画", kind="painting", n=28,
        desc_zh="疫情期间的小幅油画。口罩之下的面孔，伤感的大红，记录一个集体屏息的年份里，每一个苍生的脆弱与坚持。",
        desc_en="Small oils made during the pandemic. Faces behind masks in a sorrowful red — a record of every fragile, enduring life in a year when the whole world held its breath."),
   dict(id="lingjin", zh="领襟行动", en="Collar Action", years="2018", accent="#8A5A83", kind="performance",
@@ -187,7 +190,8 @@ SERIES = [
        desc_zh="《向稻谷致敬》荔波稻田装置，《克莉丝蒂娜的教堂》长岛复活节大地艺术。把创作还给土地与季节，向最朴素的生长致敬。",
        desc_en="'Homage to the Rice' — a paddy-field installation in Libo — and 'Christina's Church', Easter land art on Long Island. Returning the work to soil and season, a homage to the humblest growth."),
   dict(id="langji", zh="浪迹", en="Wandering", years="2024", accent="#2C7A7B", kind="mixed",
-       dir="作品全集/其它作品/浪迹，综合媒材，2024年，奉家丽", n=8,
+       dir="作品全集/其它作品/浪迹，综合媒材，2024年，奉家丽", n=30,
+       skip_contains=[".pic_hd", "近照"],   # drop WeChat exhibition exports + portrait, keep 浪迹N works
        rename_zh="浪迹节选", rename_en="Wandering",
        desc_zh="2024 年纽约个展（角声艺术中心、法拉盛公共图书馆）。综合媒材的漂泊之书，记录一个艺术家跨越北京、贵州与纽约的迁徙与扎根。",
        desc_en="A 2024 solo exhibition in New York (KJ Art Center & Flushing Public Library). A mixed-media book of wandering, charting an artist's migration and re-rooting across Beijing, Guizhou and New York."),
@@ -204,14 +208,16 @@ SERIES = [
              "4.jpg","5.jpg","6.jpg","7.jpg","8.jpg","9.jpg"],
        desc_zh="", desc_en="Rouged women on second-hand denim, after the ancient tale of Dawn-Cloud makeup."),
   dict(id="xiaowanglu", zh="笑忘录", en="Laughter and Forgetting", years="2000–2003", accent="#E0218A", kind="mixed",
-       dir="作品全集/其它作品/综合材料作品/笑忘录2002", n=4,
+       dir="作品全集/其它作品/综合材料作品/笑忘录2002", n=5,
        desc_zh="", desc_en="A woman's face painted on an enamel spittoon."),
   dict(id="kouzhao", zh="口罩呤", en="Mask Chant", years="2020", accent="#C0212B", kind="mixed",
-       dir="作品全集/其它作品/综合材料作品/口罩呤2022", n=12,
-       extra_dirs=[("工作照/奉家丽近照","bts",4)],
+       dir="作品全集/其它作品/综合材料作品/口罩呤2022", n=13,
+       add_works=["微信图片_20200329200917.jpg", "微信图片_20200329211534.jpg"],   # artist wearing the embroidered masks
+       bts_contains=["微信图片"],                                                   # the WeChat process shots → Behind the scenes
        desc_zh="", desc_en="Painted masks. The mask as a sign of life, politics and history."),
   dict(id="xiaoyouhua", zh="近作小油画", en="Recent Small Oils", years="2021–2025", accent="#C24E3A", kind="painting",
-       dir="作品全集/油画/2021-2025年小油画/选上的", n=12,
+       dir="作品全集/油画/2021-2025年小油画/选上的", n=21,
+       skip=["12181782599785_.pic_hd.jpg","12281782599814_.pic_hd.jpg"],
        desc_zh="", desc_en="Recent small oils, 2021 to 2025."),
 ]
 # chronological timeline order (stable: ties keep insertion order)
@@ -243,6 +249,9 @@ DATA = {"series": [], "works": []}
 wid = 0
 for s in SERIES:
     fs, d = files_in(s["dir"])
+    fs = [f for f in fs if f not in set(s.get("skip", []))]   # drop non-works / duplicate variants
+    if s.get("skip_contains"):                                # drop by filename substring (e.g. .pic_hd exports)
+        fs = [f for f in fs if not any(x in f for x in s["skip_contains"])]
     sat = s.get("sat"); rot = s.get("rot", 0)
     if "pick" in s:
         chosen = [f for f in s["pick"] if os.path.exists(os.path.join(d, f))]
@@ -255,6 +264,8 @@ for s in SERIES:
             tail += [f for f in rest if key in f and f not in tail]
         head = [f for f in rest if f not in tail]
         chosen = (must + head)[: s.get("n", 8)] + tail
+    chosen += [f for f in s.get("add_works", [])                       # extra works from same dir (by name)
+               if os.path.exists(os.path.join(d, f)) and f not in chosen]
     works = []
     for idx, f in enumerate(chosen):
         wid += 1
@@ -277,6 +288,13 @@ for s in SERIES:
             base = f"{s['id']}-{wid:03d}"
             web, th = emit(os.path.join(ad, f), base)
             works.append(dict(id=base, web=web, thumb=th, role=role or "work", **parse_meta(f)))
+    # same-folder Behind-the-scenes: files matching bts_contains (minus the works already chosen)
+    for f in sorted([x for x in fs if any(k in x for k in s.get("bts_contains", []))], key=numkey):
+        if f in chosen: continue
+        wid += 1
+        base = f"{s['id']}-{wid:03d}"
+        web, th = emit(os.path.join(d, f), base)
+        works.append(dict(id=base, web=web, thumb=th, role="bts", **parse_meta(f)))
     sh = SHOWS.get(s["id"])
     DATA["series"].append({k: s[k] for k in ("id","zh","en","years","accent","desc_zh","desc_en","kind")} |
                           {"feature": s.get("feature", False),

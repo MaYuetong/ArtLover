@@ -191,7 +191,11 @@ function viewWorks(filter){
   // block order: 墓园 wants 局部 → 展览现场 → 工作照 → 全部作品(last); others show works first
   let order = filter==='muyuan' ? ['detail','site','studio','work'] : ['work','detail','site','studio','kerchief','shixu','bts'];
   const bodyBlocks = order.map(k=> k==='work'?worksBlock:roleBlock(k)).join('');
-  app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${bodyBlocks}</div>`;
+  // critic's review at the very end of the series (item: 口罩呤 卢文竞 评价)
+  const rv = (C.reviews||{})[filter];
+  const reviewBlock = rv ? secTitle('評價','Review') +
+    `<blockquote class="series-review reveal" style="--st:${acc}"><p>${esc(T(rv.zh,rv.en))}</p><cite>${esc(T(rv.by_zh,rv.by_en))}，${esc(rv.date)}</cite></blockquote>` : '';
+  app.innerHTML=`<div class="view">${head}${chips}${intro}${feature}${essayHtml}${bodyBlocks}${reviewBlock}</div>`;
 }
 
 /* ---------- PROJECT 鄉拉岜 before/after ---------- */

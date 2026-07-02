@@ -29,6 +29,15 @@ window.CONTENT = {
     aims_en: ["Against male-centrism; holding to a feminist ideal of art.","Uniting women artists across borders to develop women's cultural resources together.","Sisterhood, and respect for each member's individuality, bringing new spirit and experience to contemporary women's art."]
   },
 
+  // Per-series critical reviews, shown at the END of that series' works view.
+  reviews: {
+    kouzhao: {
+      zh: "無論是阿甘本還是齊澤克，與其說他們站在語言的前沿，不如說他們置身於現實的先鋒。他們從一種哲學的、思想的立場出發，帶著某種被稱作、或被定義為有傾向性的目光；他們對現實的洞穿、對現實的裸裎，都是可以辨認的。作為一個藝術家，一個帶有性別意識的女性藝術家，奉家麗把她的思慮落筆於一個個具有特殊符號的抽象物象之上。口罩，已經超越了它自身屬於藝術範疇的審美，朝向真實與真相隱晦而赤裸的、生命極致的意義。口罩被時間記入歷史，還有什麼比這一切更值得書寫、更能記憶那些正在被遺忘的歷史？奉家麗努力想要做到這一點；準確地說，她用她的繪畫語言做到了。",
+      en: "Whether Agamben or Žižek, rather than standing at the frontier of language, they stand at the frontier of reality itself. They speak from a philosophical, intellectual position, with a gaze that could be called, or defined as, a leaning; their penetration of the real, their laying bare of the real, is legible. As an artist, a woman artist with a consciousness of gender, Feng Jiali sets her thought down onto one abstract object after another, each carrying its own charged sign. The mask has moved beyond its own aesthetic within the category of art, toward a meaning at once hidden and naked, pushed to the very limit of life, where truth and reality meet. The mask is written into history by time. What could be more worth writing, more able to hold in memory the history now being forgotten? Feng Jiali strives to do exactly this; to put it precisely, with the language of her painting she has done it.",
+      by_zh: "盧文競", by_en: "Lu Wenjing", date: "2020.3.30"
+    }
+  },
+
   // Xianglaba / Space Art project text (from the 自然復魅·洪江 document).
   project: {
     years: "2017 → 2026",
